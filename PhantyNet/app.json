@@ -4,7 +4,12 @@
     "slug": "PhantyNet",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/logo-unicolor.png",
+    "splash": {
+      "image": "./assets/images/logo-unicolor.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#FAA661"
+    },
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -13,24 +18,24 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/images/logo-unicolor.png",
+        "backgroundColor": "#FAA661"
       }
     },
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/logo-unicolor.png"
     },
     "plugins": [
       "expo-router",
       [
         "expo-splash-screen",
         {
-          "image": "./assets/images/splash-icon.png",
-          "imageWidth": 200,
-          "resizeMode": "contain",
-          "backgroundColor": "#ffffff"
+          "image": "./assets/images/logo-unicolor.png",
+          "imageWidth": 100,
+          "resizeMode": "native",
+          "backgroundColor": "#FAA661"
         }
       ]
     ],
