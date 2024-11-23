@@ -102,16 +102,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
 
     return (
-        <>
-            {loading ? (
-                // Mientras se cargan los datos del AsyncStorage, evita renderizar los hijos.
-                <Text>Cargando...</Text>
-            ) : (
-                <AuthContext.Provider value={{ userID, token, isAuthorizated, login, logout }}>
-                    {children}
-                </AuthContext.Provider>
-            )}
-        </>
+        loading ? (
+            // Mientras se cargan los datos del AsyncStorage, evita renderizar los hijos.
+            <Text>Cargando...</Text>
+        ) : (
+            <AuthContext.Provider value={{ userID, token, isAuthorizated, login, logout }}>
+                {children}
+            </AuthContext.Provider>
+        )
     );
 }
 

@@ -33,7 +33,7 @@
         "expo-splash-screen",
         {
           "image": "./assets/images/logo-unicolor.png",
-          "imageWidth": 100,
+          "imageWidth": 200,
           "resizeMode": "native",
           "backgroundColor": "#FAA661"
         }
