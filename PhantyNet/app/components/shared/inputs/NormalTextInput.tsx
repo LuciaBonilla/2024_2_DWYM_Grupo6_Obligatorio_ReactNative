@@ -3,41 +3,35 @@ import { Text, View, TextInput, StyleSheet, TextStyle, ViewStyle } from "react-n
 
 interface TextInputProps {
     viewStyle: ViewStyle;
+    inputTitleStyle: TextStyle;
     inputTitle: string;
+    icon?: React.ReactNode;
     inputName: string;
-    inputStyle: TextStyle;
-    value: string;
+    textInputStyle: TextStyle;
     placeholder?: string;
     setState: (value: string) => void;
-    icon?: React.ReactNode;
+    value: string;
     keyboardType?: "default" | "email-address" | "numeric" | "phone-pad";
+    secureTextEntry?: boolean;
 }
 
 /**
  * Input normal de texto.
- * @param viewStyle 
- * @param inputTitle 
- * @param inputName 
- * @param inputStyle
- * @param placeholder 
- * @param setState
- * @param value
- * @param icon
- * @param keyboardType
- * @estado componente terminado.
+ * @estado TERMINADO.
  */
-export default function NormalTextInput({ viewStyle, inputTitle, inputName, inputStyle, placeholder, setState, value, icon, keyboardType = "default" }: TextInputProps) {
+export default function NormalTextInput({ viewStyle, inputTitleStyle, inputTitle, icon, inputName, textInputStyle, placeholder, setState, value, keyboardType = "default", secureTextEntry=false }: TextInputProps) {
     return (
         <View style={viewStyle}>
-            <Text>{inputTitle}</Text>
+            <Text style={inputTitleStyle}>{inputTitle}</Text>
             {icon}
             <TextInput
                 key={inputName}
-                style={inputStyle}
+                style={textInputStyle}
                 placeholder={placeholder}
                 onChangeText={setState}
                 value={value}
                 keyboardType={keyboardType}
+                secureTextEntry={secureTextEntry}
             />
         </View>
     );

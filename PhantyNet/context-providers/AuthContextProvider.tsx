@@ -1,9 +1,13 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { Text } from "react-native";
+import { useRouter } from "expo-router";
 
 // CLASES AUXILIARES.
 import BackendCaller from "../auxiliar-classes/BackendCaller";
 import AsyncStorageManager from "../auxiliar-classes/AsyncStorageManager";
+
+// RUTAS.
+import routes from "@/constants/routes";
 
 // Contexto de autenticación.
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -27,6 +31,9 @@ interface AuthContextType {
  * @estado TERMINADO.
  */
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
+    // Para navegar a login.
+    const router = useRouter();
+
     // Atributos del contexto de autenticación.
     const [userID, setUserID] = useState<string | null | undefined>(null);
     const [token, setToken] = useState<string | null | undefined>(null);
@@ -56,6 +63,12 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
             AsyncStorageManager.saveAuthContextToStorage(userID, token, isAuthorizated);
         }
     }, [userID, token, isAuthorizated]);
+
+    useEffect(() => {
+        if (!loading && isAuthorizated === false) {
+            router.replace(routes.LOGIN_ROUTE);
+        }
+    }, [isAuthorizated]);
 
     /**
      * Inicia sesión.
