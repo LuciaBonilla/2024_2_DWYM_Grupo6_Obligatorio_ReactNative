@@ -14,8 +14,13 @@ class AsyncStorageManager {
      */
     static async saveAuthContextToStorage(userID, token, isAuthorizated) {
         try {
-            await AsyncStorage.setItem("userID", userID);
-            await AsyncStorage.setItem("token", token);
+            if (userID && token) {
+                await AsyncStorage.setItem("userID", userID);
+                await AsyncStorage.setItem("token", token);
+            } else {
+                await AsyncStorage.removeItem("userID");
+                await AsyncStorage.removeItem("token");
+            }
             await AsyncStorage.setItem("isAuthorizated", isAuthorizated ? "true" : "false");
         } catch (error) {
             console.error("Error al guardar en el almacenamiento local:", error);
