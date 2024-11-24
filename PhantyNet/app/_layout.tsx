@@ -23,12 +23,13 @@ export default function RootLayout() {
   return (
     <WindowDimensionsProvider>
       <AuthContextProvider>
-        <Stack>
+        <Stack screenOptions={{ headerShown: false }}>
           <Stack.Screen name="index" />
           <Stack.Screen name="modules/(auth)" />
           <Stack.Screen name="modules/(tabs)" />
           <Stack.Screen name="modules/(posts)" />
           <Stack.Screen name="modules/(profiles)" />
+          <Stack.Screen name="modules/(profiles)/OtherUserProfile" />
         </Stack>
       </AuthContextProvider>
     </WindowDimensionsProvider>
