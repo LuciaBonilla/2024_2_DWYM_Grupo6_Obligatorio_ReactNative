@@ -1,5 +1,5 @@
 export type Post = {
-    id: string;
+    _id: string;
     caption: string;
     comments: any[];
     createdAt: string;
@@ -9,7 +9,7 @@ export type Post = {
   };
   
 export type User = {
-    id: string;
+    _id: string;
     createdAt: string;
     description: string;
     email: string;

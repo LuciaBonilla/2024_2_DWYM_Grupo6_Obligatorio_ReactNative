@@ -1,17 +1,28 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import { UserInfo, User } from "@/constants/types";
+
+//TIPOS
+import { User } from "@/constants/types";
+
+//CONVERTIDOR DE IMAGENES
 import Base64Converter from "../../../auxiliar-classes/Base64Converter";
 
+//Tipado de las props recibidas desde OtherUserProfileScreen para poder entenderlas
 type ProfileCardProps = {
   user: User;
   postsQuantity: number;
 };
 
+/**
+ * Card para mostrar la información básica de un Perfil
+ */
 const ProfileCard: React.FC<ProfileCardProps> = ({ user, postsQuantity }) => {
-    // Convierte la URL base64 de la imagen si es necesario
-    const defaultPhoto = require("../../../assets/images/default_profile.png");
-    const imageSrc = user.profilePicture === "" ? defaultPhoto : Base64Converter.checkBase64Image(user.profilePicture);
+   
+  //Imagen default para perfiles sin foto definida
+  const defaultPhoto = require("../../../assets/images/default_profile.png");
+
+  // Convierte la URL base64 de la imagen si es necesario
+  const imageSrc = user.profilePicture === "" ? defaultPhoto : Base64Converter.checkBase64Image(user.profilePicture);
 
     return (
         <View style={styles.profileCard}>

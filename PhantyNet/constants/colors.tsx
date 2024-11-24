@@ -2,6 +2,7 @@ export const colors = {
     /* Para fondos. */
     background1Color: "#E68643",
     background2Color: "#15565e",
+    background3Color: "#C7621A",
     background1LighterColor: "#FAA661",
     background1LighterLighterColor: "#FAB77F",
 
