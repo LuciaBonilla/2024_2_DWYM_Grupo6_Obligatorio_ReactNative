@@ -33,19 +33,19 @@ const ImagesContainer: React.FC<ImagesContainerProps> = ({ userAuthorPostsID, po
       {postsSorted.length > 0 ? (
         postsSorted.map((post) => (
           <TouchableOpacity
-            key={post.id}  
+            key={post._id}  
             onPress={() =>
               userAuthorPostsID === userID
-                ? handleGoToMyPostPage(post.id)
-                : handleGoToOtherUserPostPage(post.id)
+                ? handleGoToMyPostPage(post._id)
+                : handleGoToOtherUserPostPage(post._id)
             }
             style={styles.imageCard}
           >
             <Image
-              style={styles.image}
-              source={{
-                uri: `${BACKEND_URI}/${post.imageUrl.replace("\\", "/")}`,
-              }}
+                style={styles.image}
+                source={{
+                    uri: post.imageUrl ? `${BACKEND_URI}/${post.imageUrl.replace("\\", "/")}` : undefined,
+                }}
             />
           </TouchableOpacity>
         ))
