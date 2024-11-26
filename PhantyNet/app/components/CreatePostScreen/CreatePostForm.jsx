@@ -3,8 +3,8 @@ import { Pressable, StyleSheet, Platform, ScrollView, KeyboardAvoidingView, Text
 import { useRouter, useFocusEffect } from "expo-router";
 
 // COMPONENTES.
-import TextAreaInput from "../shared/inputs/TextAreaInput";
-import ImageGetter from "./ImageGetter";
+import NormalTextInput from "../shared/inputs/NormalTextInput";
+import ImageGetter from "../shared/others/ImageGetter";
 
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
@@ -19,12 +19,11 @@ import routes from "@/constants/routes";
 // COLORES.
 import { colors } from "@/constants/colors";
 
-interface CreatePostFormProps {
-    handleShowUnsuccessfulUploadModal: () => void,
-    setUnsuccessfulUploadModalMessage: (message: string) => void
-}
-
-export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setUnsuccessfulUploadModalMessage }: CreatePostFormProps) {
+/**
+ * Formulario de crear post.
+ * @estado TERMINADO.
+ */
+export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setUnsuccessfulUploadModalMessage }) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
@@ -34,7 +33,7 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
     }, [width, height]);
 
     // Atributos para crear un post.
-    const [image, setImage] = useState<any>(null);
+    const [image, setImage] = useState(null);
     const [caption, setCaption] = useState("");
     const { token } = useAuthContext();
 
@@ -67,12 +66,10 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
             }
             const response = await BackendCaller.uploadPost(token, imageData, caption);
 
-            if (response && response.statusCode === 201) { // Created
+            if (response.statusCode === 201) { // Created
                 router.replace(routes.MY_PROFILE_ROUTE);
             } else {
-                if (response?.data.message) {
-                    setUnsuccessfulUploadModalMessage(response.data.message);
-                }
+                setUnsuccessfulUploadModalMessage(response.data.message);
                 handleShowUnsuccessfulUploadModal();
             }
         }
@@ -88,7 +85,7 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
                 />
 
                 {/* Para la descripción. */}
-                <TextAreaInput
+                <NormalTextInput
                     viewStyle={styles.inputView}
                     inputTitleStyle={styles.inputTitle}
                     inputTitle="DESCRIPCIÓN"
@@ -96,6 +93,7 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
                     textInputStyle={styles.textInput}
                     setState={setCaption}
                     value={caption}
+                    numberOfLines={15}
                 />
 
                 {/* Botones. */}
@@ -110,7 +108,7 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
     );
 }
 
-function createStyles(width: number, height: number) {
+function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
             flex: 1,

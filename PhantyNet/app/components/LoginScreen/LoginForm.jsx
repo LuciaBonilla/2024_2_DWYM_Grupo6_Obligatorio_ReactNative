@@ -19,16 +19,11 @@ import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvide
 // RUTAS.
 import routes from "@/constants/routes";
 
-interface LoginFormProps {
-    handleShowUnsuccessfulLoginModal: () => void,
-    setUnsuccessfulLoginMessage: (message: string) => void
-}
-
 /**
  * Formulario para el inicio de sesión.
  * @estado TERMINADO.
  */
-export default function LoginForm({ handleShowUnsuccessfulLoginModal, setUnsuccessfulLoginMessage }: LoginFormProps) {
+export default function LoginForm({ handleShowUnsuccessfulLoginModal, setUnsuccessfulLoginMessage }) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
@@ -105,7 +100,8 @@ export default function LoginForm({ handleShowUnsuccessfulLoginModal, setUnsucce
     );
 }
 
-function createStyles(width: number, height: number) {
+// ESTILOS.
+function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
             flex: 1,

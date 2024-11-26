@@ -22,6 +22,10 @@ import routes from "@/constants/routes";
 // COLORES.
 import { colors } from "@/constants/colors";
 
+/**
+ * Screen de register.
+ * @estado TERMINADO.
+ */
 export default function RegisterScreen() {
     // Para estilos.
     const { width, height } = useWindowDimensions();
@@ -137,36 +141,28 @@ export default function RegisterScreen() {
     )
 }
 
-function createStyles(width: number, height: number) {
+// ESTILOS.
+function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
             flex: 1,
             backgroundColor: colors.background1Color,
-
             justifyContent: "center",
             alignItems: "center",
-
             width,
             height,
-
             paddingTop: Platform.OS === "android" ? 20 : 0,
         },
         title: {
             fontSize: 32,
             textAlign: "center",
-
             padding: 5,
-
             color: colors.primaryColor,
-
-
             fontFamily: "Segoe",
             fontWeight: "bold",
-
             textShadowOffset: { width: 2, height: 2 },
             textShadowRadius: 4,
             textShadowColor: colors.shadowColor,
-
             marginTop: 5,
             letterSpacing: 2,
             marginBottom: 10,
@@ -175,11 +171,8 @@ function createStyles(width: number, height: number) {
             width: width * 0.5,
             height: 35,
             borderRadius: 10,
-
             backgroundColor: colors.secondaryColor,
-
             position: "static",
-
             justifyContent: "center",
             alignItems: "center",
             marginBottom: 20
@@ -193,9 +186,7 @@ function createStyles(width: number, height: number) {
             backgroundColor: colors.background2Color,
             width: width * 0.9,
             height: height * 0.9,
-
             paddingHorizontal: 20,
-
             borderRadius: 10,
             flexDirection: "column",
             justifyContent: "center",
@@ -222,11 +213,9 @@ function createStyles(width: number, height: number) {
         closeErrorModalButton: {
             width: 150,
             height: 35,
-
             position: "absolute",
             borderRadius: 10,
             backgroundColor: colors.errorColor,
-
             justifyContent: "center",
             alignItems: "center",
             bottom: 20,
@@ -234,11 +223,9 @@ function createStyles(width: number, height: number) {
         closeSuccessModalButton: {
             width: 150,
             height: 35,
-
             position: "absolute",
             borderRadius: 10,
             backgroundColor: colors.successColor,
-
             justifyContent: "center",
             alignItems: "center",
             bottom: 20,
