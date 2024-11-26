@@ -10,21 +10,33 @@ import { User } from "@/constants/types";
 
 // Tipos para las props del componente.
 interface MyProfileCardProps {
-  username: string;
-  profilePicture: string; // Puede ser una URL o una cadena base64
+  userData: User;
 }
 
-const MyProfileCard: React.FC<MyProfileCardProps> = ({ username, profilePicture }) => {
+const MyProfileCard: React.FC<MyProfileCardProps> = ({ userData }) => {
 
   const defaultPhoto = require("../../../assets/images/default_profile.png");
   // Verifica si la imagen es una cadena base64 o una URL válida.
-  const imageUri = profilePicture === "" ? defaultPhoto : Base64Converter.checkBase64Image(profilePicture);
+  const imageUri = userData.profilePicture === "" ? defaultPhoto : Base64Converter.checkBase64Image(userData.profilePicture);
 
   return (
-    <View style={styles.card}>
-      <Image source={typeof imageUri === 'string' ? { uri: imageUri } : imageUri} style={styles.profilePicture} />
-      <Text style={styles.username}>{username}</Text>
-    </View>
+      <View style={styles.profileCard}>
+            <View style={styles.profileCardInfo}>
+                <Image source={typeof imageUri === 'string' ? { uri: imageUri } : imageUri} style={styles.profileCardImg} />
+                <Text style={styles.profileCardUsername}>{userData.username}</Text>
+                <Text style={styles.profileCardEmail}>{userData.email}</Text>
+                {/* <Text style={styles.profileCardPostsQuantity}>{postsQuantity} posts</Text> */}
+                <Text style={styles.profileCardCreatedAt}>
+                Miembro desde {new Date(userData.createdAt).toLocaleDateString("es-ES", {
+                    day: "2-digit",
+                    month: "long",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                })}
+                </Text>
+            </View>
+        </View>
   );
 };
 
@@ -32,28 +44,42 @@ export default MyProfileCard;
 
 // Estilos para el componente
 const styles = StyleSheet.create({
-  card: {
-    flexDirection: "column",
-    alignItems: "center",
+  profileCard: {
     backgroundColor: "#fff",
     borderRadius: 10,
-    padding: 20,
     margin: 10,
+    padding: 15,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 5, // Para darle sombra en Android
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
   },
-  profilePicture: {
+  profileCardInfo: {
+    alignItems: "center",
+  },
+  profileCardImg: {
     width: 100,
     height: 100,
     borderRadius: 50,
     marginBottom: 10,
   },
-  username: {
-    fontSize: 18,
+  profileCardUsername: {
+    fontSize: 20,
     fontWeight: "bold",
+    marginBottom: 5,
+  },
+  profileCardEmail: {
+    fontSize: 16,
+    color: "#555",
+    marginBottom: 5,
+  },
+  profileCardPostsQuantity: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  profileCardCreatedAt: {
+    fontSize: 12,
+    color: "#888",
   },
 });
  

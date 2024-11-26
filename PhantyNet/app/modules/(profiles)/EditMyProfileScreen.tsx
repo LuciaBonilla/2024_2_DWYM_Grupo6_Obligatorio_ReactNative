@@ -61,7 +61,7 @@ function EditMyProfileScreen() {
                         <FontAwesome icon="user-edit" size={24} color="#4A90E2" />
                         EDITAR PERFIL
                     </Text>
-                    <MyProfileCard username={user.username} profilePicture={user.profilePicture} />
+                    <MyProfileCard userData={user}/>
                 </>
             ) : (
                 <Text style={styles.loadingMessage}>CARGANDO...</Text>
