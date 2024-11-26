@@ -1,12 +1,9 @@
-//CONVERTIDOR DE IMAGENES
-import Base64Converter from "../../../auxiliar-classes/Base64Converter";
+import React from "react";
+import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 
 // IMPORTS DE REACT NATIVE
-import React from "react";
-import { View, Text, Image, StyleSheet } from "react-native";
-
-//TIPOS
 import { User } from "@/constants/types";
+import Base64Converter from "../../../auxiliar-classes/Base64Converter";
 
 // Tipos para las props del componente.
 interface MyProfileCardProps {
@@ -14,35 +11,36 @@ interface MyProfileCardProps {
 }
 
 const MyProfileCard: React.FC<MyProfileCardProps> = ({ userData }) => {
-
   const defaultPhoto = require("../../../assets/images/default_profile.png");
   // Verifica si la imagen es una cadena base64 o una URL válida.
   const imageUri = userData.profilePicture === "" ? defaultPhoto : Base64Converter.checkBase64Image(userData.profilePicture);
 
   return (
-      <View style={styles.profileCard}>
-            <View style={styles.profileCardInfo}>
-                <Image source={typeof imageUri === 'string' ? { uri: imageUri } : imageUri} style={styles.profileCardImg} />
-                <Text style={styles.profileCardUsername}>{userData.username}</Text>
-                <Text style={styles.profileCardEmail}>{userData.email}</Text>
-                {/* <Text style={styles.profileCardPostsQuantity}>{postsQuantity} posts</Text> */}
-                <Text style={styles.profileCardCreatedAt}>
-                Miembro desde {new Date(userData.createdAt).toLocaleDateString("es-ES", {
-                    day: "2-digit",
-                    month: "long",
-                    year: "numeric",
-                    hour: "2-digit",
-                    minute: "2-digit",
-                })}
-                </Text>
-            </View>
+    <View style={styles.profileCard}>
+      <View style={styles.profileCardInfo}>
+        <View style={styles.profileCardHeader}>
+          <Image source={typeof imageUri === 'string' ? { uri: imageUri } : imageUri} style={styles.profileCardImg} />
+          <View style={styles.profileCardTextContainer}>
+            <Text style={styles.profileCardUsername}>{userData.username}</Text>
+          </View>
         </View>
+        <Text style={styles.profileCardEmail}>{userData.email}</Text>
+        <Text style={styles.profileCardCreatedAt}>
+          Miembro desde {new Date(userData.createdAt).toLocaleDateString("es-ES", {
+            day: "2-digit",
+            month: "long",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </Text>
+      </View>
+    </View>
   );
 };
 
 export default MyProfileCard;
 
-// Estilos para el componente
 const styles = StyleSheet.create({
   profileCard: {
     backgroundColor: "#fff",
@@ -57,11 +55,20 @@ const styles = StyleSheet.create({
   profileCardInfo: {
     alignItems: "center",
   },
+  profileCardHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   profileCardImg: {
     width: 100,
     height: 100,
     borderRadius: 50,
     marginBottom: 10,
+    marginRight: 10,
+  },
+  profileCardTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   profileCardUsername: {
     fontSize: 20,
@@ -73,13 +80,11 @@ const styles = StyleSheet.create({
     color: "#555",
     marginBottom: 5,
   },
-  profileCardPostsQuantity: {
-    fontSize: 14,
-    marginBottom: 5,
-  },
   profileCardCreatedAt: {
     fontSize: 12,
     color: "#888",
   },
+  editButton: {
+    marginLeft: 10,
+  },
 });
- 
