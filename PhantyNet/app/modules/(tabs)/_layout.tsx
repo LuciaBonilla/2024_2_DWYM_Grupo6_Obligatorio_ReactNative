@@ -1,35 +1,47 @@
+import { Tabs } from "expo-router";
+
+// ÍCONOS.
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Tabs, useNavigation } from "expo-router";
-import { useEffect } from "react";
 
+// COLORES.
+import { colors } from "@/constants/colors";
+
+/**
+ * @estado TERMINADO.
+ */
 export default function TabLayout() {
-    const navigation = useNavigation();
-
-    useEffect(() => {
-        navigation.setOptions({ headerShown: false });
-    }, [navigation]);
-
     return (
-        <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
+        <Tabs screenOptions={{
+            tabBarActiveTintColor: colors.primaryColor,
+            tabBarInactiveTintColor: colors.secondaryColor,
+            tabBarStyle: {
+                position: "absolute",
+                bottom: 0,
+                height: 50,
+                backgroundColor: colors.background2Color
+            },
+            tabBarHideOnKeyboard: true, // Esto asegura que el tabBar se oculte cuando el teclado aparece.
+        }}>
             <Tabs.Screen
                 name="MyFeedScreen"
                 options={{
                     title: "Mi Feed",
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="home" color={color} />,
+                    tabBarIcon: ({ color }) => <FontAwesome name="home" size={28} color={color} />,
                 }}
             />
             <Tabs.Screen
                 name="CreatePostScreen"
                 options={{
                     title: "Crear Post",
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+                    tabBarIcon: ({ color }) => <FontAwesome name="plus-circle" size={28} color={color} />,
+                    headerShown: false
                 }}
             />
             <Tabs.Screen
                 name="MyProfileScreen"
                 options={{
                     title: "Mi Perfil",
-                    tabBarIcon: ({ color }) => <FontAwesome size={28} name="cog" color={color} />,
+                    tabBarIcon: ({ color }) => <FontAwesome name="user-circle-o" size={28} color={color} />,
                 }}
             />
         </Tabs>
