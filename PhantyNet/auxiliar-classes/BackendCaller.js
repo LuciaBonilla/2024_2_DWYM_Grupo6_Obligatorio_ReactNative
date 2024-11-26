@@ -87,17 +87,22 @@ export class BackendCaller {
     /**
      * Subir una nueva publicación.
      * @param {*} token 
-     * @param {*} image 
+     * @param {*} imageData 
      * @param {*} caption 
      * @estado LISTO.
      */
-    static async uploadPost(token, image, caption) {
+    static async uploadPost(token, imageData, caption) {
         try {
             // Crea un objeto FormData.
             const formData = new FormData();
 
             // Añade la imagen y el texto del caption al FormData.
-            formData.append("image", image);  // "image" es el campo que el servidor espera
+            formData.append("image", {  // "image" es el campo que el servidor espera.
+                uri: imageData.uri,
+                name: imageData.fileName,
+                type: `image/${imageData.fileType}`,  // Especificamos el tipo de la imagen.
+            });
+
             formData.append("caption", caption);  // "caption" es el campo de texto
 
             const response = await fetch(this.#API_URI + "/posts/upload",
