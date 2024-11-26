@@ -22,6 +22,10 @@ import { colors } from "@/constants/colors";
 // ÍCONOS.
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
+/**
+ * Login Screen.
+ * @estado TERMINADO.
+ */
 export default function LoginScreen() {
     // Para estilos.
     const { width, height } = useWindowDimensions();
@@ -101,28 +105,24 @@ export default function LoginScreen() {
     )
 }
 
-function createStyles(width: number, height: number) {
+// ESTILOS.
+function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
             flex: 1,
             backgroundColor: colors.background1Color,
-
             justifyContent: "center",
             alignItems: "center",
-
             width,
             height,
-
             paddingTop: Platform.OS === "android" ? 20 : 0,
         },
         logo: {
             width: width * 0.5,
             height: height * 0.27,
-
             resizeMode: "contain",
             borderRadius: 100,
             backgroundColor: colors.background2Color,
-
             paddingTop: 10,
             paddingRight: 30,
             paddingBottom: 10,
@@ -133,12 +133,10 @@ function createStyles(width: number, height: number) {
             fontFamily: "Segoe",
             fontSize: 42,
             fontWeight: "bold",
-
             textShadowOffset: { width: 2, height: 2 },
             textShadowRadius: 4,
             textShadowColor: colors.shadowColor,
             color: colors.primaryColor,
-
             marginTop: 5,
             letterSpacing: 2,
             marginBottom: 10,
@@ -147,11 +145,8 @@ function createStyles(width: number, height: number) {
             width: width * 0.5,
             height: 35,
             borderRadius: 10,
-
             backgroundColor: colors.secondaryColor,
-
             position: "static",
-
             justifyContent: "center",
             alignItems: "center",
             marginBottom: 20
@@ -165,9 +160,7 @@ function createStyles(width: number, height: number) {
             backgroundColor: colors.background2Color,
             width: width * 0.9,
             height: height * 0.9,
-
             paddingHorizontal: 20,
-
             borderRadius: 10,
             flexDirection: "column",
             justifyContent: "center",
@@ -189,11 +182,9 @@ function createStyles(width: number, height: number) {
         closeErrorModalButton: {
             width: 150,
             height: 35,
-
             position: "absolute",
             borderRadius: 10,
             backgroundColor: colors.errorColor,
-
             justifyContent: "center",
             alignItems: "center",
             bottom: 20,
