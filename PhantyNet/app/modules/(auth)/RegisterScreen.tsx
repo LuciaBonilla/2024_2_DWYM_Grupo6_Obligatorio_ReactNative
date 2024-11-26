@@ -86,7 +86,7 @@ export default function RegisterScreen() {
     return (
         <SafeAreaView style={styles.rootView}>
             {/* Título. */}
-            <Text style={styles.title}><FontAwesome name="user" size={42} color={colors.primaryColor} /><Text>CREAR CUENTA</Text></Text>
+            <Text style={styles.title}><FontAwesome name="user" size={42} color={colors.primaryColor} />CREAR CUENTA</Text>
 
             {/* Formulario de registro. */}
             <RegisterForm

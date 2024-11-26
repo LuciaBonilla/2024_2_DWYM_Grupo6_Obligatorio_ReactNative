@@ -88,7 +88,7 @@ export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setU
                 setPassword("");
                 setRepeatPassword("");
             }
-    
+
             clearInputs(); // Llama a la función asincrónica al enfocar la pantalla
         }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar
 
@@ -103,7 +103,7 @@ export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setU
                     textInputStyle={styles.textInput}
                     setState={setUsername}
                     value={username}
-                    icon={<FontAwesome name="user" size={24} color={colors.text1Color} style={styles.iconInput}/>}
+                    icon={<FontAwesome name="user" size={24} color={colors.text1Color} style={styles.iconInput} />}
                 />
                 <NormalTextInput
                     viewStyle={styles.inputView}
