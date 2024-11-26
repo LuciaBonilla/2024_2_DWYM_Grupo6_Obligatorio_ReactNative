@@ -4,9 +4,9 @@ const MY_FEED_ROUTE = "/modules/MyFeedScreen" as const;
 const CREATE_POST_ROUTE = "/modules/CreatePostScreen" as const;
 const MY_PROFILE_ROUTE = "/modules/MyProfileScreen" as const;
 const MY_PROFILE_EDIT_ROUTE = "/modules/EditMyProfileScreen" as const;
-const MY_POSTS_ROUTE = "/modules/MyPost/:id" as const;
-const OTHER_USER_PROFILE_ROUTE = "/modules/OtheUserProfile/:id" as const;
-const OTHER_USER_POST_ROUTE = "/modules/OtherUserPost/:id" as const;
+const MY_POSTS_ROUTE = "/modules/MyPost/[id]" as const;
+const OTHER_USER_PROFILE_ROUTE = "/modules/OtheUserProfile/[id]" as const;
+const OTHER_USER_POST_ROUTE = "/modules/OtherUserPost/[id]" as const;
 
 const routes = {
     LOGIN_ROUTE,
