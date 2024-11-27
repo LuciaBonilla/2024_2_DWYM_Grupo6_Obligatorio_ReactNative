@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
-import { Text, FlatList, Pressable, Image, StyleSheet, View } from "react-native";
+import { Text, FlatList, Pressable, Image, StyleSheet, View, ScrollView } from "react-native";
 
 // BACKEND URI.
 import BACKEND_URI from "@/constants/BACKEND_URI";
@@ -82,7 +82,16 @@ export default function ImagesContainer({ userAuthorPostsID, posts, headerCompon
                 />
             )
         ) : (
-            <Text>NO HAY POSTS</Text>
+            <ScrollView>
+                {
+                    (userAuthorPostsID === userID) ? (
+                        headerComponentMyProfile
+                    ) : (
+                        headerComponentOtherUserProfile
+                    )
+                }
+                <Text>NO HAY POSTS</Text>
+            </ScrollView>
         )
     );
 }

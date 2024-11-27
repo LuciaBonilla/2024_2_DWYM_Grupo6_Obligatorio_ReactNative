@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
-import { useState } from "react";
-import { Image, Pressable, Text, View } from "react-native";
+import { useState, useEffect } from "react";
+import { Image, Pressable, Text, View, StyleSheet } from "react-native";
 
 // COMPONENTES.
 import LikeButton from "./LikeButton";
@@ -10,7 +10,21 @@ import CommentSection from "./comments/CommentSection";
 // RUTAS.
 import routes from "@/constants/routes";
 
+// COLORES.
+import { colors } from "@/constants/colors";
+
+// PROVEEDORES DE CONTEXTO.
+import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
+
 export default function PostCard({ id, user, imageSrc, caption, comments, likes, createdAt, fetchFeed }) {
+    // Para estilos.
+    const { width, height } = useWindowDimensions();
+    const [styles, setStyles] = useState(createStyles(width, height));
+
+    useEffect(() => {
+        setStyles(createStyles(width, height))
+    }, [width, height]);
+
     // Indica si la sección de comentarios se debe mostar.
     const [isCommentSectionShowing, setIsCommentSectionShowing] = useState(false);
 
@@ -42,7 +56,7 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
     }
 
     return (
-        <View>
+        <View style={styles.postCard}>
             {/* Tarjeta que identifica al usuario autor del post. */}
             <ShortProfileCard user={user} />
 
@@ -94,4 +108,22 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
                 />}
         </View>
     );
+}
+
+// ESTILOS.
+function createStyles(width, height) {
+    return StyleSheet.create({
+        postCard: {
+            position: "relative",
+            flexDirection: "column",
+            backgroundColor: colors.background1LighterColor,
+            padding: 10,
+            borderRadius: 10,
+            color: colors.text1Color,
+            fontSize: 16,
+        },
+        uploadedImage: {
+            
+        }
+    })
 }

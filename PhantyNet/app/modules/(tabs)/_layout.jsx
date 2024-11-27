@@ -27,6 +27,7 @@ export default function TabLayout() {
                 options={{
                     title: "Mi Feed",
                     tabBarIcon: ({ color }) => <FontAwesome name="home" size={28} color={color} />,
+                    headerShown: false
                 }}
             />
             <Tabs.Screen
