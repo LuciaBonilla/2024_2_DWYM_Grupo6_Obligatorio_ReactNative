@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet, Image, Text } from "react-native";
+import { View, TextInput, Button, StyleSheet, Text } from "react-native";
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import Base64Converter from "@/auxiliar-classes/Base64Converter";
-import { User } from "@/constants/types";
-import * as ImagePicker from 'expo-image-picker';
+import ImageGetter from "../shared/others/ImageGetter"; // Importamos ImageGetter
 
 const EditMyProfileForm = ({
   userData,
@@ -13,34 +12,8 @@ const EditMyProfileForm = ({
   fetchMyUser,
 }) => {
   const [inputContent, setInputContent] = useState(""); 
-  const [imageUri, setImageUri] = useState(null);
+  const [imageUri, setImageUri] = useState(null); 
   const { token } = useAuthContext();
-
-  const requestGalleryPermission = async () => {
-    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    if (!permissionResult.granted) {
-      alert("Se necesitan permisos para acceder a la galería.");
-      return false;
-    }
-    return true;
-  };
-
-  const pickImage = async () => {
-    const hasPermission = await requestGalleryPermission();
-    if (hasPermission) {
-      const pickerResult = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        quality: 1,
-      });
-
-      if (!pickerResult.canceled && pickerResult.assets && pickerResult.assets[0]) {
-        const uri = pickerResult.assets[0].uri;
-        console.log("Imagen seleccionada con URI:", uri);
-        setImageUri(uri);
-      }
-    }
-  };
 
   const handleEditMyProfile = async () => {
     console.log("handleEditMyProfile llamado");
@@ -49,6 +22,10 @@ const EditMyProfileForm = ({
       console.log("Actualizando foto de perfil:", imageUri);
       
       try {
+        if (typeof imageUri !== 'string' || imageUri.trim() === '') {
+          throw new Error("La URI de la imagen no es válida.");
+        }
+
         const base64Image = await Base64Converter.imageToBase64(imageUri);
         console.log("Imagen convertida a base64:", base64Image);
 
@@ -95,12 +72,10 @@ const EditMyProfileForm = ({
 
         {attributeToEdit === "profilePicture" && (
           <View style={styles.imagePickerContainer}>
-            {imageUri ? (
-              <Image source={{ uri: imageUri }} style={styles.imagePreview} />
-            ) : (
-              <Text style={styles.imagePlaceholder}>Selecciona una imagen</Text>
-            )}
-            <Button title="Elegir Imagen" onPress={pickImage} />
+            <ImageGetter 
+              setState={setImageUri} 
+              imageValue={imageUri} 
+            />
           </View>
         )}
 
@@ -139,16 +114,6 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  imagePreview: {
-    width: 100,
-    height: 100,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  imagePlaceholder: {
-    color: '#888',
-    marginBottom: 10,
   },
   buttonsContainer: {
     flexDirection: "row",

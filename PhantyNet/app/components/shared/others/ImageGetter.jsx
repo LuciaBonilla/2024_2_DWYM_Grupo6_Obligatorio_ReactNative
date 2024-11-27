@@ -1,15 +1,12 @@
 import React from "react";
 import { StyleSheet, View, Alert, Pressable, Text, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
-
-// COLORES.
 import { colors } from "@/constants/colors";
 
 /**
  * Permite seleccionar una imagen con la cámara o con la galería.
- * @param {*} setState
- * @param {*} imageValue
- * @estado TERMINADO.
+ * @param {*} setState Función para actualizar el estado de la URI
+ * @param {*} imageValue Valor actual de la imagen seleccionada
  */
 export default function ImageGetter({ setState, imageValue }) {
     /**
@@ -39,9 +36,11 @@ export default function ImageGetter({ setState, imageValue }) {
 
         if (!result.canceled) {
             const image = result.assets ? result.assets[0] : null;
-            setState(image);
-        } else {
-            Alert.alert("Error", "No se seleccionó ninguna imagen.");
+            if (image && image.uri) {
+                setState(image.uri); 
+            } else {
+                Alert.alert("Error", "No se seleccionó ninguna imagen.");
+            }
         }
     }
 
@@ -58,9 +57,11 @@ export default function ImageGetter({ setState, imageValue }) {
 
         if (!result.canceled) {
             const image = result.assets ? result.assets[0] : null;
-            setState(image);
-        } else {
-            Alert.alert("Error", "No se capturó ninguna foto.");
+            if (image && image.uri) {
+                setState(image.uri); 
+            } else {
+                Alert.alert("Error", "No se capturó ninguna foto.");
+            }
         }
     }
 
@@ -77,7 +78,7 @@ export default function ImageGetter({ setState, imageValue }) {
             {/* Cajita para mostrar la imagen */}
             <View style={styles.imageBox}>
                 {imageValue ? (
-                    <Image source={{ uri: imageValue.uri }} style={styles.image} />
+                    <Image source={{ uri: imageValue }} style={styles.image} />
                 ) : (
                     <Text style={styles.placeholder}>No hay imagen seleccionada</Text>
                 )}
