@@ -34,7 +34,7 @@ function createStyles(width, height) {
         rootView: {
             flex: 1,
             backgroundColor: colors.background1Color,
-            paddingBottom: 80,
+            paddingBottom: 50,
         },
         socialNetworkTitle: {
             position: "fixed",
