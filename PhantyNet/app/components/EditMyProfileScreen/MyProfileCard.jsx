@@ -16,9 +16,9 @@ export default function MyProfileCard({ userData }) {
   useEffect(() => {
     setStyles(createStyles(width, height))
   }, [width, height]);
-
   const defaultPhoto = require("../../../assets/images/default_profile.png");
 
+  //Se setea imageUri de la immagen de perfil custom del usuario o se usa la imagen default si no está seteada
   const imageUri = userData.profilePicture
     ? { uri: userData.profilePicture }
     : defaultPhoto;

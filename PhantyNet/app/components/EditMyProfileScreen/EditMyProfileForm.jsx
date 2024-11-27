@@ -44,7 +44,7 @@ export default function EditMyProfileForm({
             alert("Error al actualizar el perfil.");
           }
         } else {
-          alert("Error al convertir la imagen a base64.");
+          alert("Error al convertir la imagen.");
         }
       } catch (error) {
         alert("Error al convertir la imagen.");
@@ -64,6 +64,7 @@ export default function EditMyProfileForm({
 
   return (
     <View style={styles.formContainer}>
+      {/* el form se rellena con el container de inputtext en caso de tener que editar username */}
       <View style={styles.inputContainer}>
         {attributeToEdit === "username" && (
           <TextInput
@@ -73,7 +74,7 @@ export default function EditMyProfileForm({
             placeholder="Nuevo nombre de usuario"
           />
         )}
-
+        {/* el form se rellena con el componente ImageGetter en caso de tener que editar imagen */}
         {attributeToEdit === "profilePicture" && (
           <View style={styles.imagePickerContainer}>
             <ImageGetter 
@@ -84,8 +85,12 @@ export default function EditMyProfileForm({
         )}
 
         <View style={styles.buttonsContainer}>
-          <Button title="Cancelar" onPress={handleHideEditMyProfileForm} />
-          <Button title="Aceptar" onPress={handleEditMyProfile} />
+          <TouchableOpacity style={styles.cancelButton} onPress={handleHideEditMyProfileForm}>
+            <Text style={styles.buttonText}>Cancelar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.acceptButton} onPress={handleEditMyProfile}>
+            <Text style={styles.buttonText}>Aceptar</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -100,19 +105,21 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   inputContainer: {
-    backgroundColor: "#ffffff",
+    backgroundColor: colors.background2Color,
     padding: 20,
-    borderRadius: 10,
-    marginBottom: 20,
+    borderRadius: 15,
     width: "80%",
+    alignItems: "center",
   },
   input: {
     height: 40,
     borderColor: "#ccc",
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 10,
     paddingLeft: 10,
     marginBottom: 15,
+    width: "100%",
+    color: "#fff",
   },
   imagePickerContainer: {
     marginBottom: 15,
@@ -122,5 +129,34 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
+    width: "100%",
+  },
+  cancelButton: {
+    backgroundColor: colors.secondaryColor,
+    paddingVertical: 14,
+    paddingHorizontal: 25,
+    borderRadius: 35,
+    width: "45%",
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 5,
+    marginTop: 10,
+  },
+  acceptButton: {
+    backgroundColor: colors.primaryDarkerColor,
+    paddingVertical: 14,
+    paddingHorizontal: 25,
+    borderRadius: 35,
+    width: "45%",
+    alignItems: "center",
+    justifyContent: "center",
+    elevation: 5,
+    marginTop: 10,
+  },
+  buttonText: {
+    color: "#fff",
+    fontSize: 18,
+    textAlign: "center",
+    fontWeight: "bold",
   },
 });

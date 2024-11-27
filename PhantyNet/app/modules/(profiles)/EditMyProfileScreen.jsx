@@ -6,9 +6,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import { useWindowDimensions } from '@/context-providers/WindowDimensionsProvider';
 
-// CLASES AUXILIARES.
-import BackendCaller from "@/auxiliar-classes/BackendCaller";
-
 // ÍCONOS.
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
@@ -17,34 +14,34 @@ import MyProfileCard from "@/app/components/EditMyProfileScreen/MyProfileCard";
 import EditMyProfileForm from "@/app/components/EditMyProfileScreen/EditMyProfileForm";
 import GoToPreviousScreenByBack from "@/app/components/shared/others/GoToPreviousScreenByBack";
 
-// COLORES.
-import { colors } from "@/constants/colors"
+//AUXILIARES
+import BackendCaller from "@/auxiliar-classes/BackendCaller";
+
+//COLORES
+import { colors } from "@/constants/colors";
 
 /**
- * Screen de editar perfil.
+ * Screen para edición de perfil del usuario.
  * @estado TERMINADO.
  */
 function EditMyProfileScreen() {
-    // Para estilos.
+    //usado para estilos
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
+
+    //estados para mostrar modal de edición, recordar que atributo editar e información de usuario a editar
+    const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
+    const [attributeToEdit, setAttributeToEdit] = useState(null);
+    const [user, setUser] = useState(null);
+    //información de usuario logueado y token de auth para llamadas a backend
+    const { userID, token } = useAuthContext();
 
     useEffect(() => {
         setStyles(createStyles(width, height));
     }, [width, height]);
 
-    // Estados necesarios.
-    const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
-    const [attributeToEdit, setAttributeToEdit] = useState(null);
-    const [user, setUser] = useState(null);
-
-    // Para editar el perfil.
-    const { userID, token } = useAuthContext();
-
-    /**
-     * Obtiene el usuario propio.
-     */
-    async function fetchMyUser() {
+    //llamado a backend para obtener la info del usuario logueado y mostrarla en pantalla
+    const fetchMyUser = async () => {
         const response = await BackendCaller.getUserProfile(userID, token);
         if (response.statusCode === 200) {
             setUser(response.data.user);
@@ -53,15 +50,13 @@ function EditMyProfileScreen() {
         }
     };
 
+    //fetch de info de usuario a mostrar al ingresar a la página
     useEffect(() => {
         fetchMyUser();
     }, []);
 
-    /**
-     * Muestra el formulario de editar perfil.
-     * @param {*} attribute Atributo a editar (nombre/foto).
-     */
-    function handleShowEditMyProfileForm(attribute) {
+    //Handlers para mostrar y ocultar el form de edición con limpiado de estado
+    const handleShowEditMyProfileForm = (attribute) => {
         setAttributeToEdit(attribute);
         setIsShowingEditMyProfileForm(true);
     };
@@ -75,21 +70,32 @@ function EditMyProfileScreen() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.rootView}>
             {user ? (
                 <>
-                    <Text style={styles.title}>
-                        <FontAwesome icon="user-edit" size={24} color="#4A90E2" />
-                        EDITAR PERFIL
-                    </Text>
+                    {/* Componente para mostrar info actual de usuario */}
                     <MyProfileCard userData={user} />
-                    <View style={styles.menu}>
-                        <Button title="EDITAR NOMBRE DE USUARIO" onPress={() => handleShowEditMyProfileForm("username")} />
-                        <Button title="EDITAR FOTO DE PERFIL" onPress={() => handleShowEditMyProfileForm("profilePicture")} />
+                    {/* Botones para determinar que atributo editar y levantar el modal acordemente */}
+                    <View style={styles.editionContainer}>
+                        <TouchableOpacity 
+                            style={styles.editButton} 
+                            onPress={() => handleShowEditMyProfileForm("username")}
+                        >
+                            <Text style={styles.buttonText}>Editar Nombre de Usuario</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity 
+                            style={styles.editButton} 
+                            onPress={() => handleShowEditMyProfileForm("profilePicture")}
+                        >
+                            <Text style={styles.buttonText}>Editar Foto de Perfil</Text>
+                        </TouchableOpacity>
+
+                        {/* Botón para navegar con back en stack */}
                         <GoToPreviousScreenByBack
                             buttonStyle={styles.backButton}
-                            buttonTextStyle={styles.backButtonText}
-                            textContent="VOLVER"
+                            buttonTextStyle={styles.buttonText}
+                            textContent="Volver"
                         />
                     </View>
                 </>
@@ -117,44 +123,55 @@ function EditMyProfileScreen() {
 
 const createStyles = (width, height) => {
     return StyleSheet.create({
-        container: {
+        rootView: {
             flex: 1,
             padding: 20,
-            width: width,
-            height: height,
-            rowGap: 5
+            backgroundColor: colors.background1Color,
+            justifyContent: "center",
+            alignItems: "center",
+            width,
+            height,
         },
-        title: {
-            fontSize: 24,
-            fontWeight: "bold",
-            marginBottom: 20,
-            textAlign: "center",
-            color: "#4A90E2",
-        },
-        menu: {
+        editionContainer: {
+            backgroundColor: colors.background1LighterColor,
+            borderRadius: 20,
+            padding: 20,
+            width: "80%",
+            alignItems: "center",
+            justifyContent: "center",
             marginTop: 20,
         },
         loadingMessage: {
             fontSize: 18,
             color: "#888",
         },
-        backButton: {
-            width: width * 0.5,
-            height: 35,
-            borderRadius: 10,
-            backgroundColor: colors.secondaryColor,
-            position: "static",
-            justifyContent: "center",
+        editButton: {
+            backgroundColor: colors.primaryDarkerColor,
+            paddingVertical: 14,
+            paddingHorizontal: 25,
+            borderRadius: 35,
+            marginTop: 10,
+            width: "100%",
+            elevation: 5,
             alignItems: "center",
-            marginBottom: 20,
-            alignSelf: "center",
-            marginTop: 30,
+            justifyContent: "center",
         },
-        backButtonText: {
-            fontFamily: "SegoeBold",
-            fontSize: 16,
-            color: colors.whiteFriendlyColor,
-        }
+        buttonText: {
+            color: "#fff",
+            fontSize: 18,
+            textAlign: "center",
+            fontWeight: "bold",
+        },
+        backButton: {
+            backgroundColor: colors.secondaryColor,
+            paddingVertical: 14,
+            paddingHorizontal: 25,
+            borderRadius: 35,
+            marginTop: 15,
+            width: "100%",
+            alignItems: "center",
+            justifyContent: "center",    
+        },
     });
 };
 
