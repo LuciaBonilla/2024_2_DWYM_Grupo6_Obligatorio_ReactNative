@@ -33,4 +33,4 @@ export const colors = {
 
     warningColor: "#EDB95E",
     warningDarkerColor: "#D49B55",
-} as const;
+};
