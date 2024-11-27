@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { FlatList, Text, View } from "react-native";
+import { FlatList, Text, StyleSheet } from "react-native";
 
 // BACKEND_URI.
 import BACKEND_URI from "@/constants/BACKEND_URI";
 
 // PROVEEDOR DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
+import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
+
+// COLORES.
 
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
@@ -14,6 +17,14 @@ import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import PostCard from "./PostCard";
 
 export default function PostCardContainer() {
+    // Para estilos.
+    const { width, height } = useWindowDimensions();
+    const [styles, setStyles] = useState(createStyles(width, height));
+
+    useEffect(() => {
+        setStyles(createStyles(width, height))
+    }, [width, height]);
+
     // Posts a mostrar.
     const [posts, setPosts] = useState([]);
 
@@ -58,6 +69,7 @@ export default function PostCardContainer() {
             (posts.length > 0) ?
                 (
                     <FlatList
+                        contentContainerStyle={styles.list}
                         data={posts}
                         renderItem={({ item }) => (
                             <PostCard
@@ -81,4 +93,16 @@ export default function PostCardContainer() {
             <Text>CARGANDO...</Text>
         )
     );
+}
+
+// ESTILOS.
+function createStyles(width, height) {
+    return StyleSheet.create({
+        list: {
+            flex: 1,
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center"
+        },
+    })
 }

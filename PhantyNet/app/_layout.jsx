@@ -29,7 +29,6 @@ export default function RootLayout() {
           <Stack.Screen name="modules/(tabs)" />
           <Stack.Screen name="modules/(posts)" />
           <Stack.Screen name="modules/(profiles)" />
-          <Stack.Screen name="modules/(profiles)/OtherUserProfile" />
         </Stack>
       </AuthContextProvider>
     </WindowDimensionsProvider>
