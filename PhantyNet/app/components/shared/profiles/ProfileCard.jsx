@@ -23,7 +23,7 @@ export default function ProfileCard({ user, postsQuantity, children }) {
     return (
         <View style={styles.rootView}>
             <View>
-                <Image source={user.profilePicture === "" ? require("../../../../assets/images/default_profile.png") : Base64Converter.checkBase64Image(user.profilePicture)} />
+                <Image style={styles.profilePicture} source={Base64Converter.checkBase64Image(user.profilePicture) ? { uri: user.profilePicture } : require("../../../../assets/images/default_profile.png")} />
                 <Text style={styles.username}>{user.username}</Text>
                 <Text style={styles.userInfo}>{user.email}</Text>
                 <Text style={styles.userInfo}>{postsQuantity} posts</Text>
@@ -37,7 +37,6 @@ export default function ProfileCard({ user, postsQuantity, children }) {
                     })}
                 </Text>
             </View>
-
             {children}
         </View>
     )
@@ -48,10 +47,17 @@ function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
             backgroundColor: colors.background1LighterColor,
-            height: height*0.7,
+            height: width*1.6,
             padding: 5,
             borderRadius: 10,
             marginTop: 20,
+        },
+        profilePicture: {
+            width: width * 0.8,
+            height: width * 0.8,
+            alignSelf: "center",
+            borderRadius: 1000,
+            marginTop: 5
         },
         username: {
             backgroundColor: colors.background1LighterLighterColor,
