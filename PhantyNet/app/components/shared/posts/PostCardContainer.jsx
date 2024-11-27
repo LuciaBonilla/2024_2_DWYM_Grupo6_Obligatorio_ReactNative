@@ -99,10 +99,13 @@ export default function PostCardContainer() {
 function createStyles(width, height) {
     return StyleSheet.create({
         list: {
-            flex: 1,
             flexDirection: "column",
             alignItems: "center",
-            justifyContent: "center"
+            justifyContent: "center",
+            rowGap: 10,
+            marginTop: 20,
+            paddingBottom: 30,
+            width: width
         },
     })
 }

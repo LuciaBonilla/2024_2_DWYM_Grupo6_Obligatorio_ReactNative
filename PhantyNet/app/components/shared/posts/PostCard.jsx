@@ -62,15 +62,14 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
 
             {/* Imagen subida. */}
             <Pressable onPress={() => handleGoToOtherUserPostScreen()}>
-                <Image source={{ uri: imageSrc }} />
+                <Image style={styles.uploadedImage} source={{ uri: imageSrc }} />
             </Pressable>
 
-
             {/* Descripción. */}
-            <Text>{caption}</Text>
+            <Text style={styles.caption}>{caption}</Text>
 
             {/* Cantidad de likes. */}
-            <Text>{likes.length} Likes</Text>
+            <Text style={styles.postDataText}>{likes.length} Likes</Text>
 
             {/* Botón para dar like al post. */}
             <LikeButton
@@ -80,10 +79,10 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
             />
 
             {/* Cantidad de comentarios. */}
-            <Text>{comments.length} Comentarios</Text>
+            <Text style={styles.postDataText}>{comments.length} Comentarios</Text>
 
             {/* Fecha de publicación. */}
-            <Text>Publicado el:{" "}
+            <Text style={styles.postDataText}>Publicado el:{" "}
                 {new Date(createdAt).toLocaleDateString("es-ES", {
                     day: "2-digit",
                     month: "long", // mes completo
@@ -122,8 +121,24 @@ function createStyles(width, height) {
             color: colors.text1Color,
             fontSize: 16,
         },
+        caption: {
+            backgroundColor: colors.background1LighterLighterColor,
+            fontSize: 16,
+            color: colors.text1Color,
+            fontFamily: "SegoeBold",
+            padding: 5
+        },
         uploadedImage: {
-            
+            width: width * 0.9,
+            height: height * 0.5,
+            resizeMode: "contain"
+        },
+        postDataText: {
+            fontSize: 16,
+            color: colors.text1Color,
+            fontFamily: "Segoe",
+            fontWeight: "bold",
+            padding: 5
         }
     })
 }
