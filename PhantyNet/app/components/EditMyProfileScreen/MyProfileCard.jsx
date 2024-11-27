@@ -1,10 +1,15 @@
 import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import { User } from "@/constants/types";
 
+/**
+ * Tarjeta para mostrar información de Perfil del user logueado
+ * @estado TERMINADO.
+ */
 const MyProfileCard = ({ userData }) => {
+  //Define la imagen default a mostrar si no se tiene una foto de perfil custom bien definida
   const defaultPhoto = require("../../../assets/images/default_profile.png");
 
+  //Se setea imageUri de la immagen de perfil custom del usuario o se usa la imagen default si no está seteada
   const imageUri = userData.profilePicture
     ? { uri: userData.profilePicture } 
     : defaultPhoto;
