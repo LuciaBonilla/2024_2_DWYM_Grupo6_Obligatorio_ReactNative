@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity } from "react-native";
+import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
@@ -15,10 +15,10 @@ import {colors} from "@/constants/colors";
 
 /**
  * Formulario de Editar perfil.
- * @param {*} userData data de usuario logueado a la aplicación
- * @param {*} handleHideEditMyProfileForm handler function para cerrar la ventana emergente de forms
- * @param {*} attributeToEdit atributo seleccionado para edición
- * @param {*} fetchMyUser método para hacer llamada a backend y obtener info de usuario tras edición
+ * @param {*} userData data de usuario logueado a la aplicación.
+ * @param {*} handleHideEditMyProfileForm handler function para cerrar la ventana emergente de forms.
+ * @param {*} attributeToEdit atributo seleccionado para edición.
+ * @param {*} fetchMyUser método para hacer llamada a backend y obtener info de usuario tras edición.
  */
 export default function EditMyProfileForm({
   userData,
@@ -36,7 +36,7 @@ export default function EditMyProfileForm({
    * Edita el perfil.
    */
   async function handleEditMyProfile() {
-    if (attributeToEdit === "profilePicture" && image) {
+    if (attributeToEdit === "profilePicture" && image) { // Si se quiere cambiar la foto de perfil.
       try {
         const base64Image = await Base64Converter.imageToBase64(image.uri);
 
@@ -46,15 +46,15 @@ export default function EditMyProfileForm({
             fetchMyUser(); 
             handleHideEditMyProfileForm();
           } else {
-            alert("Error al actualizar el perfil.");
+            alert("Error al actualizar el perfil."); // Error.
           }
         } else {
-          alert("Error al convertir la imagen.");
+          alert("Error al convertir la imagen."); // Error.
         }
       } catch (error) {
-        alert("Error al convertir la imagen.");
+        alert("Error al convertir la imagen."); // Error.
       }
-    } else if (attributeToEdit === "username" && username) {
+    } else if (attributeToEdit === "username" && username) { // Si se quiere cambiar el nombre de usuario.
       const response = await BackendCaller.editProfile(token, username, userData.profilePicture);
       if (response.statusCode === 200) {
         fetchMyUser();
@@ -89,6 +89,7 @@ export default function EditMyProfileForm({
           </View>
         )}
 
+        {/* Botones. */}
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.cancelButton} onPress={handleHideEditMyProfileForm}>
             <Text style={styles.buttonText}>CANCELAR</Text>

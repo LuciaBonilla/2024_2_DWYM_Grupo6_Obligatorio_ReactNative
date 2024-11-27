@@ -1,5 +1,5 @@
 import { useState, useCallback, useEffect } from "react";
-import { Pressable, Text } from "react-native";
+import { Text } from "react-native";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -56,9 +56,11 @@ export default function OtherUserProfileScreen() {
 
     return (
         <SafeAreaView style={styles.rootView}>
+            {/* Título. */}
             <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
             {userInfo ? (
                 <>
+                    {/* Las imágenes que subió el usuario. */}
                     <ImagesContainer
                         userAuthorPostsID={userInfo.user._id}
                         posts={userInfo.posts}
@@ -69,6 +71,7 @@ export default function OtherUserProfileScreen() {
                             />
                         }
                     />
+                    {/* Para volver una screen hacia atrás. */}
                     <GoToPreviousScreenByBack
                         buttonStyle={styles.goToBackButton}
                         buttonTextStyle={styles.goToBackButtonText}

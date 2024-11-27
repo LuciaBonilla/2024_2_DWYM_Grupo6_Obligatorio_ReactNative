@@ -1,9 +1,6 @@
 import { Stack } from 'expo-router';
 import 'react-native-reanimated';
 
-/**
- * @estado TERMINADO.
- */
 export default function ProfilesLayout() {
     return (
         <Stack screenOptions={{headerShown: false}}>

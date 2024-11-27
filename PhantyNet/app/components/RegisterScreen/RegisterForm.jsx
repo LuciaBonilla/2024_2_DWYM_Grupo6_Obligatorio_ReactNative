@@ -92,8 +92,10 @@ export default function RegisterForm({
         }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar.
 
     return (
+        // Evita que el teclado tape el input enfocado.
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView style={styles.rootView} contentContainerStyle={styles.rootViewConatinerStyle}>
+                {/* Nombre de usuario. */}
                 <NormalTextInput
                     viewStyle={styles.inputView}
                     inputTitleStyle={styles.inputTitle}
@@ -104,6 +106,7 @@ export default function RegisterForm({
                     value={username}
                     icon={<FontAwesome name="user" size={24} color={colors.text1Color} style={styles.iconInput} />}
                 />
+                {/* Email. */}
                 <NormalTextInput
                     viewStyle={styles.inputView}
                     inputTitleStyle={styles.inputTitle}
@@ -114,6 +117,7 @@ export default function RegisterForm({
                     value={email}
                     icon={<MaterialCommunityIcons name="email" size={24} color={colors.text1Color} style={styles.iconInput} />}
                 />
+                {/* Contraseña. */}
                 <NormalTextInput
                     viewStyle={styles.inputView}
                     inputTitleStyle={styles.inputTitle}
@@ -125,6 +129,7 @@ export default function RegisterForm({
                     icon={<FontAwesome name="lock" size={24} color={colors.text1Color} style={styles.iconInput} />}
                     secureTextEntry={true}
                 />
+                {/* Repetir contraseña. */}
                 <NormalTextInput
                     viewStyle={styles.inputView}
                     inputTitleStyle={styles.inputTitle}
@@ -136,6 +141,7 @@ export default function RegisterForm({
                     icon={<FontAwesome name="lock" size={24} color={colors.text1Color} style={styles.iconInput} />}
                     secureTextEntry={true}
                 />
+                {/* Botón. */}
                 <Pressable onPress={handleRegister} style={styles.registerButton}>
                     <Text style={styles.registerButtonText}>CREAR CUENTA</Text>
                 </Pressable>

@@ -57,17 +57,21 @@ export default function MyProfileScreen() {
 
   return (
     <SafeAreaView style={styles.rootView}>
+      {/* Título. */}
       <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
       {userInfo ? (
+        // Es una flatlist con el ProfileCard como header.
         <ImagesContainer
           userAuthorPostsID={userInfo.user._id}
           posts={userInfo.posts}
           headerComponentMyProfile={
+            // Tarjeta de usuario propio.
             <ProfileCard
               user={userInfo.user}
               postsQuantity={userInfo.posts.length}
             >
               <View style={styles.buttonsView}>
+                {/* Botones. */}
                 <GoToScreenButtonByReplace
                   route={routes.LOGIN_ROUTE}
                   textContent="CERRAR SESIÓN"

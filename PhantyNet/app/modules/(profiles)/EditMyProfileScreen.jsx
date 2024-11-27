@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, Button, Modal, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // PROVEEDORES DE CONTEXTO.
@@ -72,6 +72,7 @@ function EditMyProfileScreen() {
                 <>
                     {/* Componente para mostrar info actual de usuario */}
                     <MyProfileCard userData={user} />
+
                     {/* Botones para determinar que atributo editar y levantar el modal acordemente */}
                     <View style={styles.editionContainer}>
                         <TouchableOpacity 
@@ -118,6 +119,7 @@ function EditMyProfileScreen() {
     );
 }
 
+// ESTILOS.
 const createStyles = (width, height) => {
     return StyleSheet.create({
         rootView: {

@@ -22,8 +22,8 @@ import routes from "@/constants/routes";
 /**
  * Formulario para el inicio de sesión.
  * @estado TERMINADO.
- * @param {*} handleShowUnsuccessfulLoginModal Handler para mostrar modal con resultado de operación login
- * @param {*} setUnsuccessfulLoginMessage Callback para definir el mensaje del modal de resultado
+ * @param {*} handleShowUnsuccessfulLoginModal Handler para mostrar modal con resultado de operación login.
+ * @param {*} setUnsuccessfulLoginMessage Callback para definir el mensaje del modal de resultado.
  */
 export default function LoginForm({
     handleShowUnsuccessfulLoginModal,
@@ -73,8 +73,10 @@ export default function LoginForm({
     }, [isAuthorizated])
 
     return (
+        // Evita que el teclado tape el input enfocado.
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView style={styles.rootView} contentContainerStyle={styles.rootViewConatinerStyle}>
+                {/* Email. */}
                 <NormalTextInput
                     viewStyle={styles.inputView}
                     inputTitleStyle={styles.inputTitle}
@@ -85,6 +87,7 @@ export default function LoginForm({
                     value={email}
                     icon={<MaterialIcons name="email" size={24} color={colors.text1Color} style={styles.iconInput} />}
                 />
+                {/* Contraseña. */}
                 <NormalTextInput
                     viewStyle={styles.inputView}
                     inputTitleStyle={styles.inputTitle}
@@ -96,6 +99,7 @@ export default function LoginForm({
                     icon={<Entypo name="lock" size={24} color={colors.text1Color} style={styles.iconInput} />}
                     secureTextEntry={true}
                 />
+                {/* Botón. */}
                 <Pressable onPress={handleLogin} style={styles.loginButton}>
                     <Text style={styles.loginButtonText}>INICIAR SESIÓN</Text>
                 </Pressable>

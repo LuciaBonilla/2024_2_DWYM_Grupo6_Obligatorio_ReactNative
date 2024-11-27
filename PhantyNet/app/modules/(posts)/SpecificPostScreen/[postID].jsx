@@ -1,5 +1,5 @@
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
-import { Pressable, ScrollView, Text, View } from "react-native";
+import { ScrollView, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useState, useCallback, useEffect } from "react";
 
@@ -78,10 +78,12 @@ export default function SpecificPostScreen() {
 
     return (
         <SafeAreaView style={styles.rootView}>
+            {/* Título */}
             <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
             {!isLoading ? (
                 post ? (
                     <>
+                        {/* El post*/}
                         <ScrollView style={{paddingTop: 15}}>
                             <PostCard
                                 id={post._id}
@@ -93,13 +95,13 @@ export default function SpecificPostScreen() {
                                 fetchFeed={fetchPost}
                             />
                         </ScrollView>
+                        {/* Para volver una screen hacia atrás. */}
                         <GoToPreviousScreenByBack
                             buttonStyle={styles.goToBackButton}
                             buttonTextStyle={styles.goToBackButtonText}
                             textContent="VOLVER"
                         />
                     </>
-
                 ) : (
                     <Text style={createNoContentStyles().noPostMessage}>Post no encontrado</Text>
                 )

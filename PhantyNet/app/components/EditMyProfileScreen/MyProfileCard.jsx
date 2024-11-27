@@ -7,7 +7,7 @@ import { useWindowDimensions } from "react-native";
 /**
  * Tarjeta propia de usuario (sale al editar perfil).
  * @estado TERMINADO.
- * @param userData Data de usuario logueado a popular en el card
+ * @param userData Data de usuario logueado a popular en el card.
  */
 export default function MyProfileCard({ userData }) {
   // Para estilos.
@@ -17,22 +17,26 @@ export default function MyProfileCard({ userData }) {
   useEffect(() => {
     setStyles(createStyles(width, height))
   }, [width, height]);
-  const defaultPhoto = require("../../../assets/images/default_profile.png");
+  const defaultPhoto = require("@/assets/images/default_profile.png");
 
-  //Se setea imageUri de la immagen de perfil custom del usuario o se usa la imagen default si no está seteada
+  //Se setea imageUri de la imagen de perfil custom del usuario o se usa la imagen default si no está seteada
   const imageUri = userData.profilePicture
     ? { uri: userData.profilePicture }
     : defaultPhoto;
 
   return (
     <View style={styles.profileCard}>
+      {/* Profile info. */}
       <View style={styles.profileCardInfo}>
+        {/* Profile header. */}
         <View style={styles.profileCardHeader}>
           <Image source={imageUri} style={styles.profileCardImg} />
           <View style={styles.profileCardTextContainer}>
             <Text style={styles.profileCardUsername}>{userData.username}</Text>
           </View>
         </View>
+
+        {/* Demás info. */}
         <Text style={styles.profileCardEmail}>{userData.email}</Text>
         <Text style={styles.profileCardCreatedAt}>
           Miembro desde {new Date(userData.createdAt).toLocaleDateString("es-ES", {
@@ -48,6 +52,7 @@ export default function MyProfileCard({ userData }) {
   );
 };
 
+// ESTILOS.
 function createStyles(width, height) {
   return StyleSheet.create({
     profileCard: {

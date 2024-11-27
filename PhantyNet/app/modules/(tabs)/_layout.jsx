@@ -6,9 +6,6 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
 // COLORES.
 import { colors } from "@/constants/colors";
 
-/**
- * @estado TERMINADO.
- */
 export default function TabLayout() {
     return (
         <Tabs screenOptions={{

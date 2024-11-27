@@ -1,6 +1,6 @@
 import { useRouter } from "expo-router";
 import { useState, useEffect } from "react";
-import { Image, Pressable, Text, View, StyleSheet, Modal } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 
 // COMPONENTES.
 import LikeButton from "./LikeButton";

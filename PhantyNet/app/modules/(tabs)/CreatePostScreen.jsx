@@ -63,18 +63,17 @@ export default function CreatePostScreen() {
             />
 
             {/* Mensaje de subida no exitosa. */}
-            {isUnsuccessfulUploadModalShowing &&
-                <OperationResultModal
-                    visible={isUnsuccessfulUploadModalShowing}
-                    message={unsuccessfulUploadModalMessage}
-                    modalStyle={styles.operationResultModal}
-                    textStyle={styles.modalText}
-                    icon={<MaterialIcons name="error" size={128} color={colors.errorColor} style={styles.errorIcon} />}
-                    buttonStyle={styles.closeErrorModalButton}
-                    buttonTextStyle={styles.closeModalButtonText}
-                    buttonText={"CERRAR"}
-                    handleHideOperationResultModal={handleHideUnsuccessfulUploadModal}
-                />}
+            <OperationResultModal
+                visible={isUnsuccessfulUploadModalShowing}
+                message={unsuccessfulUploadModalMessage}
+                modalStyle={styles.operationResultModal}
+                textStyle={styles.modalText}
+                icon={<MaterialIcons name="error" size={128} color={colors.errorColor} style={styles.errorIcon} />}
+                buttonStyle={styles.closeErrorModalButton}
+                buttonTextStyle={styles.closeModalButtonText}
+                buttonText={"CERRAR"}
+                handleHideOperationResultModal={handleHideUnsuccessfulUploadModal}
+            />
         </SafeAreaView>
     );
 }

@@ -84,19 +84,17 @@ export default function LoginScreen() {
             />
 
             {/* Modal en caso de login no exitoso. */}
-            {isUnsuccessfulLoginModalShowing &&
-                <OperationResultModal
-                    visible={isUnsuccessfulLoginModalShowing}
-                    message={unsuccessfulLoginMessage}
-                    modalStyle={styles.errorModal}
-                    textStyle={styles.errorText}
-                    icon={<FontAwesome name="user-times" size={128} color={colors.errorColor} style={styles.errorIcon} />}
-                    buttonStyle={styles.closeErrorModalButton}
-                    buttonTextStyle={styles.closeErrorModalButtonText}
-                    buttonText={"CERRAR"}
-                    handleHideOperationResultModal={handleHideUnsuccessfulLoginModal}
-                />
-            }
+            <OperationResultModal
+                visible={isUnsuccessfulLoginModalShowing}
+                message={unsuccessfulLoginMessage}
+                modalStyle={styles.errorModal}
+                textStyle={styles.errorText}
+                icon={<FontAwesome name="user-times" size={128} color={colors.errorColor} style={styles.errorIcon} />}
+                buttonStyle={styles.closeErrorModalButton}
+                buttonTextStyle={styles.closeErrorModalButtonText}
+                buttonText={"CERRAR"}
+                handleHideOperationResultModal={handleHideUnsuccessfulLoginModal}
+            />
         </SafeAreaView>
     )
 }

@@ -30,6 +30,7 @@ export default function OperationResultModal({
     );
 };
 
+// ESTILOS.
 const styles = StyleSheet.create({
     overlay: {
         flex: 1,

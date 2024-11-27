@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { FlatList, Text, StyleSheet } from "react-native";
+import { FlatList, Text } from "react-native";
 import { useFocusEffect } from "expo-router";
 
 // BACKEND_URI.
@@ -44,7 +44,6 @@ export default function PostCardContainer() {
     /**
      * Dados los posts obtenidos, quita los posts propios del usuario y los restantes los ordena cronológicamente.
      * @param posts
-     * @estado función terminada.
      */
     function getMyFeed(posts) {
         // Filtra los posts para eliminar los del usuario actual.
@@ -56,7 +55,6 @@ export default function PostCardContainer() {
 
     /**
      * Obtiene el feed del usuario.
-     * @estado función terminada.
      */
     async function fetchFeed() {
         const response = await BackendCaller.getFeed(token);

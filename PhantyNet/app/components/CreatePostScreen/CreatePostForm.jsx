@@ -21,8 +21,8 @@ import { colors } from "@/constants/colors";
 
 /**
  * Formulario de crear post.
- * @param handleShowUnsuccessfulUploadModal Handler para mostrar modal con resultado de operación upload
- * @param setUnsuccessfulUploadModalMessage Handler para definir mensaje del modal de resultados
+ * @param handleShowUnsuccessfulUploadModal Handler para mostrar modal con resultado de operación upload.
+ * @param setUnsuccessfulUploadModalMessage Handler para definir mensaje del modal de resultados.
  * @estado TERMINADO.
  */
 export default function CreatePostForm({
@@ -53,13 +53,13 @@ export default function CreatePostForm({
             }
 
             clearInputs(); // Llama a la función asincrónica al enfocar la pantalla.
-        }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar.
+        }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar la screen.
 
     /**
      * Cancela subir un post.
      */
     function handleCancelUpload() {
-        router.replace(routes.MY_FEED_ROUTE);
+        router.replace(routes.MY_FEED_ROUTE); // Va a mi feed.
     }
 
     /**
@@ -67,7 +67,7 @@ export default function CreatePostForm({
      */
     async function handleUploadPost() {
         if (!image) { // Si no hay imagen.
-            setUnsuccessfulUploadModalMessage("No hay imagen");
+            setUnsuccessfulUploadModalMessage("No hay imagen"); // Muestra un modal de error.
             handleShowUnsuccessfulUploadModal();
         } else {
             const imageData = {
@@ -78,15 +78,16 @@ export default function CreatePostForm({
             const response = await BackendCaller.uploadPost(token, imageData, caption);
 
             if (response.statusCode === 201) { // Created
-                router.replace(routes.MY_PROFILE_ROUTE);
+                router.replace(routes.MY_PROFILE_ROUTE); // Va mi perfil.
             } else {
-                setUnsuccessfulUploadModalMessage(response.data.message);
+                setUnsuccessfulUploadModalMessage(response.data.message); // Muestra un modal de error.
                 handleShowUnsuccessfulUploadModal();
             }
         }
     }
 
     return (
+        // Evita que el teclado tape el input a escribir.
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
             <ScrollView style={styles.rootView} contentContainerStyle={styles.rootViewConatinerStyle}>
                 {/* Parte del input para obtener la imagen. */}

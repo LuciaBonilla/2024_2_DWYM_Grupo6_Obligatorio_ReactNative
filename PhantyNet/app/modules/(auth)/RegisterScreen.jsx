@@ -105,34 +105,30 @@ export default function RegisterScreen() {
             />
 
             {/* Modal en caso de registro no exitoso. */}
-            {isUnsuccessfulRegisterModalShowing &&
-                <OperationResultModal
-                    visible={isUnsuccessfulRegisterModalShowing}
-                    message={unsuccessfulRegisterModalMessage}
-                    modalStyle={styles.operationResultModal}
-                    textStyle={styles.modalText}
-                    icon={<MaterialIcons name="error" size={128} color={colors.errorColor} style={styles.errorIcon} />}
-                    buttonStyle={styles.closeErrorModalButton}
-                    buttonTextStyle={styles.closeModalButtonText}
-                    buttonText={"CERRAR"}
-                    handleHideOperationResultModal={handleHideUnsuccessfulRegisterModal}
-                />
-            }
+            <OperationResultModal
+                visible={isUnsuccessfulRegisterModalShowing}
+                message={unsuccessfulRegisterModalMessage}
+                modalStyle={styles.operationResultModal}
+                textStyle={styles.modalText}
+                icon={<MaterialIcons name="error" size={128} color={colors.errorColor} style={styles.errorIcon} />}
+                buttonStyle={styles.closeErrorModalButton}
+                buttonTextStyle={styles.closeModalButtonText}
+                buttonText={"CERRAR"}
+                handleHideOperationResultModal={handleHideUnsuccessfulRegisterModal}
+            />
 
-            {/* Modal en caso de registro exitoso. */}
-            {isSuccessfulRegisterModalShowing &&
-                <OperationResultModal
-                    visible={isSuccessfulRegisterModalShowing}
-                    message={successfulRegisterModalMessage}
-                    modalStyle={styles.operationResultModal}
-                    textStyle={styles.modalText}
-                    icon={<Feather name="user-check" size={128} color={colors.successColor} style={styles.successIcon} />}
-                    buttonStyle={styles.closeSuccessModalButton}
-                    buttonTextStyle={styles.closeModalButtonText}
-                    buttonText={"OK"}
-                    handleHideOperationResultModal={handleHideSuccessfulRegisterModal}
-                />
-            }
+            
+            <OperationResultModal
+                visible={isSuccessfulRegisterModalShowing}
+                message={successfulRegisterModalMessage}
+                modalStyle={styles.operationResultModal}
+                textStyle={styles.modalText}
+                icon={<Feather name="user-check" size={128} color={colors.successColor} style={styles.successIcon} />}
+                buttonStyle={styles.closeSuccessModalButton}
+                buttonTextStyle={styles.closeModalButtonText}
+                buttonText={"OK"}
+                handleHideOperationResultModal={handleHideSuccessfulRegisterModal}
+            />
         </SafeAreaView>
     )
 }
