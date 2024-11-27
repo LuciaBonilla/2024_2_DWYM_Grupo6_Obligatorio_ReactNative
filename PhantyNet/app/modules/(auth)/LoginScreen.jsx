@@ -1,15 +1,13 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import { Text, Image, StyleSheet } from "react-native";
+import { Text, Image, StyleSheet, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Platform } from "react-native";
 
 // COMPONENTES.
 import LoginForm from "@/app/components/LoginScreen/LoginForm";
 import GoToScreenButtonByReplace from "@/app/components/shared/others/GoToScreenButtonByReplace";
 import OperationResultModal from "@/app/components/shared/others/OperationResultModal";
 
-// PROVEEDOR DE CONTEXTO.
+// PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
 
@@ -43,7 +41,6 @@ export default function LoginScreen() {
 
     /**
      * Muestra el mensaje de inicio de sesión no exitoso.
-     * @estado función terminada.
      */
     function handleShowUnsuccessfulLoginModal() {
         setIsUnsuccessfulLoginModalShowing(true);
@@ -51,7 +48,6 @@ export default function LoginScreen() {
 
     /**
      * Oculta el mensaje de inicio de sesión no exitoso.
-     * @estado función terminada.
      */
     function handleHideUnsuccessfulLoginModal() {
         setIsUnsuccessfulLoginModalShowing(false);
@@ -68,7 +64,7 @@ export default function LoginScreen() {
     return (
         <SafeAreaView style={styles.rootView}>
             {/* Logo de la red social. */}
-            <Image source={require("../../../assets/images/logo.png")} style={styles.logo} />
+            <Image source={require("@/assets/images/logo.png")} style={styles.logo} />
 
             {/* Nombre de la red social. */}
             <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
@@ -118,21 +114,15 @@ function createStyles(width, height) {
             paddingTop: Platform.OS === "android" ? 20 : 0,
         },
         logo: {
-            width: width * 0.5,
-            height: height * 0.27,
+            width: width * 0.55,
+            height: width * 0.5,
             resizeMode: "contain",
             borderRadius: 100,
             backgroundColor: colors.background2Color,
-            paddingTop: 10,
-            paddingRight: 30,
-            paddingBottom: 10,
-            paddingLeft: 30,
-            marginTop: 20,
         },
         socialNetworkTitle: {
-            fontFamily: "Segoe",
+            fontFamily: "SegoeBold",
             fontSize: 42,
-            fontWeight: "bold",
             textShadowOffset: { width: 2, height: 2 },
             textShadowRadius: 4,
             textShadowColor: colors.shadowColor,
@@ -152,8 +142,8 @@ function createStyles(width, height) {
             marginBottom: 20
         },
         goToRegisterButtonText: {
+            fontFamily: "SegoeBold",
             fontSize: 16,
-            fontWeight: "bold",
             color: colors.whiteFriendlyColor,
         },
         errorModal: {
@@ -167,20 +157,21 @@ function createStyles(width, height) {
             alignItems: "center",
         },
         errorText: {
-            fontSize: 32,
+            fontSize: 42,
             textAlign: "center",
             fontFamily: "SegoeBold",
             position: "absolute",
             color: colors.whiteFriendlyColor,
             top: height * 0.2,
+            letterSpacing: 1,
         },
         errorIcon: {
             position: "absolute",
-            top: width * 0.7,
+            bottom: height * 0.2,
             color: colors.errorColor,
         },
         closeErrorModalButton: {
-            width: 150,
+            width: width * 0.5,
             height: 35,
             position: "absolute",
             borderRadius: 10,
@@ -190,8 +181,8 @@ function createStyles(width, height) {
             bottom: 20,
         },
         closeErrorModalButtonText: {
+            fontFamily: "SegoeBold",
             color: colors.whiteFriendlyColor,
-            fontWeight: "bold",
             fontSize: 16,
         }
     });

@@ -90,15 +90,14 @@ function createStyles(width, height) {
             width,
             height,
             paddingTop: Platform.OS === "android" ? 20 : 0,
-            paddingBottom: 50,
+            paddingBottom: 40,
         },
         title: {
             fontSize: 32,
             textAlign: "center",
             padding: 5,
             color: colors.primaryColor,
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             textShadowOffset: { width: 2, height: 2 },
             textShadowRadius: 4,
             textShadowColor: colors.shadowColor,
@@ -129,7 +128,7 @@ function createStyles(width, height) {
             color: colors.errorColor,
         },
         closeErrorModalButton: {
-            width: 150,
+            width: width * 0.5,
             height: 35,
             position: "absolute",
             borderRadius: 10,
@@ -140,7 +139,7 @@ function createStyles(width, height) {
         },
         closeModalButtonText: {
             color: colors.whiteFriendlyColor,
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             fontSize: 16,
         }
     })

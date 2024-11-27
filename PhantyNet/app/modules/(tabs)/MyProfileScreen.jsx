@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
-import { View, Text, StyleSheet, Platform, ScrollView } from "react-native";
+import { View, Text } from "react-native";
 import { useFocusEffect } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 // COMPONENTES.
 import ImagesContainer from "@/app/components/shared/profiles/ImagesContainer";
@@ -17,41 +18,41 @@ import { useWindowDimensions } from "react-native";
 
 // RUTAS.
 import routes from "@/constants/routes";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-// COLORES.
-import { colors } from "@/constants/colors";
+// ESTILO COMPARTIDO.
+import { createProfileScreenStyles } from "@/app/styles/ProfileScreenStyles";
+import createNoContentStyles from "@/app/styles/NoContentStyles"
 
 /**
  * Screen de mi perfil.
  * @estado componente terminado.
  */
 export default function MyProfileScreen() {
+  // Necesarios para obtener los posts y perfil.
+  const { token, userID } = useAuthContext();
+
   // Para estilos.
   const { width, height } = useWindowDimensions();
-  const [styles, setStyles] = useState(createStyles(width, height));
+  const [styles, setStyles] = useState(createProfileScreenStyles(width, height));
 
   useEffect(() => {
-    setStyles(createStyles(width, height))
+    setStyles(createProfileScreenStyles(width, height))
   }, [width, height]);
 
   // Perfil y posts.
   const [userInfo, setUserInfo] = useState();
 
-  // Necesarios para obtener los posts y perfil.
-  const { token, userID } = useAuthContext();
-
   useFocusEffect(
     useCallback(() => {
       const fetchUserInfo = async () => {
         const response = await BackendCaller.getUserProfile(userID, token);
-        if (response.statusCode === 200) {
+          // Actualiza el estado de manera inmutable
           setUserInfo(response.data);
-        }
       };
 
+      setUserInfo(null); // necesario para rerenderizar.
       fetchUserInfo();
-    }, []) // Dependencias para asegurar que se actualice correctamente
+    }, [])
   );
 
   return (
@@ -84,76 +85,16 @@ export default function MyProfileScreen() {
           }
         />
       ) : (
-        <GoToScreenButtonByReplace
-          route={routes.LOGIN_ROUTE}
-          textContent="VOLVER A INICIAR SESIÓN"
-          buttonStyle={styles.logoutButton}
-          buttonTextStyle={styles.logoutButtonText}
-        />
+        <>
+          <Text style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
+          <GoToScreenButtonByReplace
+            route={routes.LOGIN_ROUTE}
+            buttonStyle={{...styles.goToBackButton, alignSelf: "center", bottom: 300}}
+            buttonTextStyle={styles.goToBackButtonText}
+            textContent="VOLVER A HOME"
+          />
+        </>
       )}
     </SafeAreaView>
   );
 }
-
-// ESTILOS.
-function createStyles(width, height) {
-  return StyleSheet.create({
-    rootView: {
-      flex: 1,
-      backgroundColor: colors.background1Color,
-      paddingBottom: 80,
-    },
-    socialNetworkTitle: {
-      position: "fixed",
-      zIndex: 100,
-      top: 0,
-      margin: 0,
-      padding: 5,
-      width: width,
-      fontSize: 32,
-      textShadowColor: colors.background1Color,
-      textShadowOffset: { width: 2, height: 2 },
-      textShadowRadius: 4,
-      color: colors.primaryColor,
-      backgroundColor: colors.secondaryColor,
-      textAlign: "center",
-      fontFamily: "SegoeBold"
-    },
-    buttonsView: {
-      flex: 1,
-      flexDirection: "row",
-      columnGap: 5,
-      marginVertical: 20,
-    },
-    editMyProfileButton: {
-      backgroundColor: colors.primaryColor,
-      width: width * 0.45,
-      height: 35,
-      borderRadius: 10,
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    editMyProfileButtonText: {
-      textAlign: "center",
-      fontFamily: "Segoe",
-      fontWeight: "bold",
-      fontSize: 16,
-      color: colors.text1Color,
-    },
-    logoutButton: {
-      backgroundColor: colors.secondaryColor,
-      width: width * 0.45,
-      height: 35,
-      borderRadius: 10,
-      justifyContent: "center",
-      alignItems: "center"
-    },
-    logoutButtonText: {
-      textAlign: "center",
-      fontFamily: "Segoe",
-      fontWeight: "bold",
-      fontSize: 16,
-      color: colors.whiteFriendlyColor,
-    }
-  })
-};

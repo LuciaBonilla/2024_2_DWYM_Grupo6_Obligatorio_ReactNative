@@ -1,30 +1,52 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Button, Modal, StyleSheet, useWindowDimensions } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, Button, Modal, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+// PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
+import { useWindowDimensions } from '@/context-providers/WindowDimensionsProvider';
+
+// CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
+
+// ÍCONOS.
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+
+// COMPONENTES.
 import MyProfileCard from "@/app/components/EditMyProfileScreen/MyProfileCard";
 import EditMyProfileForm from "@/app/components/EditMyProfileScreen/EditMyProfileForm";
-import GoToPreviousScreenByBack from "../../components/shared/others/GoToPreviousScreenByBack";
+import GoToPreviousScreenByBack from "@/app/components/shared/others/GoToPreviousScreenByBack";
 
+// COLORES.
+import { colors } from "@/constants/colors"
 
+/**
+ * Screen de editar perfil.
+ * @estado TERMINADO.
+ */
 function EditMyProfileScreen() {
+    // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
-
-    const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
-    const [attributeToEdit, setAttributeToEdit] = useState(null);
-    const [user, setUser] = useState(null);
-
-    const { userID, token } = useAuthContext();
 
     useEffect(() => {
         setStyles(createStyles(width, height));
     }, [width, height]);
 
-    const fetchMyUser = async () => {
+    // Estados necesarios.
+    const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
+    const [attributeToEdit, setAttributeToEdit] = useState(null);
+    const [user, setUser] = useState(null);
+
+    // Para editar el perfil.
+    const { userID, token } = useAuthContext();
+
+    /**
+     * Obtiene el usuario propio.
+     */
+    async function fetchMyUser() {
         const response = await BackendCaller.getUserProfile(userID, token);
-        if (response?.statusCode === 200) {
+        if (response.statusCode === 200) {
             setUser(response.data.user);
         } else {
             setUser(null);
@@ -35,18 +57,25 @@ function EditMyProfileScreen() {
         fetchMyUser();
     }, []);
 
-    const handleShowEditMyProfileForm = (attribute) => {
+    /**
+     * Muestra el formulario de editar perfil.
+     * @param {*} attribute Atributo a editar (nombre/foto).
+     */
+    function handleShowEditMyProfileForm(attribute) {
         setAttributeToEdit(attribute);
         setIsShowingEditMyProfileForm(true);
     };
 
-    const handleHideEditMyProfileForm = () => {
+    /**
+     * Oculta el formulario de editar perfil.
+     */
+    function handleHideEditMyProfileForm() {
         setAttributeToEdit(null);
         setIsShowingEditMyProfileForm(false);
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             {user ? (
                 <>
                     <Text style={styles.title}>
@@ -55,12 +84,12 @@ function EditMyProfileScreen() {
                     </Text>
                     <MyProfileCard userData={user} />
                     <View style={styles.menu}>
-                        <Button title="Editar Nombre de Usuario" onPress={() => handleShowEditMyProfileForm("username")} />
-                        <Button title="Editar Foto de Perfil" onPress={() => handleShowEditMyProfileForm("profilePicture")} />
+                        <Button title="EDITAR NOMBRE DE USUARIO" onPress={() => handleShowEditMyProfileForm("username")} />
+                        <Button title="EDITAR FOTO DE PERFIL" onPress={() => handleShowEditMyProfileForm("profilePicture")} />
                         <GoToPreviousScreenByBack
-                            buttonStyle={styles.button}
-                            buttonTextStyle={styles.buttonText}
-                            textContent="Volver"
+                            buttonStyle={styles.backButton}
+                            buttonTextStyle={styles.backButtonText}
+                            textContent="VOLVER"
                         />
                     </View>
                 </>
@@ -82,7 +111,7 @@ function EditMyProfileScreen() {
                     fetchMyUser={fetchMyUser}
                 />
             </Modal>
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -91,6 +120,9 @@ const createStyles = (width, height) => {
         container: {
             flex: 1,
             padding: 20,
+            width: width,
+            height: height,
+            rowGap: 5
         },
         title: {
             fontSize: 24,
@@ -106,6 +138,23 @@ const createStyles = (width, height) => {
             fontSize: 18,
             color: "#888",
         },
+        backButton: {
+            width: width * 0.5,
+            height: 35,
+            borderRadius: 10,
+            backgroundColor: colors.secondaryColor,
+            position: "static",
+            justifyContent: "center",
+            alignItems: "center",
+            marginBottom: 20,
+            alignSelf: "center",
+            marginTop: 30,
+        },
+        backButtonText: {
+            fontFamily: "SegoeBold",
+            fontSize: 16,
+            color: colors.whiteFriendlyColor,
+        }
     });
 };
 
