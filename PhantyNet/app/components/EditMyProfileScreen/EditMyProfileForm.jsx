@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { View, TextInput, Button, StyleSheet, Text } from "react-native";
+import { View, TextInput, Button, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
@@ -10,6 +10,8 @@ import Base64Converter from "@/auxiliar-classes/Base64Converter";
 
 // COMPONENTES.
 import ImageGetter from "../shared/others/ImageGetter";
+
+import {colors} from "@/constants/colors";
 
 /**
  * Formulario de Editar perfil.
@@ -86,10 +88,10 @@ export default function EditMyProfileForm({
 
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.cancelButton} onPress={handleHideEditMyProfileForm}>
-            <Text style={styles.buttonText}>Cancelar</Text>
+            <Text style={styles.buttonText}>CANCELAR</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.acceptButton} onPress={handleEditMyProfile}>
-            <Text style={styles.buttonText}>Aceptar</Text>
+            <Text style={styles.buttonText}>ACEPTAR</Text>
           </TouchableOpacity>
         </View>
       </View>

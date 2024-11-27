@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { View, Text, Button, Modal, StyleSheet } from "react-native";
+import { View, Text, Button, Modal, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 // PROVEEDORES DE CONTEXTO.
@@ -81,21 +81,21 @@ function EditMyProfileScreen() {
                             style={styles.editButton} 
                             onPress={() => handleShowEditMyProfileForm("username")}
                         >
-                            <Text style={styles.buttonText}>Editar Nombre de Usuario</Text>
+                            <Text style={styles.buttonText}>EDITAR NOMBRE DE USUARIO</Text>
                         </TouchableOpacity>
 
                         <TouchableOpacity 
                             style={styles.editButton} 
                             onPress={() => handleShowEditMyProfileForm("profilePicture")}
                         >
-                            <Text style={styles.buttonText}>Editar Foto de Perfil</Text>
+                            <Text style={styles.buttonText}>EDITAR FOTO DE PERFIL</Text>
                         </TouchableOpacity>
 
                         {/* Botón para navegar con back en stack */}
                         <GoToPreviousScreenByBack
                             buttonStyle={styles.backButton}
                             buttonTextStyle={styles.buttonText}
-                            textContent="Volver"
+                            textContent="VOLVER"
                         />
                     </View>
                 </>
