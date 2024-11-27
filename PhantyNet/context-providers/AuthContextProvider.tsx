@@ -66,7 +66,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     useEffect(() => {
         if (!loading && isAuthorizated === false) {
-            router.replace(routes.LOGIN_ROUTE);
+            router.replace(routes.LOGIN_ROUTE as any);
         }
     }, [isAuthorizated]);
 
