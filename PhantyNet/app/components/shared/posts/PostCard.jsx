@@ -66,15 +66,11 @@ export default function PostCard({
             {/* Descripción. */}
             <Text style={styles.caption}>{caption}</Text>
 
-            {/* Cantidad de likes. */}
-            <Text style={styles.postDataText}>{likes.length} Likes</Text>
-
-            {/* Botón para dar like al post. */}
-            <LikeButton
-                postID={id}
-                likes={likes}
-                fetchFeed={fetchFeed}
-            />
+            {/* Cantidad de likes y botón de Like */}
+            <View style={styles.likesContainer}>
+                <Text style={styles.postDataText}>{likes.length} Likes</Text>
+                <LikeButton postID={id} likes={likes} fetchFeed={fetchFeed} />
+            </View>
 
             {/* Fecha de publicación. */}
             <Text style={styles.postDataText}>Publicado el{" "}

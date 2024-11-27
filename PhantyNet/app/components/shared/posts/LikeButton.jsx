@@ -56,7 +56,7 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
     }
 
     return (
-        <Pressable style={{zIndex: 1000, position: "absolute", bottom: 75, left: 80}} onPress={() => {
+        <Pressable onPress={() => {
             if (!likeIsGived) {
                 handleGiveLike();
                 setIcon(<FontAwesome name="heart" size={32} color={colors.errorColor} />)
@@ -68,4 +68,5 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
             {icon}
         </Pressable>
     );
+
 }

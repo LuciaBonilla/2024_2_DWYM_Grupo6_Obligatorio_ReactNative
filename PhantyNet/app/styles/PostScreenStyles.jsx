@@ -77,6 +77,11 @@ export default function createStyles(width, height) {
             fontFamily: "SegoeBold",
             fontSize: 16,
             color: colors.text1Color,
-        }
+        },
+        likesContainer: {
+            flexDirection: "row",      
+            marginVertical: 8,  
+            paddingHorizontal: 1,       
+        },
     })
 }
