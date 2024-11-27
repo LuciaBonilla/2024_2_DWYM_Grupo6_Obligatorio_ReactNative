@@ -9,6 +9,10 @@ import routes from "@/constants/routes";
 // Evita que la pantalla de splash se oculte automáticamente antes de cargar los recursos.
 SplashScreen.preventAutoHideAsync();
 
+/**
+ * Redirige a la screen que corresponda si el usuario está autenticado.
+ * @estado TERMINADO.
+ */
 export default function Home() {
     const router = useRouter();
     const { isAuthorizated } = useAuthContext();
