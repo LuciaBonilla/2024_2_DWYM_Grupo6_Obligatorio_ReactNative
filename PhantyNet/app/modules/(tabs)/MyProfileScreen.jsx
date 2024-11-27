@@ -5,6 +5,7 @@ import { useFocusEffect } from "expo-router";
 // COMPONENTES.
 import ImagesContainer from "@/app/components/shared/profiles/ImagesContainer";
 import GoToScreenButtonByReplace from "@/app/components/shared/others/GoToScreenButtonByReplace";
+import GoToScreenButtonByPush from "@/app/components/shared/others/GoToScreenButtonByPush";
 import ProfileCard from "@/app/components/shared/profiles/ProfileCard";
 
 // CLASES AUXILIARES.
@@ -72,7 +73,7 @@ export default function MyProfileScreen() {
                   buttonStyle={styles.logoutButton}
                   buttonTextStyle={styles.logoutButtonText}
                 />
-                <GoToScreenButtonByReplace
+                <GoToScreenButtonByPush
                   route={routes.MY_PROFILE_EDIT_ROUTE}
                   textContent="EDITAR PERFIL"
                   buttonStyle={styles.editMyProfileButton}

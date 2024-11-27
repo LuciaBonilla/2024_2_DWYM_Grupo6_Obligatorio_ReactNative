@@ -3,9 +3,10 @@ import { View, Text, Button, Modal, StyleSheet, useWindowDimensions } from "reac
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { User } from "@/constants/types";
 import MyProfileCard from "@/app/components/EditMyProfileScreen/MyProfileCard";
 import EditMyProfileForm from "@/app/components/EditMyProfileScreen/EditMyProfileForm";
+import GoToPreviousScreenByBack from "../../components/shared/others/GoToPreviousScreenByBack";
+
 
 function EditMyProfileScreen() {
     const { width, height } = useWindowDimensions();
@@ -56,6 +57,11 @@ function EditMyProfileScreen() {
                     <View style={styles.menu}>
                         <Button title="Editar Nombre de Usuario" onPress={() => handleShowEditMyProfileForm("username")} />
                         <Button title="Editar Foto de Perfil" onPress={() => handleShowEditMyProfileForm("profilePicture")} />
+                        <GoToPreviousScreenByBack
+                            buttonStyle={styles.button}
+                            buttonTextStyle={styles.buttonText}
+                            textContent="Volver"
+                        />
                     </View>
                 </>
             ) : (
