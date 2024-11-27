@@ -10,8 +10,8 @@ import { colors } from "@/constants/colors";
 
 /**
  * Permite seleccionar una imagen con la cámara o con la galería.
- * @param {*} setState
- * @param {*} imageValue
+ * @param {*} setState prop para pasar el handler que se encarge de guardar el resultado de elegir imagenes en un estado
+ * @param {*} imageValue prop para pasar el valor de una imagen guardada en estado
  * @estado TERMINADO.
  */
 export default function ImageGetter({

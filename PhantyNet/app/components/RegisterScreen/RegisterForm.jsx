@@ -21,6 +21,10 @@ import BackendCaller from "@/auxiliar-classes/BackendCaller";
 /**
  * Formulario para el registro.
  * @estado TERMINADO.
+ * @param {*} handleShowUnsuccessfulRegisterModal  Handler para mostrar modal con resultado de operación register 
+ * @param {*} setUnsuccessfulRegisterModalMessage callback para definir el mensaje a mostrar en el modal unsuccessful register
+ * @param {*} handleShowSuccessfulRegisterModal Segundo handler para mostrar modal con resultado de operación login
+ * @param {*} setSuccessfulRegisterModalMessage callback para definir el mensaje a mostrar en el modal successful register
  */
 export default function RegisterForm({
     handleShowUnsuccessfulRegisterModal,

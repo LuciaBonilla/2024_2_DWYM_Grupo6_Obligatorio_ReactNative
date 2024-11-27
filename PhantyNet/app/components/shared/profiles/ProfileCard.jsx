@@ -12,9 +12,9 @@ import { createProfileCardStyles } from "@/app/styles/ProfileScreenStyles";
 
 /**
  * Tarjeta de perfil.
- * @param {*} user
- * @param {*} postsQuantity
- * @param {*} children
+ * @param {*} user info de user a desplegarse en el card
+ * @param {*} postsQuantity cantidad de posts que el usuario ha hecho para mostrarse en el card
+ * @param {*} children prop para manejar children components
  * @estado TERMINADO.
  */
 export default function ProfileCard({
@@ -40,7 +40,7 @@ export default function ProfileCard({
                 <Text style={styles.userInfo}>
                     Empezó el {new Date(user.createdAt).toLocaleDateString("es-ES", {
                         day: '2-digit',
-                        month: 'long',  // mes completo, o 'short' para abreviado
+                        month: 'long',
                         year: 'numeric',
                         hour: '2-digit',
                         minute: '2-digit'

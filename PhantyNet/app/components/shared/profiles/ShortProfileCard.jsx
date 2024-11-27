@@ -17,7 +17,7 @@ import { colors } from "@/constants/colors";
 
 /**
  * Tarjetita de usuario.
- * @param {*} user 
+ * @param {*} user información de user para desplegarse en el card
  * @estado TERMINADO. 
  */
 export default function ShortProfileCard({ user }) {

@@ -15,7 +15,10 @@ import {colors} from "@/constants/colors";
 
 /**
  * Formulario de Editar perfil.
- * @estado TERMINADO.
+ * @param {*} userData data de usuario logueado a la aplicación
+ * @param {*} handleHideEditMyProfileForm handler function para cerrar la ventana emergente de forms
+ * @param {*} attributeToEdit atributo seleccionado para edición
+ * @param {*} fetchMyUser método para hacer llamada a backend y obtener info de usuario tras edición
  */
 export default function EditMyProfileForm({
   userData,

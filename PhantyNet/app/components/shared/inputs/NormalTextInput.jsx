@@ -1,7 +1,7 @@
 import { Text, View, TextInput } from "react-native";
 
 /**
- * Input normal de texto.
+ * Input normal de texto para reutilizado.
  * @estado TERMINADO.
  */
 export default function NormalTextInput({

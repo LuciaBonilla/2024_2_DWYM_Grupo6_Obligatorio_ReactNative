@@ -18,10 +18,10 @@ import createNoContentStyles from "@/app/styles/NoContentStyles";
 
 /**
  * Contenedor de imágenes subidas en un perfil.
- * @param {*} userAuthorPostsID
- * @param {*} posts
- * @param {*} headerComponentMyProfile
- * @param {*} headerComponentOtherUserProfile
+ * @param {*} userAuthorPostsID ID del usuario creador de los posts que se van a mostrar
+ * @param {*} posts lista de posts que se van a mostrar en el container
+ * @param {*} headerComponentMyProfile usado para modificar como se muestra el container al ser llamado desde MyProfile
+ * @param {*} headerComponentOtherUserProfile usado para modificar como se muestra el container al ser llamado desde OtherUserProfile
  * @estado TERMINADO.
  */
 export default function ImagesContainer({

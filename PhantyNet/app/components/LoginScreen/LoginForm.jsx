@@ -22,6 +22,8 @@ import routes from "@/constants/routes";
 /**
  * Formulario para el inicio de sesión.
  * @estado TERMINADO.
+ * @param {*} handleShowUnsuccessfulLoginModal Handler para mostrar modal con resultado de operación login
+ * @param {*} setUnsuccessfulLoginMessage Callback para definir el mensaje del modal de resultado
  */
 export default function LoginForm({
     handleShowUnsuccessfulLoginModal,

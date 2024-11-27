@@ -7,6 +7,7 @@ import { useWindowDimensions } from "react-native";
 /**
  * Tarjeta propia de usuario (sale al editar perfil).
  * @estado TERMINADO.
+ * @param userData Data de usuario logueado a popular en el card
  */
 export default function MyProfileCard({ userData }) {
   // Para estilos.

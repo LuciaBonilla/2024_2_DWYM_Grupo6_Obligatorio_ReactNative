@@ -15,9 +15,9 @@ import { colors } from "@/constants/colors";
 
 /**
  * Botón de Like.
- * @param {*} postID
- * @param {*} likes
- * @param {*} fetchFeed
+ * @param {*} postID prop para pasar post id al cual se desea dar o remover like
+ * @param {*} likes cantidad de likes en el post pasado por id
+ * @param {*} fetchFeed callback para hacer refresh del feed y mostrar info actualizada
  * @estado TERMINADO.
  */
 export default function LikeButton({ postID, likes, fetchFeed }) {

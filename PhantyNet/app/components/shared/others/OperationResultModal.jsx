@@ -1,7 +1,7 @@
 import { View, Text, Modal, StyleSheet, Pressable } from "react-native";
 
 /**
- * Modal de resultado de operación.
+ * Modal de resultado de operación empleado para resultados, reutilizable
  * @estado TERMINADO.
  */
 export default function OperationResultModal({

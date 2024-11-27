@@ -6,9 +6,6 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import { useWindowDimensions } from '@/context-providers/WindowDimensionsProvider';
 
-// ÍCONOS.
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-
 // COMPONENTES.
 import MyProfileCard from "@/app/components/EditMyProfileScreen/MyProfileCard";
 import EditMyProfileForm from "@/app/components/EditMyProfileScreen/EditMyProfileForm";

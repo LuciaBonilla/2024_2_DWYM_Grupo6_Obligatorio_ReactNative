@@ -17,13 +17,13 @@ import createStyles from "@/app/styles/PostScreenStyles";
 
 /**
  * Tarjeta de post.
- * @param {*} id
- * @param {*} user
- * @param {*} imageSrc
- * @param {*} caption
- * @param {*} likes
- * @param {*} createdAt
- * @param {*} fetchFeed
+ * @param {*} id identificador de post asignado por backend
+ * @param {*} user datos del usuario relacionado al post
+ * @param {*} imageSrc URI de la imagen publicada en el post 
+ * @param {*} caption caption text que acompaña la imagen en el post
+ * @param {*} likes cantidad de likes que ha recibido el post
+ * @param {*} createdAt fecha de creación del post
+ * @param {*} fetchFeed callback para refrescar el feed de posts tras darse un like
  * @estado TERMINADO.
  */
 export default function PostCard({
@@ -77,10 +77,10 @@ export default function PostCard({
             />
 
             {/* Fecha de publicación. */}
-            <Text style={styles.postDataText}>Publicado el:{" "}
+            <Text style={styles.postDataText}>Publicado el{" "}
                 {new Date(createdAt).toLocaleDateString("es-ES", {
                     day: "2-digit",
-                    month: "long", // mes completo
+                    month: "long",
                     year: "numeric",
                     hour: "2-digit",
                     minute: "2-digit",
