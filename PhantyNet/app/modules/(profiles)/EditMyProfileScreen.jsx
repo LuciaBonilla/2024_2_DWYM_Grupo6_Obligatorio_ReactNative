@@ -12,8 +12,8 @@ function EditMyProfileScreen() {
     const [styles, setStyles] = useState(createStyles(width, height));
 
     const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
-    const [attributeToEdit, setAttributeToEdit] = useState<string | null>(null);
-    const [user, setUser] = useState<User | null>(null);
+    const [attributeToEdit, setAttributeToEdit] = useState(null);
+    const [user, setUser] = useState(null);
 
     const { userID, token } = useAuthContext();
 
@@ -34,7 +34,7 @@ function EditMyProfileScreen() {
         fetchMyUser();
     }, []);
 
-    const handleShowEditMyProfileForm = (attribute: string) => {
+    const handleShowEditMyProfileForm = (attribute) => {
         setAttributeToEdit(attribute);
         setIsShowingEditMyProfileForm(true);
     };
@@ -80,7 +80,7 @@ function EditMyProfileScreen() {
     );
 }
 
-const createStyles = (width: number, height: number) => {
+const createStyles = (width, height) => {
     return StyleSheet.create({
         container: {
             flex: 1,

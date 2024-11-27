@@ -2,11 +2,7 @@ import React from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
 import { User } from "@/constants/types";
 
-interface MyProfileCardProps {
-  userData: User;
-}
-
-const MyProfileCard: React.FC<MyProfileCardProps> = ({ userData }) => {
+const MyProfileCard = ({ userData }) => {
   const defaultPhoto = require("../../../assets/images/default_profile.png");
 
   const imageUri = userData.profilePicture

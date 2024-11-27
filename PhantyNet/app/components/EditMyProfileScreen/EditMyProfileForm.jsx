@@ -6,21 +6,14 @@ import Base64Converter from "@/auxiliar-classes/Base64Converter";
 import { User } from "@/constants/types";
 import * as ImagePicker from 'expo-image-picker';
 
-interface EditMyProfileFormProps {
-  userData: User | null;
-  handleHideEditMyProfileForm: () => void;
-  attributeToEdit: string | null;
-  fetchMyUser: () => void;
-}
-
-const EditMyProfileForm: React.FC<EditMyProfileFormProps> = ({
+const EditMyProfileForm = ({
   userData,
   handleHideEditMyProfileForm,
   attributeToEdit,
   fetchMyUser,
 }) => {
-  const [inputContent, setInputContent] = useState<string>(""); 
-  const [imageUri, setImageUri] = useState<string | null>(null);
+  const [inputContent, setInputContent] = useState(""); 
+  const [imageUri, setImageUri] = useState(null);
   const { token } = useAuthContext();
 
   const requestGalleryPermission = async () => {
