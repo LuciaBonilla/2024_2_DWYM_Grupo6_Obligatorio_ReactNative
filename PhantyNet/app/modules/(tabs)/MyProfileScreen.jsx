@@ -83,7 +83,12 @@ export default function MyProfileScreen() {
           }
         />
       ) : (
-        <Text>CARGANDO...</Text>
+        <GoToScreenButtonByReplace
+          route={routes.LOGIN_ROUTE}
+          textContent="VOLVER A INICIAR SESIÓN"
+          buttonStyle={styles.logoutButton}
+          buttonTextStyle={styles.logoutButtonText}
+        />
       )}
     </SafeAreaView>
   );
