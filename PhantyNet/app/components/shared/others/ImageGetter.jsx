@@ -1,16 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { StyleSheet, View, Alert, Pressable, Text, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
 // COLORES.
 import { colors } from "@/constants/colors";
 
-interface ImageGetterProps {
-    setState: (image: any) => void;
-    imageValue: any;
-}
-
-export default function ImageGetter({ setState, imageValue }: ImageGetterProps) {
+/**
+ * Permite seleccionar una imagen con la cámara o con la galería.
+ * @param {*} setState
+ * @param {*} imageValue
+ * @estado TERMINADO.
+ */
+export default function ImageGetter({ setState, imageValue }) {
     /**
      * Solicitar permisos para la cámara y la galería.
      */

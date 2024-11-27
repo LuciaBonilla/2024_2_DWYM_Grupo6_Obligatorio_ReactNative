@@ -18,21 +18,11 @@ import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvide
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 
-// RUTAS.
-import routes from "@/constants/routes";
-
-interface RegisterFormProps {
-    handleShowUnsuccessfulRegisterModal: () => void,
-    setUnsuccessfulRegisterModalMessage: (message: string) => void
-    handleShowSuccessfulRegisterModal: () => void,
-    setSuccessfulRegisterModalMessage: (message: string) => void
-}
-
 /**
- * Formulario para el inicio de sesión.
+ * Formulario para el registro.
  * @estado TERMINADO.
  */
-export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setUnsuccessfulRegisterModalMessage, handleShowSuccessfulRegisterModal, setSuccessfulRegisterModalMessage }: RegisterFormProps) {
+export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setUnsuccessfulRegisterModalMessage, handleShowSuccessfulRegisterModal, setSuccessfulRegisterModalMessage }) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
@@ -68,7 +58,7 @@ export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setU
             // Resultado del register.
             const result = await BackendCaller.register(username, email, password);
 
-            if (result && result.statusCode !== 201) { // Created.
+            if (result.statusCode !== 201) { // Created.
                 // Renderiza el mensaje de registro no exitoso.
                 setUnsuccessfulRegisterModalMessage(result.data.message);
                 handleShowUnsuccessfulRegisterModal();
@@ -89,8 +79,8 @@ export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setU
                 setRepeatPassword("");
             }
 
-            clearInputs(); // Llama a la función asincrónica al enfocar la pantalla
-        }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar
+            clearInputs(); // Llama a la función asincrónica al enfocar la pantalla.
+        }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar.
 
     return (
         <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === "ios" ? "padding" : "height"}>
@@ -137,7 +127,7 @@ export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setU
                     icon={<FontAwesome name="lock" size={24} color={colors.text1Color} style={styles.iconInput} />}
                     secureTextEntry={true}
                 />
-                <Pressable onPress={handleRegister} style={styles.registerButton}>
+                <Pressable onPress={() => handleRegister()} style={styles.registerButton}>
                     <Text style={styles.registerButtonText}>CREAR CUENTA</Text>
                 </Pressable>
             </ScrollView>
@@ -145,7 +135,8 @@ export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setU
     );
 }
 
-function createStyles(width: number, height: number) {
+// ESTILOS.
+function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
             flex: 1,

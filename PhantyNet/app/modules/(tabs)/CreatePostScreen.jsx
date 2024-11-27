@@ -16,6 +16,10 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 // COLORES.
 import { colors } from "@/constants/colors";
 
+/**
+ * Screen de create post.
+ * @estado TERMINADO.
+ */
 export default function CreatePostScreen() {
     // Para estilos.
     const { width, height } = useWindowDimensions();
@@ -75,7 +79,8 @@ export default function CreatePostScreen() {
     );
 }
 
-function createStyles(width: number, height: number) {
+// ESTILOS.
+function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
             flex: 1,

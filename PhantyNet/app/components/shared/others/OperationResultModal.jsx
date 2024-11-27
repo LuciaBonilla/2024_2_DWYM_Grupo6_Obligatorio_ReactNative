@@ -1,23 +1,11 @@
-import React, { ReactNode } from "react";
-import { View, Text, Modal, StyleSheet, Pressable, TextStyle, ViewStyle } from "react-native";
-
-interface OperationResulModalProps {
-    visible: boolean;
-    message: string;
-    modalStyle: ViewStyle;
-    textStyle: TextStyle;
-    icon?: ReactNode;
-    buttonStyle: ViewStyle;
-    buttonTextStyle: TextStyle
-    buttonText: string;
-    handleHideOperationResultModal: () => void;
-}
+import React from "react";
+import { View, Text, Modal, StyleSheet, Pressable } from "react-native";
 
 /**
  * Modal de resultado de operación.
  * @estado TERMINADO.
  */
-export default function OperationResultModal({ visible, message, modalStyle, textStyle, icon, buttonStyle, buttonTextStyle, buttonText, handleHideOperationResultModal }: OperationResulModalProps) {
+export default function OperationResultModal({ visible, message, modalStyle, textStyle, icon, buttonStyle, buttonTextStyle, buttonText, handleHideOperationResultModal }) {
     return (
         <Modal transparent={true} visible={visible} animationType="fade">
             <View style={styles.overlay}>
