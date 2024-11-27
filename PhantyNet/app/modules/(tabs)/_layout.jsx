@@ -42,6 +42,7 @@ export default function TabLayout() {
                 options={{
                     title: "Mi Perfil",
                     tabBarIcon: ({ color }) => <FontAwesome name="user-circle-o" size={28} color={color} />,
+                    headerShown: false
                 }}
             />
         </Tabs>

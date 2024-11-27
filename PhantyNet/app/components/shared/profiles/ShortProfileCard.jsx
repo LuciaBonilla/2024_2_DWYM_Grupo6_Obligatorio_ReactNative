@@ -1,5 +1,6 @@
 import { useRouter } from "expo-router";
 import { Pressable, View, Image, Text } from "react-native";
+import { useEffect } from "react";
 
 // RUTAS.
 import routes from "@/constants/routes";
@@ -26,7 +27,7 @@ export default function ShortProfileCard({ user }) {
 
     return (
         <Pressable onPress={() => handleGoToUserProfile()}>
-                <Image source={user.profilePicture === "" ? require("../../../../assets/images/default_profile.png") : Base64Converter.checkBase64Image(user.profilePicture)}/>
+                <Image source={Base64Converter.checkBase64Image(user.profilePicture) ? {uri: user.profilePicture} : require("../../../../assets/images/default_profile.png")}/>
                 <Text>{user._id === userID ? "TÚ" : user.username}</Text>
         </Pressable>
     );
