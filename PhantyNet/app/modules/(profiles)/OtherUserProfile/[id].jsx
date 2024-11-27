@@ -6,14 +6,8 @@ import { useEffect, useState } from "react";
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
 
-// RUTAS.
-import routes from "@/constants/routes";
-
 // COLORES.
 import { colors } from "@/constants/colors";
-
-// TIPO PARA ENTENDER RESPUESTAS DE BACKEND
-import { UserInfo } from "@/constants/types";
 
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import ProfileCard from "@/app/components/OtherUserProfileScreen/ProfileCard";
@@ -33,8 +27,8 @@ export default function OtherUserProfile() {
     const { token } = useAuthContext();
 
     //necesario para guardar la información del perfil a mostrarse, y manejar errores relacionados
-    const [userInfo, setUserInfo] = useState<UserInfo | null>(null);
-    const [error, setError] = useState<string | null>(null);
+    const [userInfo, setUserInfo] = useState(null);
+    const [error, setError] = useState(null);
 
     //Escucha cambios en orientación de pantalla
     useEffect(() => {
@@ -83,7 +77,7 @@ export default function OtherUserProfile() {
     )
 }
 
-function createStyles(width: number, height: number) {
+function createStyles(width, height) {
     const isLandscape = width > height;
 
     return StyleSheet.create({

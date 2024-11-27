@@ -14,19 +14,13 @@ import { useAuthContext } from "@/context-providers/AuthContextProvider";
 // COLORES PARA ESTILOS
 import { colors } from "@/constants/colors";
 
-// Tipado para entender los props recibidos desde OtherUserProfileScreen
-type ImagesContainerProps = {
-  userAuthorPostsID: string;
-  posts: Post[];
-};
-
 /**
  * Listado de posts del Perfil, visibles mediante image buttons
  */
-const ImagesContainer: React.FC<ImagesContainerProps> = ({ userAuthorPostsID, posts }) => {
+const ImagesContainer = ({ userAuthorPostsID, posts }) => {
 
   // posts ordenados por fecha de creación
-  const [postsSorted, setPostsSorted] = useState<Post[]>(sortPosts(posts));
+  const [postsSorted, setPostsSorted] = useState(sortPosts(posts));
 
   // usado para navegación desde los image buttons
   const router = useRouter();
@@ -35,17 +29,17 @@ const ImagesContainer: React.FC<ImagesContainerProps> = ({ userAuthorPostsID, po
   const { userID } = useAuthContext();
 
   // función auxiliar para sortear los posts a mostrar
-  function sortPosts(posts: Post[]): Post[] {
+  function sortPosts(posts) {
     return posts.sort((post1, post2) => new Date(post2.createdAt).getTime() - new Date(post1.createdAt).getTime());
   }
 
   // handler de los image buttons para ir al post representado
-  function handleGoToOtherUserPostPage(postID: string) {
+  function handleGoToOtherUserPostPage(postID) {
     // router.push(`/post/${postID}`);
   }
 
   // handler de los image buttons para ir al post representado
-  function handleGoToMyPostPage(postID: string) {
+  function handleGoToMyPostPage(postID) {
     // router.push(`/my-posts/${postID}`);
   }
 
