@@ -1,25 +1,23 @@
 import React from "react";
-import { View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
-
-// IMPORTS DE REACT NATIVE
+import { View, Text, Image, StyleSheet } from "react-native";
 import { User } from "@/constants/types";
-import Base64Converter from "../../../auxiliar-classes/Base64Converter";
 
-// Tipos para las props del componente.
 interface MyProfileCardProps {
   userData: User;
 }
 
 const MyProfileCard: React.FC<MyProfileCardProps> = ({ userData }) => {
   const defaultPhoto = require("../../../assets/images/default_profile.png");
-  // Verifica si la imagen es una cadena base64 o una URL válida.
-  const imageUri = userData.profilePicture === "" ? defaultPhoto : Base64Converter.checkBase64Image(userData.profilePicture);
+
+  const imageUri = userData.profilePicture
+    ? { uri: userData.profilePicture } 
+    : defaultPhoto;
 
   return (
     <View style={styles.profileCard}>
       <View style={styles.profileCardInfo}>
         <View style={styles.profileCardHeader}>
-          <Image source={typeof imageUri === 'string' ? { uri: imageUri } : imageUri} style={styles.profileCardImg} />
+          <Image source={imageUri} style={styles.profileCardImg} />
           <View style={styles.profileCardTextContainer}>
             <Text style={styles.profileCardUsername}>{userData.username}</Text>
           </View>
@@ -38,8 +36,6 @@ const MyProfileCard: React.FC<MyProfileCardProps> = ({ userData }) => {
     </View>
   );
 };
-
-export default MyProfileCard;
 
 const styles = StyleSheet.create({
   profileCard: {
@@ -84,7 +80,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#888",
   },
-  editButton: {
-    marginLeft: 10,
-  },
 });
+
+export default MyProfileCard;

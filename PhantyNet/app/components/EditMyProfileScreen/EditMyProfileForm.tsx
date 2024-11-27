@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, StyleSheet, Image, Text } from "react-native"; 
+import { View, TextInput, Button, StyleSheet, Image, Text } from "react-native";
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import Base64Converter from "@/auxiliar-classes/Base64Converter";
@@ -19,7 +19,7 @@ const EditMyProfileForm: React.FC<EditMyProfileFormProps> = ({
   attributeToEdit,
   fetchMyUser,
 }) => {
-  const [inputContent, setInputContent] = useState("");
+  const [inputContent, setInputContent] = useState<string>(""); 
   const [imageUri, setImageUri] = useState<string | null>(null);
   const { token } = useAuthContext();
 
@@ -43,46 +43,50 @@ const EditMyProfileForm: React.FC<EditMyProfileFormProps> = ({
 
       if (!pickerResult.canceled && pickerResult.assets && pickerResult.assets[0]) {
         const uri = pickerResult.assets[0].uri;
+        console.log("Imagen seleccionada con URI:", uri);
         setImageUri(uri);
       }
     }
   };
 
   const handleEditMyProfile = async () => {
-    console.log("handleEditMyProfile called");
+    console.log("handleEditMyProfile llamado");
 
     if (attributeToEdit === "profilePicture" && imageUri) {
-        console.log("Updating profile picture:", imageUri);
-
-        // Convertir la URI a base64
+      console.log("Actualizando foto de perfil:", imageUri);
+      
+      try {
         const base64Image = await Base64Converter.imageToBase64(imageUri);
+        console.log("Imagen convertida a base64:", base64Image);
+
         if (base64Image) {
-            const response = await BackendCaller.editProfile(token, userData?.username, base64Image);
-            if (response?.statusCode === 200) {
-                console.log("Profile updated successfully.");
-                fetchMyUser(); 
-                handleHideEditMyProfileForm();
-            } else {
-                alert("Error al actualizar el perfil.");
-            }
-        } else {
-            alert("Error al convertir la imagen a base64.");
-        }
-    }
-
-    else if (attributeToEdit === "username" && inputContent) {
-        const response = await BackendCaller.editProfile(token, inputContent, userData?.profilePicture);
-        if (response?.statusCode === 200) {
-            fetchMyUser();
+          const response = await BackendCaller.editProfile(token, userData?.username, base64Image);
+          if (response?.statusCode === 200) {
+            console.log("Perfil actualizado exitosamente.");
+            fetchMyUser(); 
             handleHideEditMyProfileForm();
-        } else {
+          } else {
             alert("Error al actualizar el perfil.");
+          }
+        } else {
+          alert("Error al convertir la imagen a base64.");
         }
+      } catch (error) {
+        console.error("Error al convertir la imagen:", error);
+        alert("Error al convertir la imagen.");
+      }
+    } else if (attributeToEdit === "username" && inputContent) {
+      const response = await BackendCaller.editProfile(token, inputContent, userData?.profilePicture);
+      if (response?.statusCode === 200) {
+        fetchMyUser();
+        handleHideEditMyProfileForm();
+      } else {
+        alert("Error al actualizar el perfil.");
+      }
     } else {
-        alert("El campo está vacío o no se seleccionó imagen.");
+      alert("El campo está vacío o no se seleccionó imagen.");
     }
-};
-
+  };
 
   return (
     <View style={styles.formContainer}>

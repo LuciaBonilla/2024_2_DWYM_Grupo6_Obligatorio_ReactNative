@@ -21,7 +21,6 @@ function EditMyProfileScreen() {
         setStyles(createStyles(width, height));
     }, [width, height]);
 
-    // Función para obtener el perfil del usuario
     const fetchMyUser = async () => {
         const response = await BackendCaller.getUserProfile(userID, token);
         if (response?.statusCode === 200) {
@@ -35,7 +34,6 @@ function EditMyProfileScreen() {
         fetchMyUser();
     }, []);
 
-    // Funciones para mostrar y ocultar el formulario de edición
     const handleShowEditMyProfileForm = (attribute: string) => {
         setAttributeToEdit(attribute);
         setIsShowingEditMyProfileForm(true);
