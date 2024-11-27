@@ -1,48 +1,43 @@
-import React, { useState } from "react";
-import { View, TextInput, TouchableOpacity, Text, StyleSheet } from "react-native";
+import { useState } from "react";
+import { View, TextInput, Button, StyleSheet, Text } from "react-native";
 
-//PROVEEDORES DE CONTEXTO
+// PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 
-//AUXILIARES
+// CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import Base64Converter from "@/auxiliar-classes/Base64Converter";
 
-//COMPONENTES
-import ImageGetter from "../shared/others/ImageGetter"; 
-
-//COLORES
-import { colors } from "@/constants/colors";
-
+// COMPONENTES.
+import ImageGetter from "../shared/others/ImageGetter";
 
 /**
- * Form para manejar el editado de información de perfil del usuario logueado
+ * Formulario de Editar perfil.
  * @estado TERMINADO.
  */
-const EditMyProfileForm = ({
+export default function EditMyProfileForm({
   userData,
   handleHideEditMyProfileForm,
   attributeToEdit,
   fetchMyUser,
-}) => {
-  //estados necesarios para guardar la info con que editar el usuario
-  const [inputContent, setInputContent] = useState(""); 
-  const [imageUri, setImageUri] = useState(null); 
-  //token de auth para hacer llamados a backend
+}) {
+
+  // Para editar perfil.
+  const [username, setUsername] = useState(""); 
+  const [image, setImage] = useState(null); 
   const { token } = useAuthContext();
 
-  //Handler con lógica para encausar el llamado que edita profile en backend
-  const handleEditMyProfile = async () => {
-    //Si se debe editar la imagen de perfil
-    if (attributeToEdit === "profilePicture" && imageUri) {      
+  /**
+   * Edita el perfil.
+   */
+  async function handleEditMyProfile() {
+    if (attributeToEdit === "profilePicture" && image) {
       try {
-        //conversión a base64 de la imagen, requerido por backend
-        const base64Image = await Base64Converter.imageToBase64(imageUri);
+        const base64Image = await Base64Converter.imageToBase64(image.uri);
+
         if (base64Image) {
-          //si la conversión funciona, llama al editProfile con username preexistente y nueva imagen
-          const response = await BackendCaller.editProfile(token, userData?.username, base64Image);
-          if (response?.statusCode === 200) {
-            //refresco info de perfil de usuario con los cambios guardados y cierro la ventana de forms
+          const response = await BackendCaller.editProfile(token, userData.username, base64Image);
+          if (response.statusCode === 200) {
             fetchMyUser(); 
             handleHideEditMyProfileForm();
           } else {
@@ -54,12 +49,9 @@ const EditMyProfileForm = ({
       } catch (error) {
         alert("Error al convertir la imagen.");
       }
-    } //Si se debe editar username
-    else if (attributeToEdit === "username" && inputContent) {
-      // Llama al editProfile con el nuevo username del textinput y con la profile picutre preexistente
-      const response = await BackendCaller.editProfile(token, inputContent, userData?.profilePicture);
-      if (response?.statusCode === 200) {
-        //refresco info de perfil de usuario con los cambios guardados y cierro la ventana de forms
+    } else if (attributeToEdit === "username" && username) {
+      const response = await BackendCaller.editProfile(token, username, userData.profilePicture);
+      if (response.statusCode === 200) {
         fetchMyUser();
         handleHideEditMyProfileForm();
       } else {
@@ -77,18 +69,17 @@ const EditMyProfileForm = ({
         {attributeToEdit === "username" && (
           <TextInput
             style={styles.input}
-            value={inputContent}
-            onChangeText={setInputContent}
-            placeholder="Nuevo Nombre de Usuario"
-            placeholderTextColor="#fff"
+            value={username}
+            onChangeText={setUsername}
+            placeholder="Nuevo nombre de usuario"
           />
         )}
         {/* el form se rellena con el componente ImageGetter en caso de tener que editar imagen */}
         {attributeToEdit === "profilePicture" && (
           <View style={styles.imagePickerContainer}>
             <ImageGetter 
-              setState={setImageUri} 
-              imageValue={imageUri} 
+              setState={setImage} 
+              imageValue={image} 
             />
           </View>
         )}
@@ -169,5 +160,3 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
-
-export default EditMyProfileForm;

@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from "react-native";
+import { useState, useEffect } from "react";
+import { View, Text, Button, Modal, StyleSheet } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
-//COMPONENTES
+// PROVEEDORES DE CONTEXTO.
+import { useAuthContext } from "@/context-providers/AuthContextProvider";
+import { useWindowDimensions } from '@/context-providers/WindowDimensionsProvider';
+
+// ÍCONOS.
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+
+// COMPONENTES.
 import MyProfileCard from "@/app/components/EditMyProfileScreen/MyProfileCard";
 import EditMyProfileForm from "@/app/components/EditMyProfileScreen/EditMyProfileForm";
-import GoToPreviousScreenByBack from "../../components/shared/others/GoToPreviousScreenByBack";
-
-//PROVEEDORES DE CONTEXTO
-import { useAuthContext } from "@/context-providers/AuthContextProvider";
-import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
+import GoToPreviousScreenByBack from "@/app/components/shared/others/GoToPreviousScreenByBack";
 
 //AUXILIARES
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
@@ -29,7 +33,6 @@ function EditMyProfileScreen() {
     const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
     const [attributeToEdit, setAttributeToEdit] = useState(null);
     const [user, setUser] = useState(null);
-
     //información de usuario logueado y token de auth para llamadas a backend
     const { userID, token } = useAuthContext();
 
@@ -40,7 +43,7 @@ function EditMyProfileScreen() {
     //llamado a backend para obtener la info del usuario logueado y mostrarla en pantalla
     const fetchMyUser = async () => {
         const response = await BackendCaller.getUserProfile(userID, token);
-        if (response?.statusCode === 200) {
+        if (response.statusCode === 200) {
             setUser(response.data.user);
         } else {
             setUser(null);
@@ -58,14 +61,16 @@ function EditMyProfileScreen() {
         setIsShowingEditMyProfileForm(true);
     };
 
-    const handleHideEditMyProfileForm = () => {
+    /**
+     * Oculta el formulario de editar perfil.
+     */
+    function handleHideEditMyProfileForm() {
         setAttributeToEdit(null);
         setIsShowingEditMyProfileForm(false);
     };
 
     return (
-        <View style={styles.rootView}>
-            {/* Condicional para mostrar mensaje de carga si se demora el obtener el usuario de backend */}
+        <SafeAreaView style={styles.rootView}>
             {user ? (
                 <>
                     {/* Componente para mostrar info actual de usuario */}
@@ -112,7 +117,7 @@ function EditMyProfileScreen() {
                     fetchMyUser={fetchMyUser}
                 />
             </Modal>
-        </View>
+        </SafeAreaView>
     );
 }
 

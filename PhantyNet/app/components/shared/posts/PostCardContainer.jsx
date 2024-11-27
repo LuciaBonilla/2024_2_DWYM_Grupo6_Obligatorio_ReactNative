@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { FlatList, Text, StyleSheet } from "react-native";
+import { useFocusEffect } from "expo-router";
 
 // BACKEND_URI.
 import BACKEND_URI from "@/constants/BACKEND_URI";
@@ -8,14 +9,20 @@ import BACKEND_URI from "@/constants/BACKEND_URI";
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
 
-// COLORES.
-
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 
 // COMPONENTES.
 import PostCard from "./PostCard";
 
+// ESTILOS COMPARTIDOS.
+import createStyles from "@/app/styles/PostScreenStyles";
+import createNoContentStyles from "@/app/styles/NoContentStyles";
+
+/**
+ * Contenedor de posts.
+ * @estado TERMINADO.
+ */
 export default function PostCardContainer() {
     // Para estilos.
     const { width, height } = useWindowDimensions();
@@ -59,10 +66,13 @@ export default function PostCardContainer() {
         }
     }
 
-    useEffect(() => {
-        fetchFeed();
-        setIsLoading(false);
-    }, []) // Ejecuta cuando se renderiza el componente.
+    useFocusEffect(
+        useCallback(() => {
+            setPosts([]); // necesario para rerenderizar.
+            fetchFeed();
+            setIsLoading(false);
+        }, []) // Dependencias para asegurar que se actualice correctamente
+    );
 
     return (
         !isLoading ? (
@@ -87,25 +97,10 @@ export default function PostCardContainer() {
                         keyExtractor={(item) => item._id}
                     />
                 ) : (
-                    <Text>NO HAY POSTS</Text>
+                    <Text style={createNoContentStyles().noPostMessage}>NO HAY POSTS</Text>
                 )
         ) : (
-            <Text>CARGANDO...</Text>
+            <Text style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
         )
     );
-}
-
-// ESTILOS.
-function createStyles(width, height) {
-    return StyleSheet.create({
-        list: {
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            rowGap: 10,
-            marginTop: 20,
-            paddingBottom: 30,
-            width: width
-        },
-    })
 }

@@ -1,6 +1,9 @@
 import { Slot, useNavigation } from "expo-router";
 import { useEffect } from "react";
 
+/**
+ * @estado TERMINADO.
+ */
 export default function AuthLayout() {
     const navigation = useNavigation();
 

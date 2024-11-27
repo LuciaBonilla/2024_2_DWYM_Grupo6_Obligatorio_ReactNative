@@ -49,7 +49,6 @@ export default function RegisterScreen() {
 
     /**
      * Muestra el modal de registro no exitoso.
-     * @estado función terminada.
      */
     function handleShowUnsuccessfulRegisterModal() {
         setIsUnsuccessfulRegisterModalShowing(true);
@@ -57,7 +56,6 @@ export default function RegisterScreen() {
 
     /**
      * Oculta el modal de registro no exitoso.
-     * @estado función terminada.
      */
     function handleHideUnsuccessfulRegisterModal() {
         setIsUnsuccessfulRegisterModalShowing(false);
@@ -65,7 +63,6 @@ export default function RegisterScreen() {
 
     /**
      * Muestra el modal de registro exitoso.
-     * @estado función terminada.
      */
     function handleShowSuccessfulRegisterModal() {
         setIsSuccessfulRegisterModalShowing(true);
@@ -73,7 +70,6 @@ export default function RegisterScreen() {
 
     /**
      * Oculta el modal de registro exitoso.
-     * @estado función terminada.
      */
     function handleHideSuccessfulRegisterModal() {
         setIsSuccessfulRegisterModalShowing(false);
@@ -83,7 +79,7 @@ export default function RegisterScreen() {
     const { logout } = useAuthContext();
 
     useEffect(() => {
-        // Cada vez que se renderiza esta page, entonces se cierra la sesión.
+        // Cada vez que se renderiza esta screen, entonces se cierra la sesión.
         logout();
     }, []);
 
@@ -158,13 +154,12 @@ function createStyles(width, height) {
             textAlign: "center",
             padding: 5,
             color: colors.primaryColor,
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             textShadowOffset: { width: 2, height: 2 },
             textShadowRadius: 4,
             textShadowColor: colors.shadowColor,
             marginTop: 5,
-            letterSpacing: 2,
+            letterSpacing: 1,
             marginBottom: 10,
         },
         goToLoginButton: {
@@ -175,7 +170,8 @@ function createStyles(width, height) {
             position: "static",
             justifyContent: "center",
             alignItems: "center",
-            marginBottom: 20
+            marginBottom: 20,
+            marginTop: 10,
         },
         goToLoginButtonText: {
             fontSize: 16,
@@ -193,7 +189,7 @@ function createStyles(width, height) {
             alignItems: "center",
         },
         modalText: {
-            fontSize: 32,
+            fontSize: 42,
             textAlign: "center",
             fontFamily: "SegoeBold",
             position: "absolute",
@@ -202,16 +198,16 @@ function createStyles(width, height) {
         },
         errorIcon: {
             position: "absolute",
-            top: width * 0.7,
+            bottom: height * 0.2,
             color: colors.errorColor,
         },
         successIcon: {
             position: "absolute",
-            top: width * 0.7,
+            bottom: height * 0.2,
             color: colors.successColor,
         },
         closeErrorModalButton: {
-            width: 150,
+            width: width * 0.5,
             height: 35,
             position: "absolute",
             borderRadius: 10,
@@ -221,7 +217,7 @@ function createStyles(width, height) {
             bottom: 20,
         },
         closeSuccessModalButton: {
-            width: 150,
+            width: width * 0.5,
             height: 35,
             position: "absolute",
             borderRadius: 10,
@@ -231,8 +227,8 @@ function createStyles(width, height) {
             bottom: 20,
         },
         closeModalButtonText: {
+            fontFamily: "SegoeBold",
             color: colors.whiteFriendlyColor,
-            fontWeight: "bold",
             fontSize: 16,
         }
     })

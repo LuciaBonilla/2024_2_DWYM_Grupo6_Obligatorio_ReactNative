@@ -22,7 +22,12 @@ import BackendCaller from "@/auxiliar-classes/BackendCaller";
  * Formulario para el registro.
  * @estado TERMINADO.
  */
-export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setUnsuccessfulRegisterModalMessage, handleShowSuccessfulRegisterModal, setSuccessfulRegisterModalMessage }) {
+export default function RegisterForm({
+    handleShowUnsuccessfulRegisterModal,
+    setUnsuccessfulRegisterModalMessage,
+    handleShowSuccessfulRegisterModal,
+    setSuccessfulRegisterModalMessage
+}) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
@@ -127,7 +132,7 @@ export default function RegisterForm({ handleShowUnsuccessfulRegisterModal, setU
                     icon={<FontAwesome name="lock" size={24} color={colors.text1Color} style={styles.iconInput} />}
                     secureTextEntry={true}
                 />
-                <Pressable onPress={() => handleRegister()} style={styles.registerButton}>
+                <Pressable onPress={handleRegister} style={styles.registerButton}>
                     <Text style={styles.registerButtonText}>CREAR CUENTA</Text>
                 </Pressable>
             </ScrollView>
@@ -166,7 +171,7 @@ function createStyles(width, height) {
             borderColor: colors.whiteFriendlyDarkerColor,
             borderRadius: 5,
             paddingLeft: 30,
-            fontFamily: "Segoe",
+            fontFamily: "SegoeBold",
             fontWeight: "bold",
             color: colors.text1Color,
             backgroundColor: colors.whiteFriendlyColor
@@ -187,8 +192,7 @@ function createStyles(width, height) {
         },
         registerButtonText: {
             textAlign: "center",
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             fontSize: 16,
             color: colors.text1Color,
         }

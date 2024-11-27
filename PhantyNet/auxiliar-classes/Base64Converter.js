@@ -1,4 +1,4 @@
-import * as ImageManipulator from 'expo-image-manipulator';
+import * as ImageManipulator from "expo-image-manipulator";
 
 class Base64Converter {
   // Método encargado de convertir imágenes a Base64
