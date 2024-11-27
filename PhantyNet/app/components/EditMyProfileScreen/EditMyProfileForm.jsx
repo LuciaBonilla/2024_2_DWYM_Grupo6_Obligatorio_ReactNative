@@ -1,38 +1,43 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, TextInput, Button, StyleSheet, Text } from "react-native";
+
+// PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
+
+// CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import Base64Converter from "@/auxiliar-classes/Base64Converter";
-import ImageGetter from "../shared/others/ImageGetter"; // Importamos ImageGetter
 
-const EditMyProfileForm = ({
+// COMPONENTES.
+import ImageGetter from "../shared/others/ImageGetter";
+
+/**
+ * Formulario de Editar perfil.
+ * @estado TERMINADO.
+ */
+export default function EditMyProfileForm({
   userData,
   handleHideEditMyProfileForm,
   attributeToEdit,
   fetchMyUser,
-}) => {
-  const [inputContent, setInputContent] = useState(""); 
-  const [imageUri, setImageUri] = useState(null); 
+}) {
+
+  // Para editar perfil.
+  const [username, setUsername] = useState(""); 
+  const [image, setImage] = useState(null); 
   const { token } = useAuthContext();
 
-  const handleEditMyProfile = async () => {
-    console.log("handleEditMyProfile llamado");
-
-    if (attributeToEdit === "profilePicture" && imageUri) {
-      console.log("Actualizando foto de perfil:", imageUri);
-      
+  /**
+   * Edita el perfil.
+   */
+  async function handleEditMyProfile() {
+    if (attributeToEdit === "profilePicture" && image) {
       try {
-        if (typeof imageUri !== 'string' || imageUri.trim() === '') {
-          throw new Error("La URI de la imagen no es válida.");
-        }
-
-        const base64Image = await Base64Converter.imageToBase64(imageUri);
-        console.log("Imagen convertida a base64:", base64Image);
+        const base64Image = await Base64Converter.imageToBase64(image.uri);
 
         if (base64Image) {
-          const response = await BackendCaller.editProfile(token, userData?.username, base64Image);
-          if (response?.statusCode === 200) {
-            console.log("Perfil actualizado exitosamente.");
+          const response = await BackendCaller.editProfile(token, userData.username, base64Image);
+          if (response.statusCode === 200) {
             fetchMyUser(); 
             handleHideEditMyProfileForm();
           } else {
@@ -42,12 +47,11 @@ const EditMyProfileForm = ({
           alert("Error al convertir la imagen a base64.");
         }
       } catch (error) {
-        console.error("Error al convertir la imagen:", error);
         alert("Error al convertir la imagen.");
       }
-    } else if (attributeToEdit === "username" && inputContent) {
-      const response = await BackendCaller.editProfile(token, inputContent, userData?.profilePicture);
-      if (response?.statusCode === 200) {
+    } else if (attributeToEdit === "username" && username) {
+      const response = await BackendCaller.editProfile(token, username, userData.profilePicture);
+      if (response.statusCode === 200) {
         fetchMyUser();
         handleHideEditMyProfileForm();
       } else {
@@ -64,17 +68,17 @@ const EditMyProfileForm = ({
         {attributeToEdit === "username" && (
           <TextInput
             style={styles.input}
-            value={inputContent}
-            onChangeText={setInputContent}
-            placeholder="Nuevo Nombre de Usuario"
+            value={username}
+            onChangeText={setUsername}
+            placeholder="Nuevo nombre de usuario"
           />
         )}
 
         {attributeToEdit === "profilePicture" && (
           <View style={styles.imagePickerContainer}>
             <ImageGetter 
-              setState={setImageUri} 
-              imageValue={imageUri} 
+              setState={setImage} 
+              imageValue={image} 
             />
           </View>
         )}
@@ -120,5 +124,3 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
 });
-
-export default EditMyProfileForm;

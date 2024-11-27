@@ -1,14 +1,31 @@
-import React from "react";
 import { StyleSheet, View, Alert, Pressable, Text, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { useState, useEffect } from "react";
+
+// PROVEEDORES DE CONTEXTO.
+import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
+
+// COLORES.
 import { colors } from "@/constants/colors";
 
 /**
  * Permite seleccionar una imagen con la cámara o con la galería.
- * @param {*} setState Función para actualizar el estado de la URI
- * @param {*} imageValue Valor actual de la imagen seleccionada
+ * @param {*} setState
+ * @param {*} imageValue
+ * @estado TERMINADO.
  */
-export default function ImageGetter({ setState, imageValue }) {
+export default function ImageGetter({
+    setState,
+    imageValue
+}) {
+    // Para estilos.
+    const { width, height } = useWindowDimensions();
+    const [styles, setStyles] = useState(createStyles(width, height));
+
+    useEffect(() => {
+        setStyles(createStyles(width, height))
+    }, [width, height]);
+
     /**
      * Solicitar permisos para la cámara y la galería.
      */
@@ -36,11 +53,9 @@ export default function ImageGetter({ setState, imageValue }) {
 
         if (!result.canceled) {
             const image = result.assets ? result.assets[0] : null;
-            if (image && image.uri) {
-                setState(image.uri); 
-            } else {
-                Alert.alert("Error", "No se seleccionó ninguna imagen.");
-            }
+            setState(image);
+        } else {
+            Alert.alert("Error", "No se seleccionó ninguna imagen.");
         }
     }
 
@@ -57,16 +72,15 @@ export default function ImageGetter({ setState, imageValue }) {
 
         if (!result.canceled) {
             const image = result.assets ? result.assets[0] : null;
-            if (image && image.uri) {
-                setState(image.uri); 
-            } else {
-                Alert.alert("Error", "No se capturó ninguna foto.");
-            }
+            setState(image);
+        } else {
+            Alert.alert("Error", "No se capturó ninguna foto.");
         }
     }
 
     return (
         <View style={styles.container}>
+            {/* Selecciona entre dos opciones. */}
             <Pressable style={styles.button} onPress={() => handlePickImage()}>
                 <Text style={styles.buttonText}>Seleccionar imagen de la galería</Text>
             </Pressable>
@@ -78,7 +92,7 @@ export default function ImageGetter({ setState, imageValue }) {
             {/* Cajita para mostrar la imagen */}
             <View style={styles.imageBox}>
                 {imageValue ? (
-                    <Image source={{ uri: imageValue }} style={styles.image} />
+                    <Image source={{ uri: imageValue.uri }} style={styles.image} />
                 ) : (
                     <Text style={styles.placeholder}>No hay imagen seleccionada</Text>
                 )}
@@ -87,41 +101,46 @@ export default function ImageGetter({ setState, imageValue }) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        padding: 16,
-    },
-    button: {
-        backgroundColor: colors.secondaryColor,
-        padding: 12,
-        marginVertical: 8,
-        borderRadius: 8,
-    },
-    buttonText: {
-        color: colors.whiteFriendlyColor,
-        fontSize: 16,
-    },
-    imageBox: {
-        width: 200,
-        height: 200,
-        marginTop: 20,
-        borderWidth: 1,
-        borderColor: colors.background2Color,
-        borderRadius: 8,
-        alignItems: "center",
-        justifyContent: "center",
-        overflow: "hidden",
-    },
-    image: {
-        width: "100%",
-        height: "100%",
-    },
-    placeholder: {
-        color: colors.whiteFriendlyColor,
-        fontSize: 14,
-        textAlign: "center",
-    },
-});
+// ESTILOS.
+function createStyles(width, height) {
+    return StyleSheet.create({
+        container: {
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: 16,
+        },
+        button: {
+            backgroundColor: colors.secondaryColor,
+            padding: 12,
+            marginVertical: 8,
+            borderRadius: 8,
+        },
+        buttonText: {
+            color: colors.whiteFriendlyColor,
+            fontSize: 16,
+            fontFamily: "SegoeBold"
+        },
+        imageBox: {
+            width: 200,
+            height: 200,
+            marginTop: 20,
+            borderWidth: 1,
+            borderColor: colors.background2Color,
+            borderRadius: 8,
+            alignItems: "center",
+            justifyContent: "center",
+            overflow: "hidden",
+        },
+        image: {
+            width: "100%",
+            height: "100%",
+        },
+        placeholder: {
+            color: colors.text1Color,
+            fontSize: 14,
+            textAlign: "center",
+            fontFamily: "SegoeBold",
+        },
+    })
+};

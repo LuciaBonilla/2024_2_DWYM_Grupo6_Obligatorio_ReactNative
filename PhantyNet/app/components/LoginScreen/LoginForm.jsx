@@ -23,7 +23,10 @@ import routes from "@/constants/routes";
  * Formulario para el inicio de sesión.
  * @estado TERMINADO.
  */
-export default function LoginForm({ handleShowUnsuccessfulLoginModal, setUnsuccessfulLoginMessage }) {
+export default function LoginForm({
+    handleShowUnsuccessfulLoginModal,
+    setUnsuccessfulLoginMessage
+}) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
@@ -44,7 +47,6 @@ export default function LoginForm({ handleShowUnsuccessfulLoginModal, setUnsucce
 
     /**
      * Maneja el inicio de sesión de un usuario.
-     * @estado función terminada.
      */
     async function handleLogin() {
         // Resultado del login.
@@ -109,6 +111,7 @@ function createStyles(width, height) {
             backgroundColor: colors.background1LighterColor,
             flexDirection: "column",
             borderRadius: 10,
+            marginBottom: 10,
         },
         rootViewConatinerStyle: {
             alignItems: "center",
@@ -131,8 +134,7 @@ function createStyles(width, height) {
             borderColor: colors.whiteFriendlyDarkerColor,
             borderRadius: 5,
             paddingLeft: 30,
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             color: colors.text1Color,
             backgroundColor: colors.whiteFriendlyColor
         },
@@ -152,8 +154,7 @@ function createStyles(width, height) {
         },
         loginButtonText: {
             textAlign: "center",
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             fontSize: 16,
             color: colors.text1Color,
         }

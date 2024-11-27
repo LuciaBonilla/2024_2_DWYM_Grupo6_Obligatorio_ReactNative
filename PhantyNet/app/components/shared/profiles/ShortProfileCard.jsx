@@ -15,7 +15,11 @@ import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvide
 // COLORES.
 import { colors } from "@/constants/colors";
 
-// TERMINADO.
+/**
+ * Tarjetita de usuario.
+ * @param {*} user 
+ * @estado TERMINADO. 
+ */
 export default function ShortProfileCard({ user }) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
@@ -31,16 +35,16 @@ export default function ShortProfileCard({ user }) {
 
     function handleGoToUserProfile() {
         if (user._id !== userID) {
-            router.push(routes.OTHER_USER_PROFILE_ROUTE.replace("[id]", user._id));
+            router.push(routes.OTHER_USER_PROFILE_ROUTE.replace("[userID]", user._id));
         } else {
             router.push(routes.MY_PROFILE_ROUTE);
         }
     }
 
     return (
-        <Pressable style={styles.shortCard} onPress={() => handleGoToUserProfile()}>
-                <Image style={styles.profilePicture} source={Base64Converter.checkBase64Image(user.profilePicture) ? {uri: user.profilePicture} : require("../../../../assets/images/default_profile.png")}/>
-                <Text style={styles.username}>{user._id === userID ? "TÚ" : user.username}</Text>
+        <Pressable style={styles.shortCard} onPress={handleGoToUserProfile}>
+            <Image style={styles.profilePicture} source={Base64Converter.checkBase64Image(user.profilePicture) ? { uri: user.profilePicture } : require("@/assets/images/default_profile.png")} />
+            <Text style={styles.username}>{user._id === userID ? "TÚ" : user.username}</Text>
         </Pressable>
     );
 }

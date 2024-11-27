@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "expo-router";
-import { Text, FlatList, Pressable, Image, StyleSheet, View, ScrollView } from "react-native";
+import { Text, FlatList, Pressable, Image, ScrollView } from "react-native";
 
 // BACKEND URI.
 import BACKEND_URI from "@/constants/BACKEND_URI";
@@ -11,16 +11,31 @@ import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvide
 
 // RUTAS.
 import routes from "@/constants/routes";
-import { colors } from "@/constants/colors";
 
-// TERMINADO.
-export default function ImagesContainer({ userAuthorPostsID, posts, headerComponentMyProfile, headerComponentOtherUserProfile }) {
+// ESTILOS COMPARTIDOS.
+import { createImagesContainerStyles } from "@/app/styles/ProfileScreenStyles";
+import createNoContentStyles from "@/app/styles/NoContentStyles";
+
+/**
+ * Contenedor de imágenes subidas en un perfil.
+ * @param {*} userAuthorPostsID
+ * @param {*} posts
+ * @param {*} headerComponentMyProfile
+ * @param {*} headerComponentOtherUserProfile
+ * @estado TERMINADO.
+ */
+export default function ImagesContainer({
+    userAuthorPostsID,
+    posts,
+    headerComponentMyProfile,
+    headerComponentOtherUserProfile
+}) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
-    const [styles, setStyles] = useState(createStyles(width, height));
+    const [styles, setStyles] = useState(createImagesContainerStyles(width, height));
 
     useEffect(() => {
-        setStyles(createStyles(width, height))
+        setStyles(createImagesContainerStyles(width, height))
     }, [width, height]);
 
     const [postsSorted, setPostsSorted] = useState(sortPosts(posts));
@@ -38,49 +53,25 @@ export default function ImagesContainer({ userAuthorPostsID, posts, headerCompon
 
     /**
      * Redirige al post de otro usuario al clickear sobre la imagen.
-     * @estado función terminada.
      */
-    function handleGoToOtherUserPostPage(postID) {
-        router.push(routes.OTHER_USER_POST_ROUTE.replace('[id]', postID));
-    }
-
-    /**
-     * Redirige al post propio del usuario al clickear sobre la imagen.
-     * @estado función terminada.
-     */
-    function handleGoToMyPostPage(postID) {
-        router.push(routes.MY_POSTS_ROUTE.replace("[id]", postID));
+    async function handleGoToSpecificPostScreen(postID) {
+        router.push(routes.SPECIFIC_POST_ROUTE.replace("[postID]", postID));
     }
 
     return (
         (postsSorted.length > 0) ? (
-            (userAuthorPostsID === userID) ? (
-                // Caso si los posts son del usuario propio.
-                <FlatList
-                    contentContainerStyle={styles.list}
-                    data={postsSorted}
-                    renderItem={({ item }) => (
-                        <Pressable onPress={() => handleGoToMyPostPage(item._id)}>
-                            <Image style={styles.image} source={{ uri: `${BACKEND_URI}/${item.imageUrl.replace("\\", "/")}` }} />
-                        </Pressable>
-                    )}
-                    keyExtractor={item => item._id}
-                    ListHeaderComponent={() => headerComponentMyProfile}
-                />
-            ) : (
-                // Caso si los posts son de otro usuario.
-                <FlatList
-                    contentContainerStyle={styles.list}
-                    data={postsSorted}
-                    renderItem={({ item }) => (
-                        <Pressable style={styles.image} onPress={() => handleGoToOtherUserPostPage(item._id)}>
-                            <Image source={{ uri: `${BACKEND_URI}/${item.imageUrl.replace("\\", "/")}` }} />
-                        </Pressable>
-                    )}
-                    keyExtractor={item => item._id}
-                    ListHeaderComponent={() => headerComponentOtherUserProfile}
-                />
-            )
+            <FlatList
+                contentContainerStyle={styles.list}
+                data={postsSorted}
+                renderItem={({ item }) => (
+                    <Pressable onPress={() => handleGoToSpecificPostScreen(item._id)}>
+                        <Image style={styles.image} source={{ uri: `${BACKEND_URI}/${item.imageUrl.replace("\\", "/")}` }} />
+                    </Pressable>
+                )}
+                keyExtractor={item => item._id}
+                // Renderiza la header propia o la de otro usuario.
+                ListHeaderComponent={(userAuthorPostsID === userID) ? (() => headerComponentMyProfile) : (() => headerComponentOtherUserProfile)}
+            />
         ) : (
             <ScrollView>
                 {
@@ -90,29 +81,8 @@ export default function ImagesContainer({ userAuthorPostsID, posts, headerCompon
                         headerComponentOtherUserProfile
                     )
                 }
-                <Text>NO HAY POSTS</Text>
+                <Text style={createNoContentStyles().noPostMessage}>NO HAY POSTS</Text>
             </ScrollView>
         )
     );
 }
-
-// ESTILOS.
-function createStyles(width, height) {
-    return StyleSheet.create({
-        list: {
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            rowGap: 10,
-        },
-        image: {
-            width: width * 0.9,
-            height: 200,
-            borderRadius: 10,
-            backgroundColor: colors.background1LighterColor,
-        },
-        noPostMessage: {
-
-        }
-    })
-};

@@ -21,9 +21,14 @@ import { colors } from "@/constants/colors";
 
 /**
  * Formulario de crear post.
+ * @param handleShowUnsuccessfulUploadModal
+ * @param setUnsuccessfulUploadModalMessage
  * @estado TERMINADO.
  */
-export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setUnsuccessfulUploadModalMessage }) {
+export default function CreatePostForm({
+    handleShowUnsuccessfulUploadModal,
+    setUnsuccessfulUploadModalMessage
+}) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
@@ -50,10 +55,16 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
             clearInputs(); // Llama a la función asincrónica al enfocar la pantalla.
         }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar.
 
+    /**
+     * Cancela subir un post.
+     */
     function handleCancelUpload() {
         router.replace(routes.MY_FEED_ROUTE);
     }
 
+    /**
+     * Sube un post.
+     */
     async function handleUploadPost() {
         if (!image) { // Si no hay imagen.
             setUnsuccessfulUploadModalMessage("No hay imagen");
@@ -97,10 +108,10 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
                 />
 
                 {/* Botones. */}
-                <Pressable style={styles.uploadButton} onPress={() => handleUploadPost()}>
+                <Pressable style={styles.uploadButton} onPress={handleUploadPost}>
                     <Text style={styles.uploadButtonText}>SUBIR</Text>
                 </Pressable>
-                <Pressable style={styles.cancelButton} onPress={() => handleCancelUpload()}>
+                <Pressable style={styles.cancelButton} onPress={handleCancelUpload}>
                     <Text style={styles.cancelButtonText}>CANCELAR</Text>
                 </Pressable>
             </ScrollView>
@@ -108,6 +119,7 @@ export default function CreatePostForm({ handleShowUnsuccessfulUploadModal, setU
     );
 }
 
+// ESTILOS.
 function createStyles(width, height) {
     return StyleSheet.create({
         rootView: {
@@ -139,8 +151,7 @@ function createStyles(width, height) {
             borderColor: colors.whiteFriendlyDarkerColor,
             borderRadius: 5,
             paddingLeft: 10,
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             color: colors.text1Color,
             backgroundColor: colors.whiteFriendlyColor
         },
@@ -154,8 +165,7 @@ function createStyles(width, height) {
         },
         uploadButtonText: {
             textAlign: "center",
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             fontSize: 16,
             color: colors.text1Color,
         },
@@ -170,8 +180,7 @@ function createStyles(width, height) {
         },
         cancelButtonText: {
             textAlign: "center",
-            fontFamily: "Segoe",
-            fontWeight: "bold",
+            fontFamily: "SegoeBold",
             fontSize: 16,
             color: colors.whiteFriendlyColor,
         }

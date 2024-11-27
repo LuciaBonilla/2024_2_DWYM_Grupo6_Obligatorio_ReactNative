@@ -1,22 +1,40 @@
 import { useRouter } from "expo-router";
 import { useState, useEffect } from "react";
-import { Image, Pressable, Text, View, StyleSheet } from "react-native";
+import { Image, Pressable, Text, View, StyleSheet, Modal } from "react-native";
 
 // COMPONENTES.
 import LikeButton from "./LikeButton";
 import ShortProfileCard from "../profiles/ShortProfileCard";
-import CommentSection from "./comments/CommentSection";
 
 // RUTAS.
 import routes from "@/constants/routes";
 
-// COLORES.
-import { colors } from "@/constants/colors";
-
 // PROVEEDORES DE CONTEXTO.
 import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
 
-export default function PostCard({ id, user, imageSrc, caption, comments, likes, createdAt, fetchFeed }) {
+// ESTILOS COMPARTIDOS.
+import createStyles from "@/app/styles/PostScreenStyles";
+
+/**
+ * Tarjeta de post.
+ * @param {*} id
+ * @param {*} user
+ * @param {*} imageSrc
+ * @param {*} caption
+ * @param {*} likes
+ * @param {*} createdAt
+ * @param {*} fetchFeed
+ * @estado TERMINADO.
+ */
+export default function PostCard({
+    id,
+    user,
+    imageSrc,
+    caption,
+    likes,
+    createdAt,
+    fetchFeed
+}) {
     // Para estilos.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
@@ -25,34 +43,14 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
         setStyles(createStyles(width, height))
     }, [width, height]);
 
-    // Indica si la sección de comentarios se debe mostar.
-    const [isCommentSectionShowing, setIsCommentSectionShowing] = useState(false);
-
-    /**
-     * Muestra la sección de comentarios.
-     * @estado función terminada.
-     */
-    function handleShowCommentSection() {
-        setIsCommentSectionShowing(true);
-    }
-
-    /**
-     * Oculta la sección de comentarios.
-     * @estado función terminada.
-     */
-    function handleHideCommentSection() {
-        setIsCommentSectionShowing(false);
-    }
-
     // Para cambiar de ruta.
     const router = useRouter();
 
     /**
-     * Redirige a la page de un post de un usuario ajeno.
-     * @estado función terminada.
+     * Redirige a la screen de un post.
      */
-    function handleGoToOtherUserPostScreen() {
-        router.push(routes.OTHER_USER_POST_ROUTE.replace("[id]", id));
+    function handleGoToSpecificPostScreen() {
+        router.push(routes.SPECIFIC_POST_ROUTE.replace("[postID]", id));
     }
 
     return (
@@ -61,7 +59,7 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
             <ShortProfileCard user={user} />
 
             {/* Imagen subida. */}
-            <Pressable onPress={() => handleGoToOtherUserPostScreen()}>
+            <Pressable onPress={() => handleGoToSpecificPostScreen()}>
                 <Image style={styles.uploadedImage} source={{ uri: imageSrc }} />
             </Pressable>
 
@@ -78,9 +76,6 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
                 fetchFeed={fetchFeed}
             />
 
-            {/* Cantidad de comentarios. */}
-            <Text style={styles.postDataText}>{comments.length} Comentarios</Text>
-
             {/* Fecha de publicación. */}
             <Text style={styles.postDataText}>Publicado el:{" "}
                 {new Date(createdAt).toLocaleDateString("es-ES", {
@@ -91,54 +86,6 @@ export default function PostCard({ id, user, imageSrc, caption, comments, likes,
                     minute: "2-digit",
                 })}
             </Text>
-
-            {/* Botón para abrir la sección de comentarios. */}
-            <Pressable onPress={() => handleShowCommentSection()}>
-                <Text>VER COMENTARIOS</Text>
-            </Pressable>
-
-            {/* Sección de comentarios. */}
-            {isCommentSectionShowing &&
-                <CommentSection
-                    postID={id}
-                    comments={comments}
-                    handleHideCommentSection={handleHideCommentSection}
-                    fetchFeed={fetchFeed}
-                />}
         </View>
     );
-}
-
-// ESTILOS.
-function createStyles(width, height) {
-    return StyleSheet.create({
-        postCard: {
-            position: "relative",
-            flexDirection: "column",
-            backgroundColor: colors.background1LighterColor,
-            padding: 10,
-            borderRadius: 10,
-            color: colors.text1Color,
-            fontSize: 16,
-        },
-        caption: {
-            backgroundColor: colors.background1LighterLighterColor,
-            fontSize: 16,
-            color: colors.text1Color,
-            fontFamily: "SegoeBold",
-            padding: 5
-        },
-        uploadedImage: {
-            width: width * 0.9,
-            height: height * 0.5,
-            resizeMode: "contain"
-        },
-        postDataText: {
-            fontSize: 16,
-            color: colors.text1Color,
-            fontFamily: "Segoe",
-            fontWeight: "bold",
-            padding: 5
-        }
-    })
 }

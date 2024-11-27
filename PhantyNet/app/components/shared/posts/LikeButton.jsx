@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Pressable } from "react-native";
 
 // ÍCONOS.
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -8,9 +9,17 @@ import { useAuthContext } from "@/context-providers/AuthContextProvider";
 
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
-import { Pressable } from "react-native";
 
-// TERMINADO.
+// COLORES.
+import { colors } from "@/constants/colors";
+
+/**
+ * Botón de Like.
+ * @param {*} postID
+ * @param {*} likes
+ * @param {*} fetchFeed
+ * @estado TERMINADO.
+ */
 export default function LikeButton({ postID, likes, fetchFeed }) {
     const { userID, token } = useAuthContext();
 
@@ -18,7 +27,7 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
     const [likeIsGived, setLikeIsGived] = useState(likes.includes(userID));
 
     // Ícono que se muestra dependiendo si se dio like o no al post.
-    const [icon, setIcon] = useState(!likeIsGived ? <FontAwesome name="heart-o" size={24} color="black" /> : <FontAwesome name="heart" size={24} color="black" />);
+    const [icon, setIcon] = useState(!likeIsGived ? <FontAwesome name="heart-o" size={32} color={colors.errorColor} /> : <FontAwesome name="heart" size={32} color={colors.errorColor} />);
 
     /**
      * Da un like al post.
@@ -47,13 +56,13 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
     }
 
     return (
-        <Pressable onPress={() => {
+        <Pressable style={{zIndex: 1000, position: "absolute", bottom: 75, left: 80}} onPress={() => {
             if (!likeIsGived) {
                 handleGiveLike();
-                setIcon(<FontAwesome name="heart" size={24} color="black" />)
+                setIcon(<FontAwesome name="heart" size={32} color={colors.errorColor} />)
             } else {
                 handleDeleteLike();
-                setIcon(<FontAwesome name="heart-o" size={24} color="black" />)
+                setIcon(<FontAwesome name="heart-o" size={32} color={colors.errorColor} />)
             }
         }}>
             {icon}

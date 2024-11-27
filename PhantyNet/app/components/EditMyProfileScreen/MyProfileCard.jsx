@@ -1,12 +1,26 @@
-import React from "react";
+import { useEffect, useState } from "react";
 import { View, Text, Image, StyleSheet } from "react-native";
-import { User } from "@/constants/types";
 
-const MyProfileCard = ({ userData }) => {
+// PROVEEDORES DE CONTEXTO.
+import { useWindowDimensions } from "react-native";
+
+/**
+ * Tarjeta propia de usuario (sale al editar perfil).
+ * @estado TERMINADO.
+ */
+export default function MyProfileCard({ userData }) {
+  // Para estilos.
+  const { width, height } = useWindowDimensions();
+  const [styles, setStyles] = useState(createStyles(width, height));
+
+  useEffect(() => {
+    setStyles(createStyles(width, height))
+  }, [width, height]);
+
   const defaultPhoto = require("../../../assets/images/default_profile.png");
 
   const imageUri = userData.profilePicture
-    ? { uri: userData.profilePicture } 
+    ? { uri: userData.profilePicture }
     : defaultPhoto;
 
   return (
@@ -33,49 +47,50 @@ const MyProfileCard = ({ userData }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  profileCard: {
-    backgroundColor: "#fff",
-    borderRadius: 10,
-    margin: 10,
-    padding: 15,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 5,
-  },
-  profileCardInfo: {
-    alignItems: "center",
-  },
-  profileCardHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profileCardImg: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    marginBottom: 10,
-    marginRight: 10,
-  },
-  profileCardTextContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  profileCardUsername: {
-    fontSize: 20,
-    fontWeight: "bold",
-    marginBottom: 5,
-  },
-  profileCardEmail: {
-    fontSize: 16,
-    color: "#555",
-    marginBottom: 5,
-  },
-  profileCardCreatedAt: {
-    fontSize: 12,
-    color: "#888",
-  },
-});
-
-export default MyProfileCard;
+function createStyles(width, height) {
+  return StyleSheet.create({
+    profileCard: {
+      backgroundColor: "#fff",
+      borderRadius: 10,
+      margin: 10,
+      padding: 15,
+      shadowColor: "#000",
+      shadowOffset: { width: 0, height: 2 },
+      shadowOpacity: 0.1,
+      shadowRadius: 5,
+      flexDirection: "column",
+    },
+    profileCardInfo: {
+      alignItems: "center",
+    },
+    profileCardHeader: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    profileCardImg: {
+      width: 100,
+      height: 100,
+      borderRadius: 50,
+      marginBottom: 10,
+      marginRight: 10,
+    },
+    profileCardTextContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    profileCardUsername: {
+      fontSize: 20,
+      fontWeight: "bold",
+      marginBottom: 5,
+    },
+    profileCardEmail: {
+      fontSize: 16,
+      color: "#555",
+      marginBottom: 5,
+    },
+    profileCardCreatedAt: {
+      fontSize: 12,
+      color: "#888",
+    },
+  })
+};
