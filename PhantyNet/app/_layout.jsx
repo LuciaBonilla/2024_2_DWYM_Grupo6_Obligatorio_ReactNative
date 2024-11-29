@@ -10,12 +10,12 @@ import { WindowDimensionsProvider } from "@/context-providers/WindowDimensionsPr
 SplashScreen.preventAutoHideAsync();
 
 /**
- * Root Layout
+ * Root Layout.
  * @estado TERMINADO. 
  */
 export default function RootLayout() {
   const [loaded] = useFonts({
-    SegoeBold: require("../assets/fonts/Segoe UI Bold.ttf"), // Sólo esta fuente para mantener consistencia.
+    SegoeBold: require("@/assets/fonts/Segoe UI Bold.ttf"), // Sólo esta fuente para mantener consistencia.
   });
 
   if (!loaded) {

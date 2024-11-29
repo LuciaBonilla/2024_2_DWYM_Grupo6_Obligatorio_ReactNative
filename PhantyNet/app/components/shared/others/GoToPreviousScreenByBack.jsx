@@ -1,12 +1,12 @@
 import { useRouter } from "expo-router";
-import { Pressable, Text } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
 /**
  * Regresa a la pantalla anterior (usando router.back()).
+ * @param {*} buttonStyle Props para definir estilo del botón.
+ * @param {*} buttonTextStyle Props para definir el estilo del text label del botón.
+ * @param {*} textContent Prop para el texto del botón.
  * @estado TERMINADO.
- * @param {*} buttonStyle props para definir estilo del boton
- * @param {*} buttonTextStyle props para definir el estilo del text label del boton
- * @param {*} textContent prop para el texto del boton
  */
 export default function GoToPreviousScreenByBack({
     buttonStyle,
@@ -20,8 +20,8 @@ export default function GoToPreviousScreenByBack({
     }
 
     return (
-        <Pressable style={buttonStyle} onPress={handleGoBack}>
-            <Text style={buttonTextStyle}>{textContent}</Text>
-        </Pressable>
+        <TouchableOpacity style={buttonStyle} onPress={handleGoBack}>
+            <Text adjustsFontSizeToFit={true} style={buttonTextStyle}>{textContent}</Text>
+        </TouchableOpacity>
     );
 }

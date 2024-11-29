@@ -1,4 +1,5 @@
-export const colors = {
+// COLORES PARA ESTILOS.
+export default colors = {
     /* Para fondos. */
     background1Color: "#E68643",
     background2Color: "#15565e",

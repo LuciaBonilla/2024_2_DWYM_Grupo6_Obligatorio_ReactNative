@@ -7,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ImagesContainer from "@/app/components/shared/profiles/ImagesContainer";
 import ProfileCard from "@/app/components/shared/profiles/ProfileCard";
 import GoToPreviousScreenByBack from "@/app/components/shared/others/GoToPreviousScreenByBack";
+import GoToScreenButtonByReplace from "@/app/components/shared/others/GoToScreenButtonByReplace";
 
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
@@ -17,7 +18,10 @@ import { useWindowDimensions } from "react-native";
 
 // ESTILO COMPARTIDO.
 import { createProfileScreenStyles } from "@/app/styles/ProfileScreenStyles"
-import createNoContentStyles from "@/app/styles/NoContentStyles"
+import createNoContentStyles from "@/app/styles/NoContentStyles";
+
+// RUTAS.
+import routes from "@/constants/routes";
 
 /**
  * Screen de otro perfil.
@@ -57,7 +61,7 @@ export default function OtherUserProfileScreen() {
     return (
         <SafeAreaView style={styles.rootView}>
             {/* Título. */}
-            <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
+            <Text adjustsFontSizeToFit={true} style={styles.socialNetworkTitle}>PhantyNet</Text>
             {userInfo ? (
                 <>
                     {/* Las imágenes que subió el usuario. */}
@@ -79,7 +83,15 @@ export default function OtherUserProfileScreen() {
                     />
                 </>
             ) : (
-                <Text style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
+                <>
+                    <Text adjustsFontSizeToFit={true} style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
+                    <GoToScreenButtonByReplace
+                        route={routes.LOGIN_ROUTE}
+                        buttonStyle={{ ...styles.goToBackButton, alignSelf: "center", bottom: 300 }}
+                        buttonTextStyle={styles.goToBackButtonText}
+                        textContent="VOLVER A HOME"
+                    />
+                </>
             )}
         </SafeAreaView>
     );

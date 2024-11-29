@@ -3,13 +3,16 @@ import { Text } from "react-native";
 import { useRouter } from "expo-router";
 
 // CLASES AUXILIARES.
-import BackendCaller from "../auxiliar-classes/BackendCaller";
-import AsyncStorageManager from "../auxiliar-classes/AsyncStorageManager";
+import BackendCaller from "@/auxiliar-classes/BackendCaller";
+import AsyncStorageManager from "@/auxiliar-classes/AsyncStorageManager";
 
 // RUTAS.
 import routes from "@/constants/routes";
 
-// Contexto de autenticación.
+// ESTILOS COMPARTIDOS.
+import createNoContentStyles from "@/app/styles/NoContentStyles";
+
+// Contexto de autenticación, que manejará el estado de autenticación en la aplicación.
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 // INTERFACES PARA CONTROL DE TIPOS.
@@ -26,15 +29,16 @@ interface AuthContextType {
 }
 
 /**
- * Provee del contexto de autenticación.
- * @param {*} children
+ * Proveedor del contexto de autenticación.
+ * Este componente gestiona y proporciona el estado de autenticación a los componentes hijos.
+ * @param {AuthContextProviderProps} children - Componentes hijos que serán envueltos por el proveedor.
  * @estado TERMINADO.
  */
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
     // Para navegar a login.
     const router = useRouter();
 
-    // Atributos del contexto de autenticación.
+    // Estado que almacena la información de autenticación.
     const [userID, setUserID] = useState<string | null | undefined>(null);
     const [token, setToken] = useState<string | null | undefined>(null);
     const [isAuthorizated, setIsAuthorizated] = useState<boolean | null | undefined>(false);
@@ -64,6 +68,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         }
     }, [userID, token, isAuthorizated]);
 
+    // Redirige al usuario a la pantalla de inicio de sesión si no está autenticado.
     useEffect(() => {
         if (!loading && isAuthorizated === false) {
             router.replace(routes.LOGIN_ROUTE as any);
@@ -71,10 +76,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }, [isAuthorizated]);
 
     /**
-     * Inicia sesión.
-     * @param {*} email 
-     * @param {*} password 
-     * @returns Resultado de la operación.
+     * Método para iniciar sesión del usuario.
+     * @param {string} email - Correo electrónico del usuario.
+     * @param {string} password - Contraseña del usuario.
      * @estado TERMINADO.
      */
     async function login(email: string, password: string) {
@@ -90,14 +94,14 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
                     setIsAuthorizated(true);
                     result = { success: true, message: "Se ha podido iniciar sesión" };
                     break
-                case 401: // Unauthorizated
+                case 401: // Unauthorizated.
                 case 500: // Internal Server Error.
                     setUserID(null);
                     setToken(null);
                     setIsAuthorizated(false);
                     result = { success: false, message: response.data.message };
                     break;
-                default:
+                default: // Error inesperado.
                     result = { success: false, message: "Ha ocurrido un error imprevisto." };
             }
         }
@@ -105,7 +109,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
 
     /**
-     * Cierra sesión.
+     * Método para cerrar sesión del usuario.
+     * Limpia la información de autenticación en el contexto.
      * @estado TERMINADO.
      */
     async function logout() {
@@ -116,9 +121,10 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     return (
         loading ? (
-            // Mientras se cargan los datos del AsyncStorage, evita renderizar los hijos.
-            <Text>Cargando...</Text>
+            // Mientras se cargan los datos del AsyncStorage, evita renderizar los hijos y muestra un mensaje de carga.
+            <Text adjustsFontSizeToFit={true} style={createNoContentStyles().loadingMessage}>Cargando...</Text>
         ) : (
+            // Proporciona el contexto a los componentes hijos.
             <AuthContext.Provider value={{ userID, token, isAuthorizated, login, logout }}>
                 {children}
             </AuthContext.Provider>
@@ -126,6 +132,11 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     );
 }
 
+/**
+ * Hook personalizado para acceder al contexto de autenticación.
+ * @throws {Error} Si se utiliza fuera del AuthContextProvider.
+ * @returns {AuthContextType} Valores del contexto de autenticación.
+ */
 export function useAuthContext(): AuthContextType {
     const context = useContext(AuthContext);
     if (!context) {

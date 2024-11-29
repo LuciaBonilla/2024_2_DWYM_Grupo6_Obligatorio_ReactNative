@@ -20,14 +20,14 @@ import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvide
 import routes from "@/constants/routes";
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 /**
- * Screen de register.
+ * Register Screen.
  * @estado TERMINADO.
  */
 export default function RegisterScreen() {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -86,7 +86,7 @@ export default function RegisterScreen() {
     return (
         <SafeAreaView style={styles.rootView}>
             {/* Título. */}
-            <Text style={styles.title}><FontAwesome name="user" size={42} color={colors.primaryColor} />CREAR CUENTA</Text>
+            <Text adjustsFontSizeToFit={true} style={styles.title}><FontAwesome name="user" size={42} color={colors.primaryColor} />CREAR CUENTA</Text>
 
             {/* Formulario de registro. */}
             <RegisterForm
@@ -170,8 +170,9 @@ function createStyles(width, height) {
             marginTop: 10,
         },
         goToLoginButtonText: {
-            fontSize: 16,
+            fontFamily: "SegoeBold",
             fontWeight: "bold",
+            fontSize: 16,
             color: colors.whiteFriendlyColor,
         },
         operationResultModal: {

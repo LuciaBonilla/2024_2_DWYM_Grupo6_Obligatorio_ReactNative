@@ -1,13 +1,13 @@
 import { useRouter } from "expo-router";
-import { Pressable, Text } from "react-native";
+import { TouchableOpacity, Text } from "react-native";
 
 /**
  * Lleva a una ruta, pero pushea la ruta sobre la anterior.
+ * @param {*} route Prop para definir la ruta de destino del botón a navegar.
+ * @param {*} buttonStyle Prop para definir el estilo del botón.
+ * @param {*} buttonTextStyle Prop para definir el estilo del text label del botón.
+ * @param {*} textContent Prop para definir el text del label del botón.
  * @estado TERMINADO.
- * @param {*} route prop para definir la ruta de destino del boton a navegar
- * @param {*} buttonStyle prop para definir el estilo del boton
- * @param {*} buttonTextStyle prop para definir el estilo del text label del boton
- * @param {*} textContent prop para definir el text del label del boton
  */
 export default function GoToScreenButtonByPush({
     route,
@@ -22,8 +22,8 @@ export default function GoToScreenButtonByPush({
     }
 
     return (
-        <Pressable style={buttonStyle} onPress={handleGoToScreen}>
-            <Text style={buttonTextStyle}>{textContent}</Text>
-        </Pressable>
+        <TouchableOpacity style={buttonStyle} onPress={handleGoToScreen}>
+            <Text adjustsFontSizeToFit={true} style={buttonTextStyle}>{textContent}</Text>
+        </TouchableOpacity>
     )
 }

@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native"
-import { colors } from "@/constants/colors"
+import colors from "@/constants/colors"
 
 // ESTILOS PARA LAS SCREENS CON POST CARDS.
 export default function createStyles(width, height) {
@@ -53,7 +53,8 @@ export default function createStyles(width, height) {
         },
         uploadedImage: {
             width: width * 0.85,
-            minHeight: width * 0.85,
+            height: width * 0.85,
+            alignSelf: "center"
         },
         postDataText: {
             fontSize: 16,
@@ -79,9 +80,9 @@ export default function createStyles(width, height) {
             color: colors.text1Color,
         },
         likesContainer: {
-            flexDirection: "row",      
-            marginVertical: 8,  
-            paddingHorizontal: 1,       
+            flexDirection: "row",
+            marginVertical: 8,
+            paddingHorizontal: 1,
         },
     })
 }

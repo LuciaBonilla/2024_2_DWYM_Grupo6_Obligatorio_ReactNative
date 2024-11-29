@@ -1,12 +1,12 @@
 import { StyleSheet } from "react-native";
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 // ESTILOS PARA CUANDO HAY ESPERA O NO HAY CONTENIDO.
 export default function createNoContentStyles(width, height) {
     return StyleSheet.create({
         loadingMessage: {
             flex: 1,
-            backgroundColor: colors.background1,
+            backgroundColor: colors.background1Color,
             fontFamily: "SegoeBold",
             padding: 5,
             fontSize: 32,
@@ -16,7 +16,7 @@ export default function createNoContentStyles(width, height) {
         },
         noPostMessage: {
             flex: 1,
-            backgroundColor: colors.background1,
+            backgroundColor: colors.background1Color,
             fontFamily: "SegoeBold",
             padding: 5,
             fontSize: 16,

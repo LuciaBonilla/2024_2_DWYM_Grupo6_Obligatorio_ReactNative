@@ -4,7 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
  * Permite guardar y cargar el contexto de autenticación en AsyncStorage.
  * @estado TERMINADO.
  */
-class AsyncStorageManager {
+export default class AsyncStorageManager {
     /**
      * Guarda el contexto de autenticación en AsyncStorage.
      * @param {*} userID 
@@ -49,5 +49,3 @@ class AsyncStorageManager {
         }
     }
 }
-
-export default AsyncStorageManager;

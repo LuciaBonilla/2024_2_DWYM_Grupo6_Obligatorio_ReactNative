@@ -1,3 +1,4 @@
+// RUTAS PARA NAVEGAR.
 const LOGIN_ROUTE = "modules/LoginScreen";
 const REGISTER_ROUTE = "modules/RegisterScreen";
 const MY_FEED_ROUTE = "modules/MyFeedScreen";

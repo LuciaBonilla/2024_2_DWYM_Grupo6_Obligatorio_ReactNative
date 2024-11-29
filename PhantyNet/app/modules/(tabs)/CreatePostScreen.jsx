@@ -14,14 +14,14 @@ import Entypo from '@expo/vector-icons/Entypo';
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 /**
  * Screen de create post.
  * @estado TERMINADO.
  */
 export default function CreatePostScreen() {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -54,7 +54,7 @@ export default function CreatePostScreen() {
     return (
         <SafeAreaView style={styles.rootView}>
             {/* Título. */}
-            <Text style={styles.title}><Entypo name="circle-with-plus" size={42} color={colors.primaryColor} />SUBIR POST</Text>
+            <Text adjustsFontSizeToFit={true} style={styles.title}><Entypo name="circle-with-plus" size={42} color={colors.primaryColor} />SUBIR POST</Text>
 
             {/* Formulario. */}
             <CreatePostForm

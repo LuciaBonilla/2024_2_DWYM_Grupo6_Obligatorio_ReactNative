@@ -1,24 +1,26 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { View, TextInput, StyleSheet, Text, TouchableOpacity } from "react-native";
 
 // PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
+import { useWindowDimensions } from "react-native";
 
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 import Base64Converter from "@/auxiliar-classes/Base64Converter";
 
 // COMPONENTES.
-import ImageGetter from "../shared/others/ImageGetter";
+import ImageGetter from "@/app/components/shared/others/ImageGetter";
 
-import {colors} from "@/constants/colors";
+// COLORES.
+import colors from "@/constants/colors";
 
 /**
  * Formulario de Editar perfil.
- * @param {*} userData data de usuario logueado a la aplicación.
- * @param {*} handleHideEditMyProfileForm handler function para cerrar la ventana emergente de forms.
- * @param {*} attributeToEdit atributo seleccionado para edición.
- * @param {*} fetchMyUser método para hacer llamada a backend y obtener info de usuario tras edición.
+ * @param {*} userData Data de usuario logueado a la aplicación.
+ * @param {*} handleHideEditMyProfileForm Handler function para cerrar la ventana emergente de forms.
+ * @param {*} attributeToEdit Atributo seleccionado para edición.
+ * @param {*} fetchMyUser Método para hacer llamada a backend y obtener info de usuario tras edición.
  */
 export default function EditMyProfileForm({
   userData,
@@ -26,24 +28,31 @@ export default function EditMyProfileForm({
   attributeToEdit,
   fetchMyUser,
 }) {
+  // Para estilos dinámicos en base a las dimensiones.
+  const { width, height } = useWindowDimensions();
+  const [styles, setStyles] = useState(createStyles(width, height));
+
+  useEffect(() => {
+    setStyles(createStyles(width, height))
+  }, [width, height]);
 
   // Para editar perfil.
-  const [username, setUsername] = useState(""); 
-  const [image, setImage] = useState(null); 
+  const [username, setUsername] = useState("");
+  const [image, setImage] = useState(null);
   const { token } = useAuthContext();
 
   /**
-   * Edita el perfil.
+   * Maneja editar el perfil.
    */
   async function handleEditMyProfile() {
     if (attributeToEdit === "profilePicture" && image) { // Si se quiere cambiar la foto de perfil.
       try {
-        const base64Image = await Base64Converter.imageToBase64(image.uri);
+        const base64Image = await Base64Converter.imageToBase64(image.uri); // Pasar a base64 para envío a backend.
 
         if (base64Image) {
           const response = await BackendCaller.editProfile(token, userData.username, base64Image);
-          if (response.statusCode === 200) {
-            fetchMyUser(); 
+          if (response.statusCode === 200) { // OK.
+            fetchMyUser();
             handleHideEditMyProfileForm();
           } else {
             alert("Error al actualizar el perfil."); // Error.
@@ -56,20 +65,20 @@ export default function EditMyProfileForm({
       }
     } else if (attributeToEdit === "username" && username) { // Si se quiere cambiar el nombre de usuario.
       const response = await BackendCaller.editProfile(token, username, userData.profilePicture);
-      if (response.statusCode === 200) {
+      if (response.statusCode === 200) { // OK.
         fetchMyUser();
         handleHideEditMyProfileForm();
       } else {
-        alert("Error al actualizar el perfil.");
+        alert("Error al actualizar el perfil."); // Error.
       }
     } else {
-      alert("El campo está vacío o no se seleccionó imagen.");
+      alert("El campo está vacío o no se seleccionó imagen."); // Error.
     }
   };
 
   return (
     <View style={styles.formContainer}>
-      {/* el form se rellena con el container de inputtext en caso de tener que editar username */}
+      {/* El form se rellena con el container de TextInput en caso de tener que editar username. */}
       <View style={styles.inputContainer}>
         {attributeToEdit === "username" && (
           <TextInput
@@ -79,12 +88,12 @@ export default function EditMyProfileForm({
             placeholder="Nuevo nombre de usuario"
           />
         )}
-        {/* el form se rellena con el componente ImageGetter en caso de tener que editar imagen */}
+        {/* El form se rellena con el componente ImageGetter en caso de tener que editar imagen. */}
         {attributeToEdit === "profilePicture" && (
           <View style={styles.imagePickerContainer}>
-            <ImageGetter 
-              setState={setImage} 
-              imageValue={image} 
+            <ImageGetter
+              setState={setImage}
+              imageValue={image}
             />
           </View>
         )}
@@ -92,10 +101,10 @@ export default function EditMyProfileForm({
         {/* Botones. */}
         <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.cancelButton} onPress={handleHideEditMyProfileForm}>
-            <Text style={styles.buttonText}>CANCELAR</Text>
+            <Text adjustsFontSizeToFit={true} style={styles.buttonText}>CANCELAR</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.acceptButton} onPress={handleEditMyProfile}>
-            <Text style={styles.buttonText}>ACEPTAR</Text>
+            <Text adjustsFontSizeToFit={true} style={styles.buttonText}>ACEPTAR</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -103,66 +112,72 @@ export default function EditMyProfileForm({
   );
 };
 
-const styles = StyleSheet.create({
-  formContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
-  },
-  inputContainer: {
-    backgroundColor: colors.background2Color,
-    padding: 20,
-    borderRadius: 15,
-    width: "80%",
-    alignItems: "center",
-  },
-  input: {
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
-    borderRadius: 10,
-    paddingLeft: 10,
-    marginBottom: 15,
-    width: "100%",
-    color: "#fff",
-  },
-  imagePickerContainer: {
-    marginBottom: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-  },
-  cancelButton: {
-    backgroundColor: colors.secondaryColor,
-    paddingVertical: 14,
-    paddingHorizontal: 25,
-    borderRadius: 35,
-    width: "45%",
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
-    marginTop: 10,
-  },
-  acceptButton: {
-    backgroundColor: colors.primaryDarkerColor,
-    paddingVertical: 14,
-    paddingHorizontal: 25,
-    borderRadius: 35,
-    width: "45%",
-    alignItems: "center",
-    justifyContent: "center",
-    elevation: 5,
-    marginTop: 10,
-  },
-  buttonText: {
-    color: "#fff",
-    fontSize: 18,
-    textAlign: "center",
-    fontWeight: "bold",
-  },
-});
+function createStyles(width, height) {
+  return StyleSheet.create({
+    formContainer: {
+      flex: 1,
+      justifyContent: "center",
+      alignItems: "center",
+      backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    inputContainer: {
+      backgroundColor: colors.background2Color,
+      padding: 20,
+      borderRadius: 15,
+      width: width * 0.85,
+      alignItems: "center",
+    },
+    input: {
+      height: 40,
+      borderColor: colors.whiteFriendlyDarkerColor,
+      backgroundColor: colors.whiteFriendlyColor,
+      borderWidth: 1,
+      borderRadius: 10,
+      paddingLeft: 10,
+      marginBottom: 15,
+      width: "100%",
+      color: colors.whiteFriendlyColor,
+    },
+    imagePickerContainer: {
+      marginBottom: 15,
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    buttonsContainer: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+      width: "100%",
+    },
+    cancelButton: {
+      backgroundColor: colors.secondaryColor,
+      paddingVertical: 14,
+      paddingHorizontal: 25,
+      borderRadius: 35,
+      width: "45%",
+      alignItems: "center",
+      justifyContent: "center",
+      elevation: 5,
+      marginTop: 10,
+      height: 50,
+    },
+    acceptButton: {
+      backgroundColor: colors.primaryDarkerColor,
+      paddingVertical: 14,
+      paddingHorizontal: 25,
+      borderRadius: 35,
+      width: "45%",
+      position: "static",
+      justifyContent: "center",
+      alignItems: "center",
+      elevation: 5,
+      marginTop: 10,
+      height: 50,
+    },
+    buttonText: {
+      color: colors.whiteFriendlyColor,
+      fontSize: 12,
+      textAlign: "center",
+      fontWeight: "bold",
+    },
+  })
+};

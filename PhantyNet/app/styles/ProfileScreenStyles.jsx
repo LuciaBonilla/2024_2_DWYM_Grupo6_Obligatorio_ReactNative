@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
-// ESTILOS PARA SCREENS DE PERFILES.
+// ESTILOS PARA SCREENS DE PERFILES. HABÍA QUE SEPARARLOS PORQUE DA ERROR.
 export function createProfileScreenStyles(width, height) {
     return StyleSheet.create({
         rootView: {

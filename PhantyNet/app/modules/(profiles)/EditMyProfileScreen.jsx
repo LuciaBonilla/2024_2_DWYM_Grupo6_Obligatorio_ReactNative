@@ -10,34 +10,41 @@ import { useWindowDimensions } from '@/context-providers/WindowDimensionsProvide
 import MyProfileCard from "@/app/components/EditMyProfileScreen/MyProfileCard";
 import EditMyProfileForm from "@/app/components/EditMyProfileScreen/EditMyProfileForm";
 import GoToPreviousScreenByBack from "@/app/components/shared/others/GoToPreviousScreenByBack";
+import GoToScreenButtonByReplace from "@/app/components/shared/others/GoToScreenButtonByReplace"
 
-//AUXILIARES
+// AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 
-//COLORES
-import { colors } from "@/constants/colors";
+// COLORES.
+import colors from "@/constants/colors";
+
+// ESTILOS COMPARTIDOS.
+import createNoContentStyles from "@/app/styles/NoContentStyles"
+
+// RUTAS.
+import routes from "@/constants/routes";
 
 /**
  * Screen para edición de perfil del usuario.
  * @estado TERMINADO.
  */
-function EditMyProfileScreen() {
-    //usado para estilos
+export default function EditMyProfileScreen() {
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
-
-    //estados para mostrar modal de edición, recordar que atributo editar e información de usuario a editar
-    const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
-    const [attributeToEdit, setAttributeToEdit] = useState(null);
-    const [user, setUser] = useState(null);
-    //información de usuario logueado y token de auth para llamadas a backend
-    const { userID, token } = useAuthContext();
 
     useEffect(() => {
         setStyles(createStyles(width, height));
     }, [width, height]);
 
-    //llamado a backend para obtener la info del usuario logueado y mostrarla en pantalla
+    // Estados para mostrar modal de edición, recordar que atributo editar e información de usuario a editar
+    const [isShowingEditMyProfileForm, setIsShowingEditMyProfileForm] = useState(false);
+    const [attributeToEdit, setAttributeToEdit] = useState(null);
+    const [user, setUser] = useState(null);
+    // Información de usuario logueado y token de auth para llamadas a backend
+    const { userID, token } = useAuthContext();
+
+    // Llamado a backend para obtener la info del usuario logueado y mostrarla en pantalla.
     const fetchMyUser = async () => {
         const response = await BackendCaller.getUserProfile(userID, token);
         if (response.statusCode === 200) {
@@ -47,13 +54,13 @@ function EditMyProfileScreen() {
         }
     };
 
-    //fetch de info de usuario a mostrar al ingresar a la página
+    // Fetch de info de usuario a mostrar al ingresar a la screen.
     useEffect(() => {
         fetchMyUser();
     }, []);
 
-    //Handlers para mostrar y ocultar el form de edición con limpiado de estado
-    const handleShowEditMyProfileForm = (attribute) => {
+    // Handlers para mostrar y ocultar el form de edición con limpiado de estado.
+    function handleShowEditMyProfileForm(attribute) {
         setAttributeToEdit(attribute);
         setIsShowingEditMyProfileForm(true);
     };
@@ -75,18 +82,18 @@ function EditMyProfileScreen() {
 
                     {/* Botones para determinar que atributo editar y levantar el modal acordemente */}
                     <View style={styles.editionContainer}>
-                        <TouchableOpacity 
-                            style={styles.editButton} 
+                        <TouchableOpacity
+                            style={styles.editButton}
                             onPress={() => handleShowEditMyProfileForm("username")}
                         >
-                            <Text style={styles.buttonText}>EDITAR NOMBRE DE USUARIO</Text>
+                            <Text adjustsFontSizeToFit={true} style={styles.buttonText}>EDITAR NOMBRE DE USUARIO</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity 
-                            style={styles.editButton} 
+                        <TouchableOpacity
+                            style={styles.editButton}
                             onPress={() => handleShowEditMyProfileForm("profilePicture")}
                         >
-                            <Text style={styles.buttonText}>EDITAR FOTO DE PERFIL</Text>
+                            <Text adjustsFontSizeToFit={true} style={styles.buttonText}>EDITAR FOTO DE PERFIL</Text>
                         </TouchableOpacity>
 
                         {/* Botón para navegar con back en stack */}
@@ -98,7 +105,15 @@ function EditMyProfileScreen() {
                     </View>
                 </>
             ) : (
-                <Text style={styles.loadingMessage}>Cargando...</Text>
+                <>
+                    <Text adjustsFontSizeToFit={true} style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
+                    <GoToScreenButtonByReplace
+                        route={routes.LOGIN_ROUTE}
+                        buttonStyle={{ ...styles.goToBackButton, alignSelf: "center", bottom: 300 }}
+                        buttonTextStyle={styles.goToBackButtonText}
+                        textContent="VOLVER A HOME"
+                    />
+                </>
             )}
 
             {/* Modal para editar perfil */}
@@ -140,10 +155,6 @@ const createStyles = (width, height) => {
             justifyContent: "center",
             marginTop: 20,
         },
-        loadingMessage: {
-            fontSize: 18,
-            color: "#888",
-        },
         editButton: {
             backgroundColor: colors.primaryDarkerColor,
             paddingVertical: 14,
@@ -169,9 +180,7 @@ const createStyles = (width, height) => {
             marginTop: 15,
             width: "100%",
             alignItems: "center",
-            justifyContent: "center",    
+            justifyContent: "center",
         },
     });
 };
-
-export default EditMyProfileScreen;

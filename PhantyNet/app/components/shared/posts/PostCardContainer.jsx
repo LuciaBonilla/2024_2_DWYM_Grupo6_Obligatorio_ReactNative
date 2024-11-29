@@ -13,18 +13,22 @@ import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvide
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 
 // COMPONENTES.
-import PostCard from "./PostCard";
+import PostCard from "@/app/components/shared/posts/PostCard";
+import GoToScreenButtonByReplace from "@/app/components/shared/others/GoToScreenButtonByReplace";
 
 // ESTILOS COMPARTIDOS.
 import createStyles from "@/app/styles/PostScreenStyles";
 import createNoContentStyles from "@/app/styles/NoContentStyles";
+
+// RUTAS.
+import routes from "@/constants/routes";
 
 /**
  * Contenedor de posts.
  * @estado TERMINADO.
  */
 export default function PostCardContainer() {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -66,10 +70,10 @@ export default function PostCardContainer() {
 
     useFocusEffect(
         useCallback(() => {
-            setPosts([]); // necesario para rerenderizar.
+            setPosts([]); // Necesario para rerenderizar.
             fetchFeed();
             setIsLoading(false);
-        }, []) // Dependencias para asegurar que se actualice correctamente
+        }, []) // Dependencias para asegurar que se actualice correctamente.
     );
 
     return (
@@ -95,10 +99,18 @@ export default function PostCardContainer() {
                         keyExtractor={(item) => item._id}
                     />
                 ) : (
-                    <Text style={createNoContentStyles().noPostMessage}>NO HAY POSTS</Text>
+                    <Text adjustsFontSizeToFit={true} style={createNoContentStyles().noPostMessage}>NO HAY POSTS</Text>
                 )
         ) : (
-            <Text style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
+            <>
+                <Text adjustsFontSizeToFit={true} style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
+                <GoToScreenButtonByReplace
+                    route={routes.LOGIN_ROUTE}
+                    buttonStyle={{ ...styles.goToBackButton, alignSelf: "center", bottom: 300 }}
+                    buttonTextStyle={styles.goToBackButtonText}
+                    textContent="VOLVER A HOME"
+                />
+            </>
         )
     );
 }

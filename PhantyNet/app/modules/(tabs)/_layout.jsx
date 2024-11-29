@@ -4,8 +4,12 @@ import { Tabs } from "expo-router";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
+/**
+ * Tab Layout.
+ * @estado TERMINADO.
+ */
 export default function TabLayout() {
     return (
         <Tabs screenOptions={{

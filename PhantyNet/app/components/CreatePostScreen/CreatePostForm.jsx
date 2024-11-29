@@ -1,15 +1,15 @@
 import { useEffect, useState, useCallback } from "react";
-import { Pressable, StyleSheet, Platform, ScrollView, KeyboardAvoidingView, Text } from "react-native";
+import { StyleSheet, Platform, ScrollView, KeyboardAvoidingView, Text, TouchableOpacity} from "react-native";
 import { useRouter, useFocusEffect } from "expo-router";
 
 // COMPONENTES.
-import NormalTextInput from "../shared/inputs/NormalTextInput";
-import ImageGetter from "../shared/others/ImageGetter";
+import NormalTextInput from "@/app/components/shared/inputs/NormalTextInput";
+import ImageGetter from "@/app/components/shared/others/ImageGetter";
 
 // CLASES AUXILIARES.
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 
-// PROVEEDOR DE CONTEXTO.
+// PROVEEDORES DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import { useWindowDimensions } from "react-native";
 
@@ -17,19 +17,19 @@ import { useWindowDimensions } from "react-native";
 import routes from "@/constants/routes";
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 /**
  * Formulario de crear post.
- * @param handleShowUnsuccessfulUploadModal Handler para mostrar modal con resultado de operación upload.
- * @param setUnsuccessfulUploadModalMessage Handler para definir mensaje del modal de resultados.
+ * @param handleShowUnsuccessfulUploadModal Handler para mostrar modal con resultado de operación no exitosa de upload.
+ * @param setUnsuccessfulUploadModalMessage Handler para definir mensaje del modal de operación no exitosa.
  * @estado TERMINADO.
  */
 export default function CreatePostForm({
     handleShowUnsuccessfulUploadModal,
     setUnsuccessfulUploadModalMessage
 }) {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -51,33 +51,31 @@ export default function CreatePostForm({
                 setImage(null);
                 setCaption("");
             }
-
             clearInputs(); // Llama a la función asincrónica al enfocar la pantalla.
         }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar la screen.
 
     /**
-     * Cancela subir un post.
+     * Maneja cancelar subir un post.
      */
     function handleCancelUpload() {
         router.replace(routes.MY_FEED_ROUTE); // Va a mi feed.
     }
 
     /**
-     * Sube un post.
+     * Maneja subir un post.
      */
     async function handleUploadPost() {
-        if (!image) { // Si no hay imagen.
+        if (!image) { // Si no hay imagen...
             setUnsuccessfulUploadModalMessage("No hay imagen"); // Muestra un modal de error.
             handleShowUnsuccessfulUploadModal();
         } else {
             const imageData = {
                 uri: image.uri,
-                fileType: image.uri.split('.').pop(), // Obtiene el tipo de archivo.
-                fileName: image.uri.split('/').pop()  // Extrae el nombre del archivo.
+                fileType: image.uri.split(".").pop(), // Obtiene el tipo de archivo.
+                fileName: image.uri.split("/").pop()  // Extrae el nombre del archivo.
             }
             const response = await BackendCaller.uploadPost(token, imageData, caption);
-
-            if (response.statusCode === 201) { // Created
+            if (response.statusCode === 201) { // Created.
                 router.replace(routes.MY_PROFILE_ROUTE); // Va mi perfil.
             } else {
                 setUnsuccessfulUploadModalMessage(response.data.message); // Muestra un modal de error.
@@ -106,15 +104,16 @@ export default function CreatePostForm({
                     setState={setCaption}
                     value={caption}
                     numberOfLines={15}
+                    multiline={true}
                 />
 
-                {/* Botones. */}
-                <Pressable style={styles.uploadButton} onPress={handleUploadPost}>
-                    <Text style={styles.uploadButtonText}>SUBIR</Text>
-                </Pressable>
-                <Pressable style={styles.cancelButton} onPress={handleCancelUpload}>
-                    <Text style={styles.cancelButtonText}>CANCELAR</Text>
-                </Pressable>
+                {/* Botones de acción. */}
+                <TouchableOpacity style={styles.uploadButton} onPress={handleUploadPost}>
+                    <Text adjustsFontSizeToFit={true} style={styles.uploadButtonText}>SUBIR</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.cancelButton} onPress={handleCancelUpload}>
+                    <Text adjustsFontSizeToFit={true} style={styles.cancelButtonText}>CANCELAR</Text>
+                </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -154,15 +153,16 @@ function createStyles(width, height) {
             paddingLeft: 10,
             fontFamily: "SegoeBold",
             color: colors.text1Color,
-            backgroundColor: colors.whiteFriendlyColor
+            backgroundColor: colors.whiteFriendlyColor,
         },
         uploadButton: {
             backgroundColor: colors.primaryColor,
             width: width * 0.5,
             height: 35,
             borderRadius: 10,
+            position: "static",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
         },
         uploadButtonText: {
             textAlign: "center",
@@ -175,6 +175,7 @@ function createStyles(width, height) {
             width: width * 0.5,
             height: 35,
             borderRadius: 10,
+            position: "static",
             justifyContent: "center",
             alignItems: "center",
             marginBottom: 20,

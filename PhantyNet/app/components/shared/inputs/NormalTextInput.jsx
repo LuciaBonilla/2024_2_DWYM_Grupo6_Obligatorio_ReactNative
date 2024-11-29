@@ -2,7 +2,6 @@ import { Text, View, TextInput } from "react-native";
 
 /**
  * Input normal de texto reutilizable.
- * 
  * @param viewStyle - Estilo personalizado para la vista que contiene el input.
  * @param inputTitleStyle - Estilo personalizado para el título del input.
  * @param inputTitle - Texto que se muestra como título o etiqueta del input.
@@ -29,11 +28,12 @@ export default function NormalTextInput({
     setState,
     value,
     keyboardType = "default",
-    secureTextEntry = false
+    multiline = false,
+    secureTextEntry = false,
 }) {
     return (
         <View style={viewStyle}>
-            <Text style={inputTitleStyle}>{inputTitle}</Text>
+            <Text adjustsFontSizeToFit={true} style={inputTitleStyle}>{inputTitle}</Text>
             {icon}
             <TextInput
                 key={inputName}
@@ -43,6 +43,7 @@ export default function NormalTextInput({
                 value={value}
                 keyboardType={keyboardType}
                 secureTextEntry={secureTextEntry}
+                multiline={multiline}
                 numberOfLines={numberOfLines}
             />
         </View>

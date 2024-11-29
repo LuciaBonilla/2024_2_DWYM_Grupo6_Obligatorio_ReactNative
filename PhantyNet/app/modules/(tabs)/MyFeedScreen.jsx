@@ -26,7 +26,7 @@ export default function MyFeedScreen() {
 
     return (
         <SafeAreaView style={styles.rootView}>
-            <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
+            <Text adjustsFontSizeToFit={true} style={styles.socialNetworkTitle}>PhantyNet</Text>
             <PostCardContainer />
         </SafeAreaView>
     )

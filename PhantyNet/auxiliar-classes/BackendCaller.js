@@ -1,10 +1,10 @@
-import BACKEND_URI from "../constants/BACKEND_URI";
+import BACKEND_URI from "@/constants/BACKEND_URI";
 
 /**
- * Realiza llamadas a la API.
+ * Realiza llamadas a la API y devuelve el resultado.
  * @estado LISTO.
  */
-export class BackendCaller {
+export default class BackendCaller {
     /**
      * Identificador de la API.
      */
@@ -449,5 +449,3 @@ export class BackendCaller {
         }
     }
 }
-
-export default BackendCaller;

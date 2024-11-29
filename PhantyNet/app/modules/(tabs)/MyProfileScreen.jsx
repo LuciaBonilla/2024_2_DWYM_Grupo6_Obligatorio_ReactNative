@@ -31,7 +31,7 @@ export default function MyProfileScreen() {
   // Necesarios para obtener los posts y perfil.
   const { token, userID } = useAuthContext();
 
-  // Para estilos.
+  // Para estilos dinámicos en base a las dimensiones.
   const { width, height } = useWindowDimensions();
   const [styles, setStyles] = useState(createProfileScreenStyles(width, height));
 
@@ -44,13 +44,15 @@ export default function MyProfileScreen() {
 
   useFocusEffect(
     useCallback(() => {
-      const fetchUserInfo = async () => {
+      async function fetchUserInfo() {
         const response = await BackendCaller.getUserProfile(userID, token);
-          // Actualiza el estado de manera inmutable
+
+        if (response.statusCode === 200) {
           setUserInfo(response.data);
+        }
       };
 
-      setUserInfo(null); // necesario para rerenderizar.
+      setUserInfo(); // Necesario para rerenderizar.
       fetchUserInfo();
     }, [])
   );
@@ -58,7 +60,7 @@ export default function MyProfileScreen() {
   return (
     <SafeAreaView style={styles.rootView}>
       {/* Título. */}
-      <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
+      <Text adjustsFontSizeToFit={true} style={styles.socialNetworkTitle}>PhantyNet</Text>
       {userInfo ? (
         // Es una flatlist con el ProfileCard como header.
         <ImagesContainer
@@ -90,10 +92,10 @@ export default function MyProfileScreen() {
         />
       ) : (
         <>
-          <Text style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
+          <Text adjustsFontSizeToFit={true} style={createNoContentStyles().loadingMessage}>CARGANDO...</Text>
           <GoToScreenButtonByReplace
             route={routes.LOGIN_ROUTE}
-            buttonStyle={{...styles.goToBackButton, alignSelf: "center", bottom: 300}}
+            buttonStyle={{ ...styles.goToBackButton, alignSelf: "center", bottom: 300 }}
             buttonTextStyle={styles.goToBackButtonText}
             textContent="VOLVER A HOME"
           />

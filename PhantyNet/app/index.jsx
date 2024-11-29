@@ -14,10 +14,13 @@ SplashScreen.preventAutoHideAsync();
  * @estado TERMINADO.
  */
 export default function Home() {
+    // Para navegación.
     const router = useRouter();
+
     const { isAuthorizated } = useAuthContext();
     const [isMounted, setIsMounted] = useState(false);
 
+    // Esto genera un delay para que las demás screen puedan cargarse.
     useEffect(() => {
         // Marcar el componente como montado
         setIsMounted(true);
@@ -28,7 +31,6 @@ export default function Home() {
         if (isMounted && !isAuthorizated) {
             SplashScreen.hideAsync();
             router.replace(routes.LOGIN_ROUTE);
-            
         } else {
             if (isMounted && isAuthorizated) {
                 SplashScreen.hideAsync();

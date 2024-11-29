@@ -1,5 +1,5 @@
 import { useRouter } from "expo-router";
-import { Pressable, View, Image, Text, StyleSheet } from "react-native";
+import { TouchableOpacity, Image, Text, StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
 
 // RUTAS.
@@ -13,15 +13,15 @@ import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 /**
  * Tarjetita de usuario.
- * @param {*} user información de user para desplegarse en el card
+ * @param {*} user Información de user para desplegarse en el card.
  * @estado TERMINADO. 
  */
 export default function ShortProfileCard({ user }) {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -30,22 +30,24 @@ export default function ShortProfileCard({ user }) {
     }, [width, height]);
 
     const { userID } = useAuthContext();
-
     const router = useRouter();
 
+    /**
+     * Maneja ir al perfil de un usuario.
+     */
     function handleGoToUserProfile() {
         if (user._id !== userID) {
-            router.push(routes.OTHER_USER_PROFILE_ROUTE.replace("[userID]", user._id));
+            router.push(routes.OTHER_USER_PROFILE_ROUTE.replace("[userID]", user._id)); // Otro perfil.
         } else {
-            router.push(routes.MY_PROFILE_ROUTE);
+            router.push(routes.MY_PROFILE_ROUTE); // Mi perfil.
         }
     }
 
     return (
-        <Pressable style={styles.shortCard} onPress={handleGoToUserProfile}>
+        <TouchableOpacity style={styles.shortCard} onPress={handleGoToUserProfile}>
             <Image style={styles.profilePicture} source={Base64Converter.checkBase64Image(user.profilePicture) ? { uri: user.profilePicture } : require("@/assets/images/default_profile.png")} />
-            <Text style={styles.username}>{user._id === userID ? "TÚ" : user.username}</Text>
-        </Pressable>
+            <Text adjustsFontSizeToFit={true} style={styles.username}>{user._id === userID ? "TÚ" : user.username}</Text>
+        </TouchableOpacity>
     );
 }
 

@@ -1,4 +1,4 @@
-import { StyleSheet, View, Alert, Pressable, Text, Image } from "react-native";
+import { StyleSheet, View, Alert, TouchableOpacity, Text, Image } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { useState, useEffect } from "react";
 
@@ -6,19 +6,19 @@ import { useState, useEffect } from "react";
 import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 /**
  * Permite seleccionar una imagen con la cámara o con la galería.
- * @param {*} setState prop para pasar el handler que se encarge de guardar el resultado de elegir imagenes en un estado
- * @param {*} imageValue prop para pasar el valor de una imagen guardada en estado
+ * @param {*} setState Prop para pasar el handler que se encarge de guardar el resultado de elegir imágenes en un estado
+ * @param {*} imageValue Prop para pasar el valor de una imagen guardada en estado
  * @estado TERMINADO.
  */
 export default function ImageGetter({
     setState,
     imageValue
 }) {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -49,6 +49,8 @@ export default function ImageGetter({
         const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: "images",
             quality: 1,
+            allowsEditing: true,
+            aspect: [1, 1],
         });
 
         if (!result.canceled) {
@@ -60,7 +62,7 @@ export default function ImageGetter({
     }
 
     /**
-     * Maneja captura de imagen con la cámara
+     * Maneja captura de imagen con la cámara.
      */
     async function handleTakePhoto() {
         await requestPermissions();  // Solicita los permisos antes de usar la cámara.
@@ -68,6 +70,8 @@ export default function ImageGetter({
         const result = await ImagePicker.launchCameraAsync({
             mediaTypes: "images",
             quality: 1,
+            allowsEditing: true,
+            aspect: [1, 1],
         });
 
         if (!result.canceled) {
@@ -81,20 +85,20 @@ export default function ImageGetter({
     return (
         <View style={styles.container}>
             {/* Selecciona entre dos opciones. */}
-            <Pressable style={styles.button} onPress={() => handlePickImage()}>
-                <Text style={styles.buttonText}>Seleccionar imagen de la galería</Text>
-            </Pressable>
+            <TouchableOpacity style={styles.button} onPress={() => handlePickImage()}>
+                <Text  adjustsFontSizeToFit={true} style={styles.buttonText}>Seleccionar imagen de la galería</Text>
+            </TouchableOpacity>
 
-            <Pressable style={styles.button} onPress={() => handleTakePhoto()}>
-                <Text style={styles.buttonText}>Tomar una foto</Text>
-            </Pressable>
+            <TouchableOpacity style={styles.button} onPress={() => handleTakePhoto()}>
+                <Text adjustsFontSizeToFit={true} style={styles.buttonText}>Tomar una foto</Text>
+            </TouchableOpacity>
 
             {/* Cajita para mostrar la imagen */}
             <View style={styles.imageBox}>
                 {imageValue ? (
-                    <Image source={{ uri: imageValue.uri }} style={styles.image} />
+                    <Image style={styles.image} source={{ uri: imageValue.uri }} />
                 ) : (
-                    <Text style={styles.placeholder}>No hay imagen seleccionada</Text>
+                    <Text adjustsFontSizeToFit={true} style={styles.placeholder}>No hay imagen seleccionada</Text>
                 )}
             </View>
         </View>
@@ -115,6 +119,9 @@ function createStyles(width, height) {
             padding: 12,
             marginVertical: 8,
             borderRadius: 8,
+            position: "static",
+            justifyContent: "center",
+            alignItems: "center",
         },
         buttonText: {
             color: colors.whiteFriendlyColor,

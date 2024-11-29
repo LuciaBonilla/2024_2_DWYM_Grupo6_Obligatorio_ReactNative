@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pressable, Text, StyleSheet, Platform, ScrollView, KeyboardAvoidingView } from "react-native";
+import { Text, StyleSheet, Platform, ScrollView, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useRouter } from "expo-router";
 
 // ÍCONOS.
@@ -7,10 +7,10 @@ import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import Entypo from '@expo/vector-icons/Entypo';
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 // COMPONENTES.
-import NormalTextInput from "../shared/inputs/NormalTextInput";
+import NormalTextInput from "@/app/components/shared/inputs/NormalTextInput";
 
 // PROVEEDOR DE CONTEXTO.
 import { useAuthContext } from "@/context-providers/AuthContextProvider";
@@ -29,7 +29,7 @@ export default function LoginForm({
     handleShowUnsuccessfulLoginModal,
     setUnsuccessfulLoginMessage
 }) {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -43,7 +43,7 @@ export default function LoginForm({
     // Iniciar sesión e indicador de que si el usuario está autorizado.
     const { login, isAuthorizated } = useAuthContext();
 
-    // Valores de los inputs.
+    // Estado de los inputs.
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -100,9 +100,9 @@ export default function LoginForm({
                     secureTextEntry={true}
                 />
                 {/* Botón. */}
-                <Pressable onPress={handleLogin} style={styles.loginButton}>
-                    <Text style={styles.loginButtonText}>INICIAR SESIÓN</Text>
-                </Pressable>
+                <TouchableOpacity onPress={handleLogin} style={styles.loginButton}>
+                    <Text adjustsFontSizeToFit={true} style={styles.loginButtonText}>INICIAR SESIÓN</Text>
+                </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -155,8 +155,9 @@ function createStyles(width, height) {
             width: width * 0.5,
             height: 35,
             borderRadius: 10,
+            position: "static",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
         },
         loginButtonText: {
             textAlign: "center",

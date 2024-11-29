@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { Pressable, Text, StyleSheet, Platform, ScrollView, KeyboardAvoidingView } from "react-native";
+import { Text, StyleSheet, Platform, ScrollView, KeyboardAvoidingView, TouchableOpacity } from "react-native";
 import { useFocusEffect } from "expo-router";
 
 // ÍCONOS.
@@ -7,10 +7,10 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 // COMPONENTES.
-import NormalTextInput from "../shared/inputs/NormalTextInput";
+import NormalTextInput from "@/app/components/shared/inputs/NormalTextInput";
 
 // PROVEEDOR DE CONTEXTO.
 import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvider";
@@ -32,7 +32,7 @@ export default function RegisterForm({
     handleShowSuccessfulRegisterModal,
     setSuccessfulRegisterModalMessage
 }) {
-    // Para estilos.
+     // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -40,7 +40,7 @@ export default function RegisterForm({
         setStyles(createStyles(width, height))
     }, [width, height]);
 
-    // Valores de los inputs.
+    // Estado de los inputs.
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -48,18 +48,17 @@ export default function RegisterForm({
 
     /**
      * Maneja el inicio de sesión de un usuario.
-     * @estado función terminada.
      */
     async function handleRegister() {
-        if (username === "" || email === "" || password === "" || repeatPassword === "") {
+        if (username === "" || email === "" || password === "" || repeatPassword === "") { // Campos vacíos.
             // Renderiza el mensaje de registro no exitoso.
             setUnsuccessfulRegisterModalMessage("Hay campos vacíos");
             handleShowUnsuccessfulRegisterModal();
-        } else if (password !== repeatPassword) {
+        } else if (password !== repeatPassword) { // Contraseñas no coinciden.
             // Renderiza el mensaje de registro no exitoso.
             setUnsuccessfulRegisterModalMessage("Las contraseñas no coinciden");
             handleShowUnsuccessfulRegisterModal();
-        } else if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
+        } else if (!email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) { // El email no tiene el formato de correo.
             // Renderiza el mensaje de registro no exitoso.
             setUnsuccessfulRegisterModalMessage("No es un email");
             handleShowUnsuccessfulRegisterModal();
@@ -67,7 +66,7 @@ export default function RegisterForm({
             // Resultado del register.
             const result = await BackendCaller.register(username, email, password);
 
-            if (result.statusCode !== 201) { // Created.
+            if (result.statusCode !== 201) { // No Created.
                 // Renderiza el mensaje de registro no exitoso.
                 setUnsuccessfulRegisterModalMessage(result.data.message);
                 handleShowUnsuccessfulRegisterModal();
@@ -79,6 +78,7 @@ export default function RegisterForm({
         }
     }
 
+    // Limpia los inputs.
     useFocusEffect(
         useCallback(() => {
             function clearInputs() {
@@ -87,7 +87,6 @@ export default function RegisterForm({
                 setPassword("");
                 setRepeatPassword("");
             }
-
             clearInputs(); // Llama a la función asincrónica al enfocar la pantalla.
         }, [])) // La dependencia vacía asegura que solo se ejecute al enfocar.
 
@@ -142,9 +141,9 @@ export default function RegisterForm({
                     secureTextEntry={true}
                 />
                 {/* Botón. */}
-                <Pressable onPress={handleRegister} style={styles.registerButton}>
-                    <Text style={styles.registerButtonText}>CREAR CUENTA</Text>
-                </Pressable>
+                <TouchableOpacity onPress={handleRegister} style={styles.registerButton}>
+                    <Text adjustsFontSizeToFit={true} style={styles.registerButtonText}>CREAR CUENTA</Text>
+                </TouchableOpacity>
             </ScrollView>
         </KeyboardAvoidingView>
     );
@@ -197,8 +196,9 @@ function createStyles(width, height) {
             width: width * 0.5,
             height: 35,
             borderRadius: 10,
+            position: "static",
             justifyContent: "center",
-            alignItems: "center"
+            alignItems: "center",
         },
         registerButtonText: {
             textAlign: "center",

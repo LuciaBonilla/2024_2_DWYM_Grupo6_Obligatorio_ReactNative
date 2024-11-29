@@ -15,7 +15,7 @@ import { useWindowDimensions } from "@/context-providers/WindowDimensionsProvide
 import routes from "@/constants/routes";
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 // ÍCONOS.
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -25,7 +25,7 @@ import FontAwesome from "@expo/vector-icons/FontAwesome";
  * @estado TERMINADO.
  */
 export default function LoginScreen() {
-    // Para estilos.
+    // Para estilos dinámicos en base a las dimensiones.
     const { width, height } = useWindowDimensions();
     const [styles, setStyles] = useState(createStyles(width, height));
 
@@ -67,7 +67,7 @@ export default function LoginScreen() {
             <Image source={require("@/assets/images/logo.png")} style={styles.logo} />
 
             {/* Nombre de la red social. */}
-            <Text style={styles.socialNetworkTitle}>PhantyNet</Text>
+            <Text adjustsFontSizeToFit={true} style={styles.socialNetworkTitle}>PhantyNet</Text>
 
             {/* Formulario de login. */}
             <LoginForm

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pressable } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 // ÍCONOS.
 import FontAwesome from "@expo/vector-icons/FontAwesome";
@@ -11,13 +11,13 @@ import { useAuthContext } from "@/context-providers/AuthContextProvider";
 import BackendCaller from "@/auxiliar-classes/BackendCaller";
 
 // COLORES.
-import { colors } from "@/constants/colors";
+import colors from "@/constants/colors";
 
 /**
  * Botón de Like.
- * @param {*} postID prop para pasar post id al cual se desea dar o remover like
- * @param {*} likes cantidad de likes en el post pasado por id
- * @param {*} fetchFeed callback para hacer refresh del feed y mostrar info actualizada
+ * @param {*} postID Prop para pasar post id al cual se desea dar o remover like.
+ * @param {*} likes Cantidad de likes en el post pasado por id.
+ * @param {*} fetchFeed Callback para hacer refresh del feed y mostrar info actualizada.
  * @estado TERMINADO.
  */
 export default function LikeButton({ postID, likes, fetchFeed }) {
@@ -31,7 +31,6 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
 
     /**
      * Da un like al post.
-     * @estado función terminada.
      */
     async function handleGiveLike() {
         const response = await BackendCaller.giveLike(postID, token);
@@ -44,11 +43,10 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
 
     /**
      * Quita el like a un post.
-     * @estado función terminada.
      */
     async function handleDeleteLike() {
         const response = await BackendCaller.deleteLike(postID, token);
-        if (response.statusCode === 200) {  // OK
+        if (response.statusCode === 200) {  // OK.
             // Actualiza la info.
             fetchFeed();
             setLikeIsGived(false);
@@ -56,7 +54,7 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
     }
 
     return (
-        <Pressable onPress={() => {
+        <TouchableOpacity onPress={() => {
             if (!likeIsGived) {
                 handleGiveLike();
                 setIcon(<FontAwesome name="heart" size={32} color={colors.errorColor} />)
@@ -66,7 +64,6 @@ export default function LikeButton({ postID, likes, fetchFeed }) {
             }
         }}>
             {icon}
-        </Pressable>
+        </TouchableOpacity>
     );
-
 }
