@@ -128,6 +128,8 @@ function createStyles(width, height) {
       alignItems: "center",
     },
     input: {
+      fontFamily: "SegoeBold",
+      fontWeight: "bold",
       height: 40,
       borderColor: colors.whiteFriendlyDarkerColor,
       backgroundColor: colors.whiteFriendlyColor,
@@ -136,7 +138,7 @@ function createStyles(width, height) {
       paddingLeft: 10,
       marginBottom: 15,
       width: "100%",
-      color: colors.whiteFriendlyColor,
+      color: colors.text1Color,
     },
     imagePickerContainer: {
       marginBottom: 15,
