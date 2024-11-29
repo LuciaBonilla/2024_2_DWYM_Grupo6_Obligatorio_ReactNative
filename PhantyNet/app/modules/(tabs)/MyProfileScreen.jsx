@@ -73,7 +73,7 @@ export default function MyProfileScreen() {
               postsQuantity={userInfo.posts.length}
             >
               <View style={styles.buttonsView}>
-                {/* Botones. */}
+                {/* Botones. El botón de replace no permite que se pueda regresar a la pantalla de my profile. */}
                 <GoToScreenButtonByReplace
                   route={routes.LOGIN_ROUTE}
                   textContent="CERRAR SESIÓN"

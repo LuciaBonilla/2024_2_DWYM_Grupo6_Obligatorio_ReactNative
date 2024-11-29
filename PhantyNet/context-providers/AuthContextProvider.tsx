@@ -71,7 +71,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     // Redirige al usuario a la pantalla de inicio de sesión si no está autenticado.
     useEffect(() => {
         if (!loading && isAuthorizated === false) {
-            router.replace(routes.LOGIN_ROUTE as any);
+            router.replace(routes.LOGIN_ROUTE as any); // No permite ir hacia atrás o hacia adelante.
         }
     }, [isAuthorizated]);
 
