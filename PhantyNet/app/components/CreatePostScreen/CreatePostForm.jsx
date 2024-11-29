@@ -21,8 +21,8 @@ import colors from "@/constants/colors";
 
 /**
  * Formulario de crear post.
- * @param handleShowUnsuccessfulUploadModal Handler para mostrar modal con resultado de operación no exitosa de upload.
- * @param setUnsuccessfulUploadModalMessage Handler para definir mensaje del modal de operación no exitosa.
+ * @param {*} handleShowUnsuccessfulUploadModal Handler para mostrar modal con resultado de operación no exitosa de upload.
+ * @param {*} setUnsuccessfulUploadModalMessage Handler para definir mensaje del modal de operación no exitosa.
  * @estado TERMINADO.
  */
 export default function CreatePostForm({

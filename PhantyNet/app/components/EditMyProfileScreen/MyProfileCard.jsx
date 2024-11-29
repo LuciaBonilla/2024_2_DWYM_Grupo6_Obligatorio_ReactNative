@@ -9,7 +9,7 @@ import colors from "@/constants/colors";
 
 /**
  * Tarjeta propia de usuario (sale al editar perfil).
- * @param userData Data de usuario logueado en el card.
+ * @param {*} userData Data de usuario logueado en el card.
  * @estado TERMINADO.
  */
 export default function MyProfileCard({ userData }) {

@@ -47,7 +47,7 @@ export default function PostCardContainer() {
 
     /**
      * Dados los posts obtenidos, quita los posts propios del usuario y los restantes los ordena cronológicamente.
-     * @param posts
+     * @param {*} posts
      */
     function getMyFeed(posts) {
         // Filtra los posts para eliminar los del usuario actual.
